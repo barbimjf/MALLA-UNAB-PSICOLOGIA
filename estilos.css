@@ -110,9 +110,11 @@ body {
 .ramo[data-ambito="6"] { background-color: #D8BFD8; border-color: #D8BFD8; } /* Thistle */
 
 /* Approved style */
-.ramo.approved {
+.ramo.approved > span { /* Target the span INSIDE the ramo for text-decoration */
     text-decoration: line-through;
-    opacity: 0.6; /* Attenuate color */
+}
+.ramo.approved {
+    opacity: 0.6; /* Attenuate color of the block */
 }
 
 /* Locked style */
@@ -127,15 +129,14 @@ body {
 /* Separator between 4th and 5th year */
 .licenciado-separator {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* This ensures text goes downwards */
     justify-content: center;
     align-items: center;
     text-align: center;
     font-weight: bold;
     color: #666;
     font-size: 0.9em;
-    white-space: nowrap;
-    position: relative; /* Position relative to allow for positioning within malla-container's flex */
+    white-space: nowrap; /* Prevent line breaks within words */
     height: 100%; /* Take full height of the flex container */
     padding: 0 10px; /* Small padding to give it some space */
     border-left: 1px solid #ccc; /* Visual separator */
@@ -240,6 +241,9 @@ body {
 
 /* Basic mobile fallback - though the design is optimized for wide screens */
 @media (max-width: 900px) {
+    body {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
     .malla-container {
         flex-direction: column; /* Stack years vertically on small screens */
         align-items: center;
@@ -266,6 +270,7 @@ body {
         line-height: 1.5;
         flex-direction: row; /* Make text horizontal */
         text-align: center;
+        white-space: normal; /* Allow wrapping for horizontal text */
     }
     .licenciado-separator br {
         display: none; /* Hide <br> on mobile for horizontal text */
