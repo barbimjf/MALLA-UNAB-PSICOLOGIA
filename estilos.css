@@ -76,6 +76,7 @@ h1 {
   font-size: 1rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.15);
   border: 2px solid transparent;
+  position: relative;
 }
 
 /* Activo para click */
@@ -85,16 +86,31 @@ h1 {
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-/* Aprobado estilo */
+/* Aprobado estilo con línea diagonal */
 .ramo.aprobado {
-  opacity: 1;
-  text-decoration: line-through;
-  transform: scale(1.05);
+  opacity: 1 !important;
+  text-decoration: none !important;
   cursor: default;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  border-color: #000;
   background-color: #555 !important;
   color: #eee !important;
+  border-color: #000 !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  transform: scale(1.05);
+}
+
+/* Línea diagonal tachando todo el bloque con ::before */
+.ramo.aprobado::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 140%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.7);
+  transform: rotate(-45deg);
+  transform-origin: top left;
+  pointer-events: none;
+  z-index: 10;
 }
 
 /* Colores de ámbitos */
