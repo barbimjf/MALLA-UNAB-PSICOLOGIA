@@ -3,13 +3,150 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Malla Psicología UNAB</title>
-  <link rel="stylesheet" href="estilos.css" />
+  <title>Malla Psicología UNAB - Demo funcional</title>
+  <style>
+    body {
+      font-family: 'Candara', sans-serif, sans-serif;
+      margin: 20px;
+      background: #fff;
+      user-select: none;
+      overflow-x: auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: #333;
+    }
+    #contador-aprobados {
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+
+    .malla {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: flex-start;
+      min-width: 980px; /* para que no se comprima demasiado */
+    }
+    .anio {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 240px;
+      background-color: #fafafa;
+      border-radius: 6px;
+      box-sizing: border-box;
+      user-select: none;
+    }
+    .semestres {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      justify-content: center;
+    }
+    .semestre {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 110px;
+    }
+    .ramo {
+      padding: 6px 8px;
+      border-radius: 4px;
+      color: white;
+      font-size: 0.85rem;
+      line-height: 1.1;
+      cursor: pointer;
+      text-align: center;
+      white-space: normal;
+      user-select: none;
+      transition: opacity 0.3s ease;
+      user-select: none;
+    }
+    /* colores ámbitos */
+    .ambito-1 { background-color: #FFB6C1; }
+    .ambito-2 { background-color: #C71585; }
+    .ambito-3 { background-color: #800080; }
+    .ambito-4 { background-color: #DB7093; }
+    .ambito-5 { background-color: #FF1493; }
+    .ambito-6 { background-color: #D8BFD8; color: #333; }
+
+    /* aprobado */
+    .ramo.aprobado {
+      text-decoration: line-through;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    /* deshabilitado */
+    .ramo.deshabilitado {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* Separador vertical */
+    .separador-licenciado {
+      width: 40px;
+      border-left: 1px solid #ccc;
+      border-right: 1px solid #ccc;
+      background: #eee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 480px;
+      box-sizing: border-box;
+      margin-top: 28px;
+      font-family: 'Candara', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #800080;
+      line-height: 1.1;
+      user-select: none;
+    }
+    .texto-licenciado {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    /* Leyenda ámbitos */
+    #leyenda {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      user-select: none;
+    }
+    .leyenda {
+      padding: 8px 12px;
+      border-radius: 4px;
+      color: white;
+      font-size: 0.9rem;
+      text-align: center;
+      white-space: normal;
+      width: 180px;
+    }
+    .leyenda-1 { background-color: #FFB6C1; }
+    .leyenda-2 { background-color: #C71585; }
+    .leyenda-3 { background-color: #800080; }
+    .leyenda-4 { background-color: #DB7093; }
+    .leyenda-5 { background-color: #FF1493; }
+    .leyenda-6 { background-color: #D8BFD8; color: #333; }
+  </style>
 </head>
 <body>
 
   <h1>Malla Interactiva Psicología - Universidad Andrés Bello</h1>
-  <div id="contador-aprobados" class="contador">Ramos aprobados: 0</div>
+  <div id="contador-aprobados">Ramos aprobados: 0</div>
 
   <div class="malla">
     <!-- PRIMER AÑO -->
@@ -67,7 +204,7 @@
           <div class="ramo ambito-3" data-nombre="Psicodiagnóstico Clínico I" data-prereqs="Psicoanálisis II">Psicodiagnóstico<br>Clínico I</div>
           <div class="ramo ambito-3" data-nombre="Psicopatología y Psiquiatría I" data-prereqs="Psicoanálisis II">Psicopatología y<br>Psiquiatría I</div>
           <div class="ramo ambito-6" data-nombre="Taller de Integración">Taller de<br>Integración</div>
-          <div class="ramo ambito-2" data-nombre="Psicología Social" data-prereqs="Psicología y Sociedad">Psicología<br>Social</div>
+          <div class="ramo ambito-2" data-nombre="Psicología Social">Psicología<br>Social</div>
           <div class="ramo ambito-1" data-nombre="Eje de Formación Interdisciplinaria III">Eje de Formación<br>Interdisciplinaria III</div>
         </div>
         <div class="semestre">
@@ -104,7 +241,7 @@
       </div>
     </div>
 
-    <!-- SEPARADOR LICENCIADO ENTRE 4 Y 5 AÑO -->
+    <!-- SEPARADOR LICENCIADO -->
     <div class="separador-licenciado" title="LICENCIADO EN PSICOLOGÍA">
       <div class="texto-licenciado">
         L<br>I<br>C<br>E<br>N<br>C<br>I<br>A<br>D<br>O<br><br>E<br>N<br><br>P<br>S<br>I<br>C<br>O<br>L<br>O<br>G<br>Í<br>A
@@ -131,7 +268,7 @@
     </div>
   </div>
 
-  <!-- Leyenda de ámbitos -->
+  <!-- Leyenda -->
   <div id="leyenda">
     <div class="leyenda leyenda-1">Ámbito I: Interdisciplina, Educación General e Inglés</div>
     <div class="leyenda leyenda-2">Ámbito II: Bases Conceptuales y/o Transversales</div>
@@ -141,6 +278,65 @@
     <div class="leyenda leyenda-6">Ámbito VI: Experiencias Integradoras</div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const ramos = document.querySelectorAll('.ramo');
+    const contador = document.getElementById('contador-aprobados');
+    let aprobados = new Set();
+
+    // Construir mapa dependencias
+    const dependencias = {};
+    ramos.forEach(ramo => {
+      const prereqs = ramo.dataset.prereqs ? ramo.dataset.prereqs.split(',').map(s => s.trim()) : [];
+      prereqs.forEach(p => {
+        if (!dependencias[p]) dependencias[p] = [];
+        dependencias[p].push(ramo.dataset.nombre);
+      });
+    });
+
+    // Deshabilitar ramos con prereqs al inicio
+    ramos.forEach(ramo => {
+      if (ramo.dataset.prereqs) {
+        ramo.classList.add('deshabilitado');
+        ramo.title = 'Debes aprobar: ' + ramo.dataset.prereqs;
+      } else {
+        ramo.title = ramo.dataset.nombre;
+      }
+    });
+
+    function actualizarContador() {
+      contador.textContent = 'Ramos aprobados: ' + aprobados.size;
+    }
+
+    function desbloquearRamos(nombre) {
+      if (!dependencias[nombre]) return;
+      dependencias[nombre].forEach(depNombre => {
+        const ramoDep = [...ramos].find(r => r.dataset.nombre === depNombre);
+        if (!ramoDep) return;
+
+        // Checkear si todos los prerrequisitos están aprobados
+        const prereqs = ramoDep.dataset.prereqs.split(',').map(s => s.trim());
+        const todosAprobados = prereqs.every(pr => aprobados.has(pr));
+
+        if (todosAprobados) {
+          ramoDep.classList.remove('deshabilitado');
+          ramoDep.title = ramoDep.dataset.nombre;
+        }
+      });
+    }
+
+    ramos.forEach(ramo => {
+      ramo.addEventListener('click', () => {
+        if (ramo.classList.contains('deshabilitado') || aprobados.has(ramo.dataset.nombre)) return;
+
+        ramo.classList.add('aprobado');
+        aprobados.add(ramo.dataset.nombre);
+        actualizarContador();
+        desbloquearRamos(ramo.dataset.nombre);
+      });
+    });
+
+    actualizarContador();
+  </script>
+
 </body>
 </html>
