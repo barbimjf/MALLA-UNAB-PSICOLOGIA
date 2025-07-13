@@ -194,32 +194,32 @@ h1 {
   cursor: default;
 }
 
-/* Separador LICENCIADO */
 .texto-licenciado {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 38px; /* bloque delgado */
+  width: 38px; /* ancho delgado */
+  background-color: #fafafa;
+  border-radius: 5px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+  padding: 8px 0;
+  user-select: none;
   font-family: 'Candara', sans-serif !important;
   font-weight: 700;
   font-size: 14px;
   color: #333;
-  user-select: none;
-  padding: 6px 0;
-  background-color: #fafafa;
-  border-radius: 5px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
 }
 
 .texto-licenciado span {
-  line-height: 1.2;
   margin: 0;
   padding: 0;
+  line-height: 1.3;
+  user-select: none;
 }
 
+/* Espacio entre palabras */
 .texto-licenciado .espacio {
-  height: 14px; /* espacio vertical entre palabras */
-}
+  height: 16px;
 }
 
 /* Leyenda ámbitos */
