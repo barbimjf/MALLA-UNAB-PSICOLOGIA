@@ -115,11 +115,11 @@ h1 {
   writing-mode: vertical-rl; /* texto vertical de arriba hacia abajo */
   text-orientation: mixed;   /* hace que las letras se vean normales, no rotadas */
   white-space: nowrap;
-  width: 2.5rem;             /* ancho del bloque, ajusta si quieres más ancho */
+  width: 0.7 rem;             /* ancho del bloque, ajusta si quieres más ancho */
   min-width: auto;
-  padding: 0.5rem;
-  margin: 0 1rem;            /* espacio horizontal entre años */
-  border: 2px dashed #d33;
+  padding: 0.5 rem;
+  margin: 0 1 rem;            /* espacio horizontal entre años */
+  border: 2 px dashed #d33;
   border-radius: 10px;
   background: #ffe6e6;
   color: #900;
