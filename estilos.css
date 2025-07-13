@@ -22,24 +22,26 @@ h1 {
   gap: 3rem;
 }
 
-/* Cada año */
+/* Cada año: bloque vertical */
 .anio {
   border: 2px solid #222;
   border-radius: 10px;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-/* Contenedor horizontal de semestres dentro del año */
+/* Contenedor para los semestres: fila horizontal */
 .semestres-container {
   display: flex;
-  gap: 1.3rem;
-  overflow-x: auto; /* Para que en pantallas muy pequeñas se pueda scrollear horizontal */
-  padding-bottom: 0.5rem;
+  justify-content: space-between;
+  gap: 2rem;
 }
 
-/* Cada semestre como columna */
+/* Cada semestre: columna vertical */
 .semestre {
-  flex: 0 0 250px; /* ancho fijo para columna */
+  flex: 1;
   border: 2px solid #000;
   padding: 1rem;
   border-radius: 10px;
@@ -60,7 +62,7 @@ h1 {
   width: 100%;
 }
 
-/* Cada ramo botón */
+/* Ramos */
 .ramo {
   margin: 0.3rem 0.3rem;
   padding: 0.55rem 1.2rem;
@@ -86,7 +88,7 @@ h1 {
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-/* Aprobado estilo con línea diagonal */
+/* Aprobado con línea diagonal */
 .ramo.aprobado {
   opacity: 1 !important;
   text-decoration: none !important;
@@ -98,7 +100,6 @@ h1 {
   transform: scale(1.05);
 }
 
-/* Línea diagonal tachando todo el bloque con ::before */
 .ramo.aprobado::before {
   content: "";
   position: absolute;
@@ -113,31 +114,31 @@ h1 {
   z-index: 10;
 }
 
-/* Colores de ámbitos */
+/* Colores ámbitos */
 .ramo.interdisciplina {
-  background-color: #FFB6C1; /* LightPink */
+  background-color: #FFB6C1;
   color: #000;
 }
 
 .ramo.bases {
-  background-color: #C71585; /* MediumVioletRed */
+  background-color: #C71585;
 }
 
 .ramo.diagnostico {
-  background-color: #800080; /* Purple */
+  background-color: #800080;
 }
 
 .ramo.intervencion {
-  background-color: #DB7093; /* PaleVioletRed */
+  background-color: #DB7093;
   color: #000;
 }
 
 .ramo.investigacion {
-  background-color: #FF1493; /* DeepPink */
+  background-color: #FF1493;
 }
 
 .ramo.integrador {
-  background-color: #D8BFD8; /* Thistle */
+  background-color: #D8BFD8;
   color: #000;
 }
 
@@ -150,7 +151,7 @@ h1 {
   font-weight: 700;
   background-color: #f0f0f0;
   font-size: 1.3rem;
-  font-family: Copperplate, Papyrus, fantasy;
+  font-family: Candara, sans-serif;
   color: #4b0082;
 }
 
@@ -174,7 +175,7 @@ h1 {
   border: 2px solid #444;
   border-radius: 12px;
   background-color: #fafafa;
-  font-family: Copperplate, Papyrus, fantasy;
+  font-family: Candara, sans-serif;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
