@@ -3,37 +3,37 @@
   const contador = document.getElementById("contador-aprobados");
   const totalRamos = ramos.length;
 
-  // Construimos un mapa para acceso rápido por nombre
+  // Mapa para acceder rápido a cada ramo por nombre
   const ramoMap = new Map(ramos.map(r => [r.dataset.nombre, r]));
 
-  // Creamos un mapa de prerequisitos: nombre ramo -> array de prereqs (names)
+  // Mapa de prerrequisitos, de cada ramo a su lista de prerrequisitos
   const prereqMap = new Map();
 
-  // Extraemos prerequisitos de cada ramo (por data-prereqs separados por coma)
   ramos.forEach(ramo => {
     const prereqsRaw = ramo.dataset.prereqs || "";
     const prereqs = prereqsRaw.split(",").map(s => s.trim()).filter(Boolean);
     prereqMap.set(ramo.dataset.nombre, prereqs);
   });
 
-  // Estado: aprobados (Set de nombres)
+  // Cargar ramos aprobados guardados localmente
   let aprobados = new Set();
 
-  // Leer estado guardado (si existe)
   const saved = localStorage.getItem("ramos-aprobados");
   if (saved) {
     try {
       aprobados = new Set(JSON.parse(saved));
-    } catch { aprobados = new Set(); }
+    } catch {
+      aprobados = new Set();
+    }
   }
 
-  // Función para verificar si un ramo puede desbloquearse (todos sus prereqs aprobados)
+  // Función para saber si un ramo puede aprobarse (prerrequisitos aprobados)
   function puedeAprobar(nombre) {
     const prereqs = prereqMap.get(nombre) || [];
     return prereqs.every(pr => aprobados.has(pr));
   }
 
-  // Actualiza clases y estados visuales
+  // Actualiza los estados visuales y accesibilidad de cada ramo
   function actualizarEstados() {
     ramos.forEach(ramo => {
       const nombre = ramo.dataset.nombre;
@@ -57,17 +57,16 @@
 
     contador.textContent = `Ramos aprobados: ${aprobados.size} / ${totalRamos}`;
 
-    // Guardar estado
     localStorage.setItem("ramos-aprobados", JSON.stringify(Array.from(aprobados)));
   }
 
-  // Maneja clic o teclado para toggle aprobado
+  // Alterna estado aprobado/bloqueado al hacer click o tecla enter/espacio
   function toggleRamo(event) {
     const ramo = event.currentTarget;
     const nombre = ramo.dataset.nombre;
 
     if (ramo.classList.contains("bloqueado")) {
-      alert("Debes aprobar los ramos requisitos primero.");
+      alert("Debes aprobar los ramos prerequisitos primero.");
       return;
     }
 
@@ -79,7 +78,7 @@
     actualizarEstados();
   }
 
-  // Asignar listeners y roles para accesibilidad
+  // Añade manejadores y atributos ARIA para accesibilidad
   ramos.forEach(ramo => {
     ramo.setAttribute("role", "button");
     ramo.setAttribute("tabindex", "0");
@@ -94,5 +93,6 @@
     });
   });
 
+  // Inicializa estados al cargar la página
   actualizarEstados();
 })();
