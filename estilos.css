@@ -1,191 +1,213 @@
-/* General */
+/* Fuente general */
 body {
   font-family: Candara, sans-serif;
-  margin: 0;
-  padding: 1rem;
+  margin: 10px;
   background: #fff;
+  color: #222;
+  overflow-x: auto; /* horizontal scroll si es necesario */
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+/* Contenedor años horizontal */
+.anios-container {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-start;
+  overflow-x: auto;
+  padding-bottom: 20px;
+  user-select: none;
+}
+
+/* Cada año */
+.anio {
+  border: 2px solid #666;
+  border-radius: 6px;
+  padding: 10px;
+  min-width: 320px;
+  background: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título año */
+.anio > h2 {
+  text-align: center;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+/* Contenedor semestres horizontal */
+.semestres {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Cada semestre */
+.semestre {
+  border: 2px solid #bbb;
+  border-radius: 5px;
+  padding: 8px 6px;
+  min-width: 140px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Título semestre */
+.semestre > h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* Ramo estilo bloque con multilinea y tamaño ajustado */
+.ramo {
+  user-select: none;
+  border-radius: 5px;
+  border: 1.7px solid transparent;
+  margin: 4px 0;
+  padding: 6px 4px;
+  width: 120px;
+  font-size: 0.85rem;
+  line-height: 1.2em;
+  text-align: center;
+  white-space: normal;
+  cursor: pointer;
+  position: relative;
+  background-color: #ddd;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Colores por ámbito */
+.ambito1 {
+  background-color: #ffb6c1; /* LightPink */
+  border-color: #ffb6c1;
+  color: #3a0a2a;
+}
+.ambito2 {
+  background-color: #c71585; /* MediumVioletRed */
+  border-color: #c71585;
+  color: #f8d4f1;
+}
+.ambito3 {
+  background-color: #800080; /* Purple */
+  border-color: #800080;
+  color: #f3d6f9;
+}
+.ambito4 {
+  background-color: #db7093; /* PaleVioletRed */
+  border-color: #db7093;
+  color: #401425;
+}
+.ambito5 {
+  background-color: #ff1493; /* DeepPink */
+  border-color: #ff1493;
+  color: #fff0f7;
+}
+.ambito6 {
+  background-color: #d8bfd8; /* Thistle */
+  border-color: #d8bfd8;
+  color: #4a2b4a;
+}
+
+/* Estado bloqueado (no aprobado y no desbloqueado) */
+.ramo:not(.desbloqueado) {
+  cursor: default;
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(40%);
+}
+
+/* Estado desbloqueado */
+.ramo.desbloqueado {
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+  box-shadow: 0 0 5px #8885;
+}
+
+/* Estado aprobado */
+.ramo.aprobado {
+  filter: brightness(0.7);
+  position: relative;
   color: #333;
 }
 
-h1 {
-  text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-}
-
-/* Malla: años en fila horizontal */
-.malla {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  overflow-x: auto;
-  padding-bottom: 1rem;
-  align-items: flex-start;
-}
-
-/* Cada año es columna vertical */
-.anio {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  min-width: 200px;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 0.5rem;
-  background: #fafafa;
-  box-sizing: border-box;
-}
-
-.anio h2 {
-  font-size: 1.1rem;
-  background-color: #eee;
-  padding: 0.4rem;
-  border-radius: 6px;
-  width: 100%;
-  text-align: center;
-  margin: 0;
-}
-
-/* Semestres en fila horizontal bajo cada año */
-.semestres {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-  width: 100%;
-  justify-content: center;
-}
-
-/* Cada semestre es columna vertical */
-.semestre {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #f3f3f3;
-  padding: 0.4rem;
-  border-radius: 6px;
-  min-width: 140px;
-  box-sizing: border-box;
-}
-
-.semestre h3 {
-  font-size: 1rem;
-  margin: 0 0 0.3rem 0;
-}
-
-/* Ramos: caja con texto multilínea */
-.ramo {
-  font-size: 0.6rem;
-  text-align: center;
-  border: 1px solid #999;
-  border-radius: 6px;
-  padding: 5px 4px;
-  width: 110px;
-  min-height: 50px;
-  background-color: #fff;
-  position: relative;
-  cursor: pointer;
-  word-break: break-word;
-  white-space: normal;
-  line-height: 1.2;
-  user-select: none;
-  transition: background-color 0.3s ease, filter 0.3s ease;
-  box-sizing: border-box;
-}
-
-/* Ámbitos: colores base */
-.ambito1 { background-color: #FFB6C1; } /* LightPink */
-.ambito2 { background-color: #C71585; } /* MediumVioletRed */
-.ambito3 { background-color: #800080; } /* Purple */
-.ambito4 { background-color: #DB7093; } /* PaleVioletRed */
-.ambito5 { background-color: #FF1493; } /* DeepPink */
-.ambito6 { background-color: #D8BFD8; } /* Thistle */
-
-/* Ramos aprobados: destiñado pero visible */
-.ramo.aprobado {
-  filter: grayscale(40%);
-  opacity: 0.7;
-  background-color: inherit !important;
-  color: #222;
-}
-
-/* Tachado diagonal dentro del bloque aprobado */
-.ramo.aprobado::after {
+/* Tachado diagonal dentro del bloque al aprobar */
+.ramo.aprobado::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 10%;
-  width: 80%;
-  height: 2.5px;
-  background-color: #222;
-  transform: rotate(-25deg);
-  transform-origin: center;
+  top: 4px;
+  left: 4px;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  border-top: 3px solid rgba(0,0,0,0.6);
+  border-right: 3px solid rgba(0,0,0,0.6);
   pointer-events: none;
-  user-select: none;
+  transform: rotate(45deg);
+  transform-origin: center;
+  border-radius: 2px;
 }
 
-/* Leyenda Ámbitos */
-.ambitos {
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 2px solid #ccc;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.ambitos h2 {
-  font-size: 1.2rem;
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-
-.ambitos ul {
-  list-style: none;
-  padding: 0;
-  text-align: center;
-  margin: 0 auto;
-  max-width: 700px;
-}
-
-.ambitos li {
-  margin: 0.3rem 0;
-  font-size: 0.9rem;
-}
-
-.color-box {
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  margin-right: 8px;
-  border: 1px solid #333;
-  vertical-align: middle;
-  border-radius: 3px;
-}
-
-/* Separador Licenciado vertical */
-.separator-licenciado {
+/* LICENCIADO vertical separador */
+.licenciado-vertical {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin: 0 1rem;
-  padding: 0.5rem 0;
-  border-left: 2px solid #555;
-  font-family: Candara, sans-serif;
-  font-weight: bold;
-  color: #555;
-  font-size: 0.75rem;
-  letter-spacing: 0.1rem;
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: #333;
+  border: 2px solid #666;
+  padding: 5px 7px;
+  margin: 0 15px;
   user-select: none;
   white-space: nowrap;
-  min-width: 40px;
-  height: 180px;
-  box-sizing: border-box;
 }
 
-.separator-licenciado span {
-  line-height: 1.1rem;
-  margin: 0;
-  padding: 0;
+/* Contenedor ámbitos en fila */
+.ambitos-leyenda {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  user-select: none;
+}
+
+/* Cada ámbito leyenda con su color y estilo */
+.ambito {
+  padding: 6px 12px;
+  border-radius: 6px;
+  flex: 1;
+  margin: 0 5px;
+  text-align: center;
+  font-family: Candara, sans-serif;
+  white-space: nowrap;
+  color: white;
+  box-shadow: 0 0 5px #0004;
+}
+
+.leyenda-1 { background-color: #FFB6C1; /* LightPink */ color: #3a0a2a; }
+.leyenda-2 { background-color: #C71585; /* MediumVioletRed */ }
+.leyenda-3 { background-color: #800080; /* Purple */ }
+.leyenda-4 { background-color: #DB7093; /* PaleVioletRed */ color: #401425; }
+.leyenda-5 { background-color: #FF1493; /* DeepPink */ }
+.leyenda-6 { background-color: #D8BFD8; /* Thistle */ color: #4a2b4a; }
+
+/* Scroll horizontal suave para anios-container */
+.anios-container::-webkit-scrollbar {
+  height: 7px;
+}
+.anios-container::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
 }
