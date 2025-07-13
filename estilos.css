@@ -164,6 +164,7 @@ body {
   font-size: 13px;
   font-weight: 600;
   user-select: none;
+  font-family: 'Candara', sans-serif;
 }
 
 .leyenda {
@@ -172,7 +173,6 @@ body {
   min-width: 230px;
   white-space: nowrap;
   color: #fff;
-  font-family: 'Candara', sans-serif;
   box-sizing: border-box;
 }
 
