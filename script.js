@@ -1,89 +1,81 @@
-(() => {
-  const ramos = Array.from(document.querySelectorAll(".ramo"));
-  const contador = document.getElementById("contador-aprobados");
-  const totalRamos = ramos.length;
+// script.js
 
-  const ramoMap = new Map(ramos.map(r => [r.dataset.nombre, r]));
+document.addEventListener('DOMContentLoaded', () => {
+  const ramos = document.querySelectorAll('.ramo');
+  const contador = document.getElementById('contador');
 
-  const prereqMap = new Map();
-  ramos.forEach(ramo => {
-    const prereqsRaw = ramo.dataset.prereqs || "";
-    const prereqs = prereqsRaw.split(",").map(s => s.trim()).filter(Boolean);
-    prereqMap.set(ramo.dataset.nombre, prereqs);
+  // Mapear ramos por id para acceso rápido
+  const ramosMap = {};
+  ramos.forEach(r => {
+    const id = r.dataset.id;
+    ramosMap[id] = r;
+    // Al inicio, deshabilitar todos que tienen prerrequisitos (no tienen desbloqueo previo)
+    // Solo dejamos habilitados los que no son desbloqueables (sin prerrequisitos)
+    // Pero para simplificar, todos habilitados al inicio menos los que se desbloquean después
+    // Se entiende que si un ramo tiene prerrequisitos, será desbloqueado por otro
+    // Por eso, bloqueamos los que tienen "data-unlocks" apuntando a ellos
   });
 
-  let aprobados = new Set();
-
-  const saved = localStorage.getItem("ramos-aprobados");
-  if (saved) {
-    try {
-      aprobados = new Set(JSON.parse(saved));
-    } catch {
-      aprobados = new Set();
+  // Construimos el mapa de prerrequisitos inverso: ramo_id -> lista de ids que lo desbloquean
+  // En este diseño el "data-unlocks" es para ramos que este desbloquea, entonces invertimos para saber quién depende de quién
+  const desbloqueadosPor = {};
+  ramos.forEach(r => {
+    const unlocks = r.dataset.unlocks;
+    if (unlocks) {
+      unlocks.split(',').forEach(idUnlock => {
+        idUnlock = idUnlock.trim();
+        if (!desbloqueadosPor[idUnlock]) desbloqueadosPor[idUnlock] = [];
+        desbloqueadosPor[idUnlock].push(r.dataset.id);
+      });
     }
+  });
+
+  // Ahora deshabilitamos los ramos que tienen prerrequisitos (o sea, que aparecen en desbloqueadosPor)
+  ramos.forEach(r => {
+    const id = r.dataset.id;
+    if (desbloqueadosPor[id]) {
+      r.classList.add('bloqueado');
+      r.style.pointerEvents = 'none';
+      r.style.opacity = '0.4';
+      r.style.cursor = 'default';
+    }
+  });
+
+  // Contador de aprobados
+  let aprobados = 0;
+
+  function actualizarContador() {
+    contador.textContent = aprobados;
   }
 
-  function puedeAprobar(nombre) {
-    const prereqs = prereqMap.get(nombre) || [];
-    return prereqs.every(pr => aprobados.has(pr));
-  }
-
-  function actualizarEstados() {
-    ramos.forEach(ramo => {
-      const nombre = ramo.dataset.nombre;
-      const puede = puedeAprobar(nombre);
-
-      if (aprobados.has(nombre)) {
-        ramo.classList.add("aprobado");
-        ramo.classList.remove("bloqueado");
-        ramo.setAttribute("aria-pressed", "true");
-      } else if (puede) {
-        ramo.classList.remove("bloqueado");
-        ramo.classList.remove("aprobado");
-        ramo.setAttribute("aria-pressed", "false");
-      } else {
-        ramo.classList.add("bloqueado");
-        ramo.classList.remove("aprobado");
-        ramo.setAttribute("aria-pressed", "false");
+  function desbloquearRamos(ids) {
+    ids.forEach(id => {
+      const r = ramosMap[id];
+      if (r && r.classList.contains('bloqueado')) {
+        r.classList.remove('bloqueado');
+        r.style.pointerEvents = 'auto';
+        r.style.opacity = '1';
+        r.style.cursor = 'pointer';
       }
     });
-
-    contador.textContent = `Ramos aprobados: ${aprobados.size} / ${totalRamos}`;
-    localStorage.setItem("ramos-aprobados", JSON.stringify(Array.from(aprobados)));
   }
 
-  function toggleRamo(event) {
-    const ramo = event.currentTarget;
-    const nombre = ramo.dataset.nombre;
+  ramos.forEach(r => {
+    r.addEventListener('click', () => {
+      if (r.classList.contains('aprobado') || r.classList.contains('bloqueado')) return;
 
-    if (ramo.classList.contains("bloqueado")) {
-      alert("Debes aprobar los ramos prerrequisitos antes.");
-      return;
-    }
+      // Marcar aprobado
+      r.classList.add('aprobado');
+      aprobados++;
+      actualizarContador();
 
-    if (aprobados.has(nombre)) {
-      aprobados.delete(nombre);
-    } else {
-      aprobados.add(nombre);
-    }
-
-    actualizarEstados();
-  }
-
-  // Accesibilidad y eventos
-  ramos.forEach(ramo => {
-    ramo.setAttribute("role", "button");
-    ramo.setAttribute("tabindex", "0");
-    ramo.setAttribute("aria-pressed", aprobados.has(ramo.dataset.nombre) ? "true" : "false");
-
-    ramo.addEventListener("click", toggleRamo);
-    ramo.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggleRamo(e);
+      // Desbloquear los ramos que dependen de este
+      const unlocks = r.dataset.unlocks;
+      if (unlocks) {
+        desbloquearRamos(unlocks.split(',').map(id => id.trim()));
       }
     });
   });
 
-  actualizarEstados();
-})();
+  actualizarContador();
+});
