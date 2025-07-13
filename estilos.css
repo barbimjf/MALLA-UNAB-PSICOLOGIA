@@ -1,15 +1,15 @@
 body {
     font-family: 'Candara', sans-serif;
     margin: 0;
-    padding: 15px;
+    padding: 15px; /* Padding general */
     background-color: #f0f2f5;
     color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: auto;
-    /* Eliminamos el min-width para que se ajuste al contenido */
-    min-height: 100vh;
+    overflow-x: auto; /* Permitir scroll horizontal solo si el contenido lo excede */
+    overflow-y: auto; /* Permitir scroll vertical si el contenido lo excede */
+    min-height: 100vh; /* Ocupa al menos toda la altura de la ventana */
     box-sizing: border-box;
 }
 
@@ -39,18 +39,22 @@ body {
 
 .malla-container {
     display: flex;
-    justify-content: space-around; /* Probamos con space-around para distribuir el espacio */
+    justify-content: center; /* Centrar los bloques de año */
     align-items: flex-start;
-    gap: 10px; /* Reducimos el gap entre años */
+    gap: 20px; /* Espacio cómodo entre bloques de año */
     padding-bottom: 40px;
     position: relative;
-    width: 95%; /* Reducimos un poco el ancho para dar margen */
-    flex-grow: 1;
-    flex-wrap: nowrap;
+    /* **** CLAVE: Mínimo ancho para la malla completa **** */
+    /* Este valor es el ancho mínimo total necesario para mostrar todos los bloques sin superposición */
+    /* Calcula: (ancho_ramo * 2 (semestres) + paddings) * 5 (años) + gaps */
+    min-width: 1550px; /* Este valor podría necesitar ajuste fino en tu pantalla */
+    /* Si aún hay superposición en tu pantalla, AUMENTA este valor (por ejemplo, a 1600px o 1700px) */
+
+    width: 100%; /* Ocupa el 100% del espacio disponible, pero respeta el min-width */
+    flex-grow: 0; /* No crece para evitar distorsiones */
+    flex-shrink: 0; /* No se encoge por debajo del min-width */
+    flex-wrap: nowrap; /* Mantiene los años en una sola línea */
     box-sizing: border-box;
-    /* Podríamos reintroducir una escala muy sutil si sigue sin caber */
-    /* transform: scale(0.9);
-    transform-origin: top center; */
 }
 
 .year-block {
@@ -62,9 +66,10 @@ body {
     padding: 12px;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    flex-shrink: 0;
-    flex-basis: 18%; /* Intentamos dar un ancho base aproximado a cada bloque */
-    max-width: 200px; /* Limitamos el ancho máximo */
+    flex-shrink: 0; /* No se encoge para evitar superposiciones internas */
+    flex-grow: 1; /* Permite que crezca si hay espacio, pero limitado por max-width */
+    min-width: 250px; /* Ancho mínimo para cada bloque de año */
+    max-width: 300px; /* Ancho máximo para cada bloque de año */
     height: fit-content;
     box-sizing: border-box;
 }
@@ -108,22 +113,31 @@ body {
     padding: 8px 10px;
     text-align: center;
     cursor: pointer;
-    width: 95%; /* El ramo ocupa casi todo el ancho de su contenedor */
-    min-height: 60px;
-    height: auto;
+    width: 120px; /* Ancho fijo para cada ramo, ajustar si el texto no cabe bien */
+    min-height: 60px; /* Altura mínima para cada ramo */
+    height: auto; /* Permite que crezca si el texto es muy largo */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9em;
+    font-size: 0.9em; /* Tamaño de fuente por defecto */
     line-height: 1.2;
     box-sizing: border-box;
     transition: background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
     word-wrap: break-word;
-    overflow: hidden;
+    overflow: hidden; /* Oculta texto si se desborda, con ellipsis si es posible */
     text-overflow: ellipsis;
-    white-space: pre-wrap;
+    white-space: pre-wrap; /* Respeta los <br> y salta de línea si la palabra es muy larga */
 }
 
+/* Ambit colors - Sin cambios */
+.ramo[data-ambito="1"] { background-color: #FFB6C1; border-color: #FFB6C1; }
+.ramo[data-ambito="2"] { background-color: #C71585; border-color: #C71585; color: white;}
+.ramo[data-ambito="3"] { background-color: #800080; border-color: #800080; color: white;}
+.ramo[data-ambito="4"] { background-color: #DB7093; border-color: #DB7093; color: white;}
+.ramo[data-ambito="5"] { background-color: #FF1493; border-color: #FF1493; color: white;}
+.ramo[data-ambito="6"] { background-color: #D8BFD8; border-color: #D8BFD8; }
+
+/* Approved style */
 .ramo.approved > span {
     text-decoration: line-through;
 }
@@ -131,6 +145,7 @@ body {
     opacity: 0.6;
 }
 
+/* Locked style */
 .ramo.locked {
     opacity: 0.4;
     cursor: not-allowed;
@@ -139,6 +154,7 @@ body {
     color: #666 !important;
 }
 
+/* Separator between 4th and 5th year */
 .licenciado-separator {
     display: flex;
     flex-direction: column;
@@ -157,6 +173,7 @@ body {
     box-sizing: border-box;
 }
 
+/* Legend styles */
 .legend-container {
     display: flex;
     justify-content: center;
@@ -164,7 +181,7 @@ body {
     gap: 10px;
     margin-top: 30px;
     padding: 15px;
-    width: 95%; /* Reducimos un poco el ancho para dar margen */
+    width: 100%;
     box-sizing: border-box;
     max-width: 1500px;
     flex-shrink: 0;
@@ -190,68 +207,59 @@ body {
 
 /* Media Queries para responsividad */
 
+/* Pantallas grandes (Full HD y más) */
 @media (min-width: 1920px) {
     .malla-container {
+        min-width: 1700px; /* Mayor min-width para pantallas muy anchas */
         gap: 25px;
     }
     .year-block {
-        flex-basis: 19%;
-        max-width: 220px;
+        min-width: 280px;
+        max-width: 350px;
     }
     .ramo {
+        width: 140px; /* Ramos un poco más anchos */
+        min-height: 65px;
         font-size: 0.95em;
     }
     .legend-item {
+        width: 140px;
+        min-height: 60px;
         font-size: 0.9em;
     }
 }
 
+/* Pantallas de laptop comunes (aprox. 1200px - 1600px) */
 @media (max-width: 1600px) {
     .malla-container {
-        justify-content: space-between; /* Cambiamos la distribución */
+        min-width: 1300px; /* Asegura un min-width para estas pantallas */
+        gap: 15px;
     }
     .year-block {
-        flex-basis: 19%;
-        max-width: 180px; /* Reducimos el ancho máximo */
+        min-width: 220px;
+        max-width: 280px;
     }
     .ramo {
+        width: 110px; /* Ramos un poco más estrechos */
+        min-height: 55px;
         font-size: 0.85em;
-        min-height: 50px;
     }
     .legend-item {
-        font-size: 0.8em;
         width: 120px;
         min-height: 50px;
-    }
-}
-
-@media (max-width: 1400px) {
-    .malla-container {
-        justify-content: flex-start; /* Alineamos al inicio y permitimos scroll horizontal */
-        overflow-x: auto;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-    .year-block {
-        flex-basis: auto; /* Permite que el ancho se base en el contenido y max-width */
-        min-width: 160px;
-        max-width: 160px;
-    }
-    .ramo {
         font-size: 0.8em;
-        min-height: 45px;
     }
-    .legend-item {
-        font-size: 0.75em;
-        width: 110px;
-        min-height: 45px;
-    }
+    .header h1 { font-size: 2em; }
+    .approved-counter { font-size: 1.1em; }
+    .year-block h2 { font-size: 1.4em; }
+    .semester-block h3 { font-size: 0.95em; }
 }
 
+/* Tablet y pantallas más pequeñas (vertical) - El scroll vertical es esperado aquí */
 @media (max-width: 900px) {
     body {
         padding: 10px;
-        min-width: unset;
+        min-width: unset; /* Quita el min-width en móviles */
     }
     .header {
         flex-direction: column;
@@ -266,16 +274,16 @@ body {
         font-size: 1em;
     }
     .malla-container {
-        flex-direction: column;
+        flex-direction: column; /* Apilar años verticalmente */
         align-items: center;
         gap: 25px;
         padding-bottom: 20px;
         width: 100%;
-        overflow-x: hidden; /* Ocultamos el scroll horizontal en móvil */
+        min-width: unset; /* Quita el min-width del contenedor en móviles */
     }
     .year-block {
         width: 95%;
-        max-width: 380px;
+        max-width: 380px; /* Limita el ancho en móviles */
         padding: 15px;
         min-width: unset;
     }
@@ -295,13 +303,13 @@ body {
         font-size: 1.1em;
     }
     .ramo {
-        width: 100%;
-        height: auto;
-        min-height: 70px;
-        font-size: 1em;
+        width: 100%; /* Ocupar todo el ancho disponible */
+        height: auto; /* Altura automática */
+        min-height: 70px; /* Altura mínima más cómoda para móvil */
+        font-size: 1em; /* Fuente más grande para móvil */
         padding: 12px;
-        white-space: normal;
-        text-overflow: clip;
+        white-space: normal; /* Permitir que el texto se envuelva naturalmente */
+        text-overflow: clip; /* Sin puntos suspensivos en móvil */
     }
     .licenciado-separator {
         width: 100%;
@@ -313,7 +321,7 @@ body {
         padding: 12px 0;
         font-size: 1.2em;
         line-height: 1.5;
-        flex-direction: row;
+        flex-direction: row; /* Texto horizontal */
         text-align: center;
         white-space: normal;
         align-self: center;
