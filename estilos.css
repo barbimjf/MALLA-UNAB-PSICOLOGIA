@@ -12,7 +12,7 @@ h1 {
   margin-bottom: 2rem;
 }
 
-/* Contenedor de la malla */
+/* Contenedor principal: años en fila horizontal */
 .malla {
   display: flex;
   flex-wrap: nowrap;
@@ -42,7 +42,7 @@ h1 {
   text-align: center;
 }
 
-/* Semestres dentro del año */
+/* Contenedor de semestres dentro de cada año: fila horizontal */
 .semestres {
   display: flex;
   flex-wrap: nowrap;
@@ -50,7 +50,7 @@ h1 {
   justify-content: center;
 }
 
-/* Semestre como columna de ramos */
+/* Cada semestre: columna vertical con ramos */
 .semestre {
   display: flex;
   flex-direction: column;
@@ -68,7 +68,7 @@ h1 {
   text-align: center;
 }
 
-/* Estilos generales para ramos */
+/* Ramos */
 .ramo {
   padding: 0.5rem;
   margin: 0.3rem 0;
@@ -82,6 +82,8 @@ h1 {
   cursor: pointer;
   transition: background 0.2s ease;
   position: relative;
+  background: #dcdcdc;
+  color: #000;
 }
 
 /* Hover */
@@ -91,7 +93,7 @@ h1 {
 
 /* Ramos aprobados con línea diagonal */
 .ramo.aprobado {
-  color: #999;
+  color: #555;
   background-color: #e6e6e6;
 }
 
@@ -108,7 +110,7 @@ h1 {
   pointer-events: none;
 }
 
-/* Separador de Licenciatura */
+/* Separador Licenciatura */
 .separador {
   background: #ffe6e6;
   border: 2px dashed #d33;
@@ -119,6 +121,7 @@ h1 {
   color: #900;
   min-width: 300px;
   flex-shrink: 0;
+  margin: 2rem 0;
 }
 
 /* ======================= */
@@ -153,12 +156,12 @@ h1 {
   background-color: #D8BFD8; /* Thistle */
 }
 
-/* Aprobado + ámbito = línea más visible */
-.ramo.aprobado.interdisciplina::after,
+/* Línea diagonal más visible si está aprobado y es color oscuro */
 .ramo.aprobado.bases::after,
 .ramo.aprobado.diagnostico::after,
 .ramo.aprobado.intervencion::after,
 .ramo.aprobado.investigacion::after,
+.ramo.aprobado.interdisciplina::after,
 .ramo.aprobado.integradoras::after {
   border-top: 2px solid #000;
 }
