@@ -1,169 +1,136 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Malla Psicología UNAB</title>
-  <link rel="stylesheet" href="estilos.css" />
+  <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-  <h1>Malla Interactiva Psicología - Universidad Andrés Bello</h1>
-  <div id="contador-aprobados" class="contador">Ramos aprobados: 0</div>
+  <h1 class="titulo">Malla Interactiva Psicología - UNAB</h1>
+  <div class="contador">Ramos aprobados: <span id="contador">0</span></div>
 
-  <div class="malla-container">
-    <div id="malla" class="malla">
-
-      <!-- PRIMER AÑO -->
-      <div class="anio">
-        <h2>PRIMER AÑO</h2>
-        <div class="semestres">
-          <div class="semestre">
-            <h3>I SEMESTRE</h3>
-            <div class="ramo ambito-2" data-nombre="Historia y Fundamentos de la Psicología">Historia y<br>Fundamentos de<br>la Psicología</div>
-            <div class="ramo ambito-2" data-nombre="Tópicos de Neurobiología">Tópicos de<br>Neurobiología</div>
-            <div class="ramo ambito-2" data-nombre="Psicología y Sociedad">Psicología y<br>Sociedad</div>
-            <div class="ramo ambito-1" data-nombre="Inglés I">Inglés I</div>
-            <div class="ramo ambito-1" data-nombre="Eje de Formación Interdisciplinaria I">Eje de Formación<br>Interdisciplinaria I</div>
-          </div>
-          <div class="semestre">
-            <h3>II SEMESTRE</h3>
-            <div class="ramo ambito-2" data-nombre="Sistemas Psicológicos">Sistemas<br>Psicológicos</div>
-            <div class="ramo ambito-2" data-nombre="Procesos Psicológicos y Neurociencias">Procesos Psicológicos<br>y Neurociencias</div>
-            <div class="ramo ambito-5" data-nombre="Psicología y Epistemología">Psicología y<br>Epistemología</div>
-            <div class="ramo ambito-1" data-nombre="Inglés II">Inglés II</div>
-            <div class="ramo ambito-1" data-nombre="Habilidades Comunicativas">Habilidades<br>Comunicativas</div>
-          </div>
+  <div class="malla">
+    <!-- Cada año -->
+    <div class="fila">
+      <!-- Primer Año -->
+      <div class="año">
+        <div class="semestre">
+          <h2>I SEMESTRE</h2>
+          <div class="ramo clickable" data-id="1" data-color="1">Historia y<br>Fundamentos de<br>la Psicología</div>
+          <div class="ramo clickable" data-id="2" data-color="2" data-unlocks="6">Tópicos de<br>Neurobiología</div>
+          <div class="ramo clickable" data-id="3" data-color="2">Psicología y<br>Sociedad</div>
+          <div class="ramo clickable" data-id="4" data-color="1" data-unlocks="9">Inglés I</div>
+          <div class="ramo clickable" data-id="5" data-color="1">Eje de Formación<br>Interdisciplinaria I</div>
+        </div>
+        <div class="semestre">
+          <h2>II SEMESTRE</h2>
+          <div class="ramo clickable" data-id="6" data-color="2">Sistemas<br>Psicológicos</div>
+          <div class="ramo clickable" data-id="7" data-color="2">Procesos<br>Psicológicos y<br>Neurociencias</div>
+          <div class="ramo clickable" data-id="8" data-color="5">Psicología y<br>Epistemología</div>
+          <div class="ramo clickable" data-id="9" data-color="1" data-unlocks="13">Inglés II</div>
+          <div class="ramo clickable" data-id="10" data-color="1" data-unlocks="14">Habilidades<br>Comunicativas</div>
         </div>
       </div>
 
-      <!-- SEGUNDO AÑO -->
-      <div class="anio">
-        <h2>SEGUNDO AÑO</h2>
-        <div class="semestres">
-          <div class="semestre">
-            <h3>III SEMESTRE</h3>
-            <div class="ramo ambito-2" data-nombre="Psicoanálisis I">Psicoanálisis I</div>
-            <div class="ramo ambito-2" data-nombre="Psicología del Desarrollo I">Psicología del<br>Desarrollo I</div>
-            <div class="ramo ambito-5" data-nombre="Investigación I">Investigación I</div>
-            <div class="ramo ambito-1" data-nombre="Inglés III">Inglés III</div>
-            <div class="ramo ambito-1" data-nombre="Razonamiento Científico y TICS">Razonamiento Científico<br>y TICS</div>
-          </div>
-          <div class="semestre">
-            <h3>IV SEMESTRE</h3>
-            <div class="ramo ambito-2" data-nombre="Psicoanálisis II">Psicoanálisis II</div>
-            <div class="ramo ambito-2" data-nombre="Psicología del Desarrollo II">Psicología del<br>Desarrollo II</div>
-            <div class="ramo ambito-5" data-nombre="Investigación II">Investigación II</div>
-            <div class="ramo ambito-1" data-nombre="Inglés IV">Inglés IV</div>
-            <div class="ramo ambito-1" data-nombre="Eje de Formación Interdisciplinaria II">Eje de Formación<br>Interdisciplinaria II</div>
-          </div>
+      <!-- Segundo Año -->
+      <div class="año">
+        <div class="semestre">
+          <h2>III SEMESTRE</h2>
+          <div class="ramo clickable" data-id="11" data-color="2" data-unlocks="16,37">Psicoanálisis I</div>
+          <div class="ramo clickable" data-id="12" data-color="2" data-unlocks="18">Psicología del<br>Desarrollo I</div>
+          <div class="ramo clickable" data-id="13" data-color="5" data-unlocks="19">Investigación I</div>
+          <div class="ramo clickable" data-id="14" data-color="1" data-unlocks="20">Inglés III</div>
+          <div class="ramo clickable" data-id="15" data-color="1">Razonamiento<br>Científico y TICS</div>
+        </div>
+        <div class="semestre">
+          <h2>IV SEMESTRE</h2>
+          <div class="ramo clickable" data-id="16" data-color="2">Psicoanálisis II</div>
+          <div class="ramo clickable" data-id="17" data-color="2" data-unlocks="21">Psicología del<br>Desarrollo II</div>
+          <div class="ramo clickable" data-id="19" data-color="5">Investigación II</div>
+          <div class="ramo clickable" data-id="20" data-color="1">Inglés IV</div>
+          <div class="ramo clickable" data-id="22" data-color="1">Eje de Formación<br>Interdisciplinaria II</div>
         </div>
       </div>
 
-      <!-- TERCER AÑO -->
-      <div class="anio">
-        <h2>TERCER AÑO</h2>
-        <div class="semestres">
-          <div class="semestre">
-            <h3>V SEMESTRE</h3>
-            <div class="ramo ambito-3" data-nombre="Psicodiagnóstico Clínico I">Psicodiagnóstico<br>Clínico I</div>
-            <div class="ramo ambito-3" data-nombre="Psicopatología y Psiquiatría I">Psicopatología y<br>Psiquiatría I</div>
-            <div class="ramo ambito-6" data-nombre="Taller de Integración">Taller de<br>Integración</div>
-            <div class="ramo ambito-2" data-nombre="Psicología Social">Psicología<br>Social</div>
-            <div class="ramo ambito-1" data-nombre="Eje de Formación Interdisciplinaria III">Eje de Formación<br>Interdisciplinaria III</div>
-          </div>
-          <div class="semestre">
-            <h3>VI SEMESTRE</h3>
-            <div class="ramo ambito-3" data-nombre="Psicodiagnóstico Clínico II">Psicodiagnóstico<br>Clínico II</div>
-            <div class="ramo ambito-3" data-nombre="Psicopatología y Psiquiatría II">Psicopatología y<br>Psiquiatría II</div>
-            <div class="ramo ambito-3" data-nombre="Psicología Educacional">Psicología<br>Educacional</div>
-            <div class="ramo ambito-3" data-nombre="Diagnóstico e Intervención Social">Diagnóstico e<br>Intervención Social</div>
-            <div class="ramo ambito-3" data-nombre="Psicología del Trabajo y las Organizaciones">Psicología del Trabajo<br>y las Organizaciones</div>
-          </div>
+      <!-- Tercer Año -->
+      <div class="año">
+        <div class="semestre">
+          <h2>V SEMESTRE</h2>
+          <div class="ramo clickable" data-id="23" data-color="3" data-unlocks="28">Psicodiagnóstico<br>Clínico I</div>
+          <div class="ramo clickable" data-id="24" data-color="3" data-unlocks="29,31">Psicopatología y<br>Psiquiatría I</div>
+          <div class="ramo clickable" data-id="37" data-color="6" data-unlocks="38">Taller de<br>Integración</div>
+          <div class="ramo clickable" data-id="25" data-color="2" data-unlocks="30">Psicología Social</div>
+          <div class="ramo clickable" data-id="26" data-color="1">Eje de Formación<br>Interdisciplinaria III</div>
         </div>
-      </div>
-  <!-- CUARTO AÑO -->
-      <div class="anio">
-        <h2>CUARTO AÑO</h2>
-        <div class="semestres">
-          <div class="semestre">
-            <h3>VII SEMESTRE</h3>
-            <div class="ramo ambito-3" data-nombre="Clínica Sistémica">Clínica<br>Sistémica</div>
-            <div class="ramo ambito-3" data-nombre="Psicopatología Infantojuvenil">Psicopatología<br>Infantojuvenil</div>
-            <div class="ramo ambito-3" data-nombre="Diagnóstico e Intervención Educacional">Diagnóstico e<br>Intervención Educacional</div>
-            <div class="ramo ambito-3" data-nombre="Psicología Jurídica">Psicología Jurídica</div>
-            <div class="ramo ambito-3" data-nombre="Diagnóstico e Intervención Organizacional">Diagnóstico e<br>Intervención Organizacional</div>
-          </div>
-          <div class="semestre">
-            <h3>VIII SEMESTRE</h3>
-            <div class="ramo ambito-4" data-nombre="Intervención Clínica Sistémica">Intervención Clínica<br>Sistémica</div>
-            <div class="ramo ambito-4" data-nombre="Clínica Infantojuvenil">Clínica<br>Infantojuvenil</div>
-            <div class="ramo ambito-6" data-nombre="Integrador I: Taller de Investigación">Integrador I:<br>Taller de Investigación</div>
-            <div class="ramo ambito-3" data-nombre="Diagnóstico e Intervención Jurídica">Diagnóstico e<br>Intervención Jurídica</div>
-            <div class="ramo ambito-4" data-nombre="Clínica Psicoanalítica">Clínica Psicoanalítica</div>
-          </div>
+        <div class="semestre">
+          <h2>VI SEMESTRE</h2>
+          <div class="ramo clickable" data-id="28" data-color="3">Psicodiagnóstico<br>Clínico II</div>
+          <div class="ramo clickable" data-id="29" data-color="3">Psicopatología y<br>Psiquiatría II</div>
+          <div class="ramo clickable" data-id="30" data-color="3" data-unlocks="33">Psicología<br>Educacional</div>
+          <div class="ramo clickable" data-id="31" data-color="3">Diagnóstico e<br>Intervención Social</div>
+          <div class="ramo clickable" data-id="32" data-color="3" data-unlocks="34">Psicología del Trabajo<br>y las Organizaciones</div>
         </div>
       </div>
 
-      <!-- SEPARADOR LICENCIADO VERTICAL -->
-      <div class="separador-licenciado-vertical" title="LICENCIADO EN PSICOLOGÍA">
-        <div class="texto-licenciado-vertical">
-          <span>L</span>
-          <span>I</span>
-          <span>C</span>
-          <span>E</span>
-          <span>N</span>
-          <span>C</span>
-          <span>I</span>
-          <span>A</span>
-          <span>D</span>
-          <span>O</span>
-          <span class="space"></span> <!-- espacio entre palabras -->
-          <span>E</span>
-          <span>N</span>
-          <span class="space"></span> <!-- espacio entre palabras -->
-          <span>P</span>
-          <span>S</span>
-          <span>I</span>
-          <span>C</span>
-          <span>O</span>
-          <span>L</span>
-          <span>O</span>
-          <span>G</span>
-          <span>Í</span>
-          <span>A</span>
+      <!-- Cuarto Año -->
+      <div class="año">
+        <div class="semestre">
+          <h2>VII SEMESTRE</h2>
+          <div class="ramo clickable" data-id="33" data-color="4" data-unlocks="38">Clínica Sistémica</div>
+          <div class="ramo clickable" data-id="34" data-color="3" data-unlocks="39">Psicopatología<br>Infantojuvenil</div>
+          <div class="ramo clickable" data-id="35" data-color="3">Diagnóstico e<br>Intervención<br>Educacional</div>
+          <div class="ramo clickable" data-id="36" data-color="3" data-unlocks="38">Psicología Jurídica</div>
+          <div class="ramo clickable" data-id="38" data-color="3">Diagnóstico e<br>Intervención<br>Organizacional</div>
         </div>
+        <div class="semestre">
+          <h2>VIII SEMESTRE</h2>
+          <div class="ramo clickable" data-id="39" data-color="4" data-unlocks="44">Intervención<br>Clínica Sistémica</div>
+          <div class="ramo clickable" data-id="40" data-color="4" data-unlocks="44">Clínica<br>Infantojuvenil</div>
+          <div class="ramo clickable" data-id="41" data-color="6" data-unlocks="44">Integrador I:<br>Taller de<br>Investigación</div>
+          <div class="ramo clickable" data-id="42" data-color="3" data-unlocks="44">Diagnóstico e<br>Intervención<br>Jurídica</div>
+          <div class="ramo clickable" data-id="43" data-color="4" data-unlocks="44">Clínica<br>Psicoanalítica</div>
         </div>
       </div>
 
-      <!-- QUINTO AÑO -->
-      <div class="anio" id="quinto-anio">
-        <div class="semestres">
-          <div class="semestre">
-            <h3>IX SEMESTRE</h3>
-            <div class="ramo ambito-4" data-nombre="Taller de Intervención Clínica">Taller de<br>Intervención Clínica</div>
-            <div class="ramo ambito-4" data-nombre="Psicología y Salud">Psicología y Salud</div>
-            <div class="ramo ambito-4" data-nombre="Taller de Diagnóstico e Intervención Social">Taller Diagnóstico e<br>Intervención Social</div>
-            <div class="ramo ambito-3" data-nombre="Electivo de Formación Profesional I">Electivo Formación<br>Profesional I</div>
-            <div class="ramo ambito-4" data-nombre="Electivo de Formación Profesional II">Electivo Formación<br>Profesional II</div>
-          </div>
-          <div class="semestre">
-            <h3>X SEMESTRE</h3>
-            <div class="ramo ambito-6" data-nombre="Integrador II: Práctica Profesional">Integrador II:<br>Práctica Profesional</div>
-          </div>
+      <!-- LICENCIADO vertical -->
+      <div class="licenciado">
+        <div class="licenciado-columna">
+          <span>L</span><span>I</span><span>C</span><span>E</span><span>N</span><span>C</span><span>I</span><span>A</span><span>D</span><span>O</span>
+          <span class="espacio"> </span>
+          <span>E</span><span>N</span>
+          <span class="espacio"> </span>
+          <span>P</span><span>S</span><span>I</span><span>C</span><span>O</span><span>L</span><span>O</span><span>G</span><span>Í</span><span>A</span>
         </div>
       </div>
 
+      <!-- Quinto Año -->
+      <div class="año">
+        <div class="semestre">
+          <h2>IX SEMESTRE</h2>
+          <div class="ramo clickable" data-id="44" data-color="4" data-unlocks="45">Taller de<br>Intervención Clínica</div>
+          <div class="ramo clickable" data-id="45" data-color="4" data-unlocks="46">Psicología y<br>Salud</div>
+          <div class="ramo clickable" data-id="46" data-color="4" data-unlocks="47">Taller de Diagnóstico<br>e Intervención Social</div>
+          <div class="ramo clickable" data-id="47" data-color="3" data-unlocks="48">Electivo de Formación<br>Profesional I</div>
+          <div class="ramo clickable" data-id="48" data-color="4" data-unlocks="49">Electivo de Formación<br>Profesional II</div>
+        </div>
+        <div class="semestre">
+          <h2>X SEMESTRE</h2>
+          <div class="ramo clickable" data-id="49" data-color="6">Integrador II:<br>Práctica Profesional</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Leyenda ámbitos -->
-  <div id="leyenda">
-    <div class="leyenda leyenda-1">Ámbito I: Interdisciplina, Educación General e Inglés</div>
-    <div class="leyenda leyenda-2">Ámbito II: Bases Conceptuales y/o Transversales de la Psicología</div>
-    <div class="leyenda leyenda-3">Ámbito III: Diagnóstico</div>
-    <div class="leyenda leyenda-4">Ámbito IV: Intervención</div>
-    <div class="leyenda leyenda-5">Ámbito V: Investigación</div>
-    <div class="leyenda leyenda-6">Experiencias Integradoras</div>
+  <div class="leyenda">
+    <h2>Leyenda de colores</h2>
+    <div><span class="color-box" style="background:#FFB6C1"></span> Ámbito 1: Interdisciplina, Educación General e Inglés</div>
+    <div><span class="color-box" style="background:#C71585"></span> Ámbito 2: Bases Conceptuales y/o Transversales</div>
+    <div><span class="color-box" style="background:#800080"></span> Ámbito 3: Diagnóstico</div>
+    <div><span class="color-box" style="background:#DB7093"></span> Ámbito 4: Intervención</div>
+    <div><span class="color-box" style="background:#FF1493"></span> Ámbito 5: Investigación</div>
+    <div><span class="color-box" style="background:#D8BFD8"></span> Ámbito 6: Experiencias Integradoras</div>
   </div>
 
   <script src="script.js"></script>
