@@ -1,12 +1,17 @@
-body {para todo
+/* Tipografía general */
+body {
   font-family: Papyrus, Copperplate, fantasy;
   background-color: #fdfdfd;
   padding: 2rem;
+  color: #222;
+  margin: 0;
 }
 
 h1 {
   text-align: center;
   margin-bottom: 2rem;
+  font-weight: 700;
+  font-size: 2rem;
 }
 
 #malla {
@@ -15,48 +20,62 @@ h1 {
 }
 
 .anio {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .semestre {
   border: 2px solid #000;
   padding: 1rem;
   border-radius: 10px;
-  background-color: #f0f0f0;
-  margin-bottom: 1rem;
+  background-color: #f7f7f7;
+  margin-bottom: 1.5rem;
 }
 
 .semestre h3 {
   margin-bottom: 1rem;
   text-align: center;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #333;
 }
 
+/* Cada ramo es un botón visual */
 .ramo {
   display: inline-block;
   margin: 0.4rem 0.7rem;
-  padding: 0.5rem 1rem;
+  padding: 0.55rem 1.2rem;
   border-radius: 8px;
   color: #fff;
   cursor: pointer;
   user-select: none;
-  opacity: 0.5;
-  transition: opacity 0.3s, transform 0.2s;
+  opacity: 0.4;
+  transition: opacity 0.25s ease, transform 0.2s ease;
   min-width: 180px;
   text-align: center;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  border: 2px solid transparent;
+  /* Para que se note que es clickeable cuando activo */
 }
 
+/* Cuando está disponible para clic */
 .ramo.activo {
   opacity: 1;
+  border-color: #333;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
+/* Cuando se aprueba */
 .ramo.aprobado {
   opacity: 1;
   text-decoration: line-through;
   transform: scale(1.05);
   cursor: default;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  border-color: #000;
+  background-color: #555 !important; /* Color uniforme para aprobado */
+  color: #eee !important;
 }
 
 /* Colores por ámbito */
@@ -86,12 +105,27 @@ h1 {
   color: #000;
 }
 
+/* Separador Licenciado */
 .separator {
   text-align: center;
-  margin: 2rem 0;
+  margin: 3rem 0 2rem 0;
   padding: 1rem;
   border-top: 3px dashed #800080;
-  font-weight: bold;
-  background-color: #eee;
-  font-size: 1.2rem;
+  font-weight: 700;
+  background-color: #f0f0f0;
+  font-size: 1.3rem;
+  font-family: Copperplate, Papyrus, fantasy;
+  color: #4b0082;
+}
+
+/* Efecto hover para ramos activos (no aprobados) */
+.ramo.activo:not(.aprobado):hover {
+  opacity: 0.85;
+  transform: scale(1.08);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+}
+
+/* Para evitar que ramos no activos tengan cursor pointer */
+.ramo:not(.activo) {
+  cursor: default;
 }
