@@ -1,128 +1,71 @@
-// script.js
+// Mapeo de requisitos para desbloqueo
+const requisitosMap = {
+  "Procesos Psicológicos y Neurociencias": ["Tópicos de Neurobiología"],
+  "Inglés II": ["Inglés I"],
+  "Inglés III": ["Inglés II"],
+  "Inglés IV": ["Inglés III"],
+  "Razonamiento Científico y TICS": ["Habilidades Comunicativas"],
+  "Psicoanálisis II": ["Psicoanálisis I"],
+  "Taller de Integración": ["Psicoanálisis I", "Psicología del Desarrollo II"],
+  "Psicología del Desarrollo II": ["Psicología del Desarrollo I"],
+  "Investigación II": ["Investigación I"],
+  "Psicodiagnóstico Clínico II": ["Psicodiagnóstico Clínico I"],
+  "Psicopatología y Psiquiatría II": ["Psicopatología y Psiquiatría I"],
+  "Psicopatología Infantojuvenil": ["Psicopatología y Psiquiatría I"],
+  "Integrador I: Taller de Investigación": ["Taller de Integración", "Psicología Jurídica"],
+  "Diagnóstico e Intervención Social": ["Psicología Social"],
+  "Diagnóstico e Intervención Educacional": ["Psicología Educacional"],
+  "Diagnóstico e Intervención Organizacional": ["Psicología del Trabajo y las Organizaciones"],
+  "Diagnóstico e Intervención Jurídica": ["Psicología Jurídica"],
+  "Intervención Clínica Sistémica": ["Clínica Sistémica"],
+  "Clínica Infantojuvenil": ["Psicopatología Infantojuvenil"],
+  "Integrador II: Práctica Profesional": [
+    "Taller de Intervención Clínica",
+    "Psicología y Salud",
+    "Taller de Diagnóstico e Intervención Social",
+    "Electivo de Formación Profesional I",
+    "Electivo de Formación Profesional II"
+  ]
+};
 
-const ramos = [
-  {
-    nombre: "Historia y Fundamentos de la Psicología",
-    tipo: "bases",
-    requisitos: [],
-  },
-  {
-    nombre: "Tópicos de Neurobiología",
-    tipo: "bases",
-    requisitos: [],
-    desbloquea: ["Procesos Psicológicos y Neurociencias"]
-  },
-  {
-    nombre: "Psicología y Sociedad",
-    tipo: "bases",
-    requisitos: []
-  },
-  {
-    nombre: "Inglés I",
-    tipo: "interdisciplina",
-    requisitos: [],
-    desbloquea: ["Inglés II"]
-  },
-  {
-    nombre: "Eje de Formación Interdisciplinaria I",
-    tipo: "interdisciplina",
-    requisitos: []
-  },
-  {
-    nombre: "Sistemas Psicológicos",
-    tipo: "bases",
-    requisitos: []
-  },
-  {
-    nombre: "Procesos Psicológicos y Neurociencias",
-    tipo: "bases",
-    requisitos: ["Tópicos de Neurobiología"]
-  },
-  {
-    nombre: "Psicología y Epistemología",
-    tipo: "investigacion",
-    requisitos: []
-  },
-  {
-    nombre: "Inglés II",
-    tipo: "interdisciplina",
-    requisitos: ["Inglés I"],
-    desbloquea: ["Inglés III"]
-  },
-  {
-    nombre: "Habilidades Comunicativas",
-    tipo: "interdisciplina",
-    requisitos: [],
-    desbloquea: ["Razonamiento Científico y TICS"]
-  },
-  {
-    nombre: "Inglés III",
-    tipo: "interdisciplina",
-    requisitos: ["Inglés II"],
-    desbloquea: ["Inglés IV"]
-  },
-  {
-    nombre: "Razonamiento Científico y TICS",
-    tipo: "interdisciplina",
-    requisitos: ["Habilidades Comunicativas"]
-  }
-  // Aquí puedes seguir agregando los demás ramos siguiendo el mismo formato
-];
+const ramosDivs = document.querySelectorAll(".ramo");
 
-const mallaDiv = document.getElementById("malla");
-
-function crearRamo(ramo) {
-  const div = document.createElement("div");
-  div.textContent = ramo.nombre;
-  div.className = `ramo ${ramo.tipo}`;
-  div.dataset.nombre = ramo.nombre;
-
-  if (!ramo.requisitos || ramo.requisitos.length === 0) {
+// Activar ramos sin requisitos al cargar
+ramosDivs.forEach(div => {
+  const nombre = div.dataset.nombre;
+  if (!requisitosMap[nombre]) {
     div.classList.add("activo");
     div.style.opacity = "1";
+  } else {
+    div.style.opacity = "0.5";
   }
+});
 
+function desbloquearRamos(nombreAprobado) {
+  for (const [ramo, requisitos] of Object.entries(requisitosMap)) {
+    if (requisitos.includes(nombreAprobado)) {
+      const todosAprobados = requisitos.every(req => {
+        const elem = document.querySelector(`.ramo[data-nombre="${req}"]`);
+        return elem && elem.classList.contains("aprobado");
+      });
+
+      if (todosAprobados) {
+        const elem = document.querySelector(`.ramo[data-nombre="${ramo}"]`);
+        if (elem && !elem.classList.contains("activo")) {
+          elem.classList.add("activo");
+          elem.style.opacity = "1";
+        }
+      }
+    }
+  }
+}
+
+ramosDivs.forEach(div => {
   div.addEventListener("click", () => {
     if (!div.classList.contains("activo")) return;
     if (div.classList.contains("aprobado")) return;
 
     div.classList.add("aprobado");
-    desbloquearRamos(ramo.nombre);
+    desbloquearRamos(div.dataset.nombre);
   });
-
-  return div;
-}
-
-function desbloquearRamos(nombreRamoAprobado) {
-  ramos.forEach((ramo) => {
-    if (
-      ramo.requisitos &&
-      ramo.requisitos.includes(nombreRamoAprobado)
-    ) {
-      const requisitosAprobados = ramo.requisitos.every((req) => {
-        const el = document.querySelector(`[data-nombre='${req}']`);
-        return el && el.classList.contains("aprobado");
-      });
-      if (requisitosAprobados) {
-        const el = document.querySelector(`[data-nombre='${ramo.nombre}']`);
-        if (el) {
-          el.classList.add("activo");
-          el.style.opacity = "1";
-        }
-      }
-    }
-  });
-}
-
-function renderMalla() {
-  const contenedor = document.createElement("div");
-  contenedor.className = "semestre";
-  contenedor.innerHTML = `<h2>Semestres Iniciales</h2>`;
-  ramos.forEach((ramo) => {
-    const el = crearRamo(ramo);
-    contenedor.appendChild(el);
-  });
-  mallaDiv.appendChild(contenedor);
-}
-
-renderMalla();
+});
