@@ -1,4 +1,3 @@
-/* Fuentes */
 body {
   font-family: 'Candara', sans-serif;
   margin: 10px;
@@ -87,35 +86,29 @@ body {
   border-color: #666;
 }
 
-/* Ámbitos colores y fuentes Copperplate, Papyrus, fantasy */
+/* Ámbitos con los colores indicados */
 .ambito-1 {
   background-color: #FFB6C1; /* LightPink */
-  font-family: Copperplate, Papyrus, fantasy;
   color: #4b004b;
 }
 .ambito-2 {
   background-color: #C71585; /* MediumVioletRed */
-  font-family: Copperplate, Papyrus, fantasy;
   color: #fff;
 }
 .ambito-3 {
-  background-color: #8A2BE2; /* BlueViolet */
-  font-family: Copperplate, Papyrus, fantasy;
+  background-color: #800080; /* Purple */
   color: #fff;
 }
 .ambito-4 {
-  background-color: #DA70D6; /* Orchid */
-  font-family: Copperplate, Papyrus, fantasy;
+  background-color: #DB7093; /* PaleVioletRed */
   color: #4b004b;
 }
 .ambito-5 {
-  background-color: #FF69B4; /* HotPink */
-  font-family: Copperplate, Papyrus, fantasy;
-  color: #4b004b;
+  background-color: #FF1493; /* DeepPink */
+  color: #fff;
 }
 .ambito-6 {
   background-color: #D8BFD8; /* Thistle */
-  font-family: Copperplate, Papyrus, fantasy;
   color: #4b004b;
 }
 
@@ -123,22 +116,20 @@ body {
 .ramo.aprobado {
   filter: brightness(0.7);
   color: #222;
-  position: relative;
   text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #222;
 }
 
-/* Mejorar el tachado: solo 1 línea y centrado */
-/* Si quieres tachado diagonal, se puede usar pseudo-elemento, pero aquí es line-through */
-/* No hacemos más líneas */
-
-/* CONTADOR DE APROBADOS */
+/* Contador de aprobados */
 .contador {
   font-weight: bold;
   font-size: 15px;
   margin-bottom: 12px;
+  user-select: none;
 }
 
-/* SEPARADOR LICENCIADO */
+/* Separador LICENCIADO */
 .separador-licenciado {
   display: flex;
   align-items: center;
@@ -163,7 +154,7 @@ body {
   line-height: 1.1;
 }
 
-/* LEYENDA ÁMBITOS */
+/* Leyenda ámbitos */
 #leyenda {
   display: flex;
   gap: 10px;
@@ -172,6 +163,7 @@ body {
   overflow-x: auto;
   font-size: 13px;
   font-weight: 600;
+  user-select: none;
 }
 
 .leyenda {
@@ -181,33 +173,12 @@ body {
   white-space: nowrap;
   color: #fff;
   font-family: Copperplate, Papyrus, fantasy;
-  user-select: none;
   box-sizing: border-box;
 }
 
-.leyenda-1 { background-color: #FFB6C1; color: #4B001E; }
-.leyenda-2 { background-color: #C71585; }
-.leyenda-3 { background-color: #800080; }
-.leyenda-4 { background-color: #DB7093; }
-.leyenda-5 { background-color: #FF1493; }
-.leyenda-6 { background-color: #D8BFD8; }
-
-/* Scroll horizontal para la malla solo si es necesario */
-.malla-container {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Ajustes responsivos */
-@media (max-width: 1100px) {
-  .anio {
-    min-width: 250px;
-  }
-  .semestre {
-    min-width: 100px;
-  }
-  .ramo {
-    min-height: 3.8rem;
-    font-size: 0.75rem;
-  }
-}
+.leyenda-1 { background-color: #FFB6C1; color: #4b004b; }
+.leyenda-2 { background-color: #C71585; color: #fff; }
+.leyenda-3 { background-color: #800080; color: #fff; }
+.leyenda-4 { background-color: #DB7093; color: #4b004b; }
+.leyenda-5 { background-color: #FF1493; color: #fff; }
+.leyenda-6 { background-color: #D8BFD8; color: #4b004b; }
