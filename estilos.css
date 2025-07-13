@@ -39,9 +39,10 @@ body {
     color: #007bff;
 }
 
-/* Contenedor Principal de la Malla */
+/* Contenedor Principal de la Malla (para los AÑOS HORIZONTALES) */
 .malla-container {
-    display: flex;
+    display: flex; /* CRUCIAL: Pone los bloques de año en fila */
+    flex-direction: row; /* Explícitamente asegura que los años estén en horizontal */
     justify-content: center; /* Centra los bloques de año horizontalmente */
     align-items: flex-start; /* Alinea los bloques de año en la parte superior */
     gap: 30px; /* Espacio generoso entre cada bloque de año (como en el PDF) */
@@ -50,24 +51,28 @@ body {
 
     /* **** PROPIEDAD CRÍTICA PARA EL ANCHO HORIZONTAL Y EVITAR SUPERPOSICIÓN **** */
     /* Este min-width asegura que haya suficiente espacio para todos los bloques y el separador sin superponerse.
-       Si en tu pantalla aún ves superposición o compresión, AUMENTA este valor.
-       Calculado: (ancho_promedio_bloque_año * 5) + (gap_entre_años * 4) + ancho_separador + un margen extra
-       Ej: (300px * 5) + (30px * 4) + 60px + 50px = 1500 + 120 + 60 + 50 = 1730px
+       Cada year-block ahora contiene 2 semestres horizontalmente, y cada semestre tiene ramos de 150px de ancho.
+       Estimación: (ancho_semestre_izq + gap_entre_semestres + ancho_semestre_der) * 5 años + (gap_entre_años * 4) + ancho_separador
+       Considerando 150px ramos, y padding en semester-block y year-block:
+       Cada semester-block podría ser ~180px-200px.
+       Así, cada year-block (2 semestres + gap) sería ~400px.
+       Cálculo: (400px * 5) + (30px * 4) + 60px = 2000 + 120 + 60 = 2180px
+       Si sigue habiendo superposición, AUMENTA este valor.
     */
-    min-width: 1730px; /* Valor ajustado basado en el PDF y tus comentarios */
+    min-width: 2180px; /* Valor ajustado para semestres y años horizontales */
 
-    width: auto; /* Permite que el contenedor se expanda si hay espacio, pero respeta el min-width */
+    width: auto; /* Permite que el contenedor se expanda si hay espacio, pero respetando min-width */
     flex-grow: 0; /* Evita que crezca excesivamente */
     flex-shrink: 0; /* IMPEDIR QUE SE ENCOJA POR DEBAJO DE min-width */
-    flex-wrap: nowrap; /* Mantiene los años en una sola línea horizontal */
+    flex-wrap: nowrap; /* CRUCIAL: Mantiene los AÑOS en una sola línea horizontal, forzando scroll si es necesario */
     box-sizing: border-box;
 }
 
 /* Bloque de Cada Año */
 .year-block {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column; /* Título arriba, luego el contenedor de semestres abajo */
+    align-items: center; /* Centra el contenido (título y wrapper de semestres) */
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 15px; /* Más padding dentro del bloque de año */
@@ -75,8 +80,8 @@ body {
     box-shadow: 0 3px 8px rgba(0,0,0,0.1); /* Sombra más pronunciada */
     flex-shrink: 0; /* IMPEDIR QUE SE ENCOJA */
     flex-grow: 1; /* Permite que crezca si hay espacio, pero limitado por max-width */
-    min-width: 280px; /* Ancho mínimo para cada bloque de año, más grande */
-    max-width: 320px; /* Ancho máximo para cada bloque de año */
+    min-width: 400px; /* Ancho mínimo para cada bloque de año, ahora debe ser más amplio para 2 semestres */
+    max-width: 450px; /* Ancho máximo para cada bloque de año */
     height: fit-content; /* La altura se ajusta al contenido */
     box-sizing: border-box;
 }
@@ -88,25 +93,30 @@ body {
     color: #444;
 }
 
-/* Contenedor de Semestres dentro del Año */
-.semesters-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Espacio entre los semestres */
-    width: 100%;
+/* Contenedor para los semestres DENTRO de cada año (para los SEMESTRES HORIZONTALES) */
+.year-semesters-wrapper {
+    display: flex; /* HACER QUE LOS SEMESTRES SE PONGAN HORIZONTALMENTE */
+    flex-direction: row; /* CRUCIAL: Hace que sus hijos (los semestres) se coloquen en fila */
+    gap: 15px; /* Espacio entre el I Semestre y el II Semestre */
+    width: 100%; /* Ocupa todo el ancho del year-block */
+    justify-content: space-around; /* Distribuye los semestres dentro del wrapper */
+    align-items: flex-start; /* Alinea los semestres a la parte superior */
+    flex-wrap: nowrap; /* CRUCIAL: Mantiene los SEMESTRES en una sola línea, forzando scroll dentro del año si es necesario */
 }
 
 /* Bloque de Cada Semestre */
 .semester-block {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Pone los RAMOS en vertical */
     align-items: center;
     gap: 12px; /* Espacio entre los ramos dentro de un semestre */
-    border: 1px dashed #e0e0e0;
+    border: 1px dashed #e0e0e0; /* Borde punteado para los semestres */
     border-radius: 5px;
     padding: 12px; /* Más padding dentro del bloque de semestre */
     background-color: #fdfdfd;
-    width: 100%;
+    flex: 1; /* Permite que cada semestre crezca y se distribuya equitativamente */
+    min-width: 180px; /* Ancho mínimo para cada bloque de semestre, para que no se encoja demasiado */
+    max-width: 220px; /* Ancho máximo para cada bloque de semestre */
     box-sizing: border-box;
 }
 
@@ -185,6 +195,7 @@ body {
     flex-shrink: 0; /* Asegura que no se encoja */
 }
 
+
 /* Contenedor de la leyenda */
 .legend-container {
     display: flex;
@@ -222,12 +233,12 @@ body {
 /* Pantallas de escritorio grandes (más de 1920px) */
 @media (min-width: 1921px) {
     .malla-container {
-        min-width: 1900px; /* Si hay mucho espacio, podemos hacerlo aún más grande */
+        min-width: 2200px; /* Aumentamos el min-width para más espacio con semestres lado a lado */
         gap: 40px; /* Más gap */
     }
     .year-block {
-        min-width: 320px;
-        max-width: 380px;
+        min-width: 420px; /* Bloques de año aún más anchos */
+        max-width: 480px;
     }
     .ramo {
         width: 160px; /* Ramos aún más anchos */
@@ -248,12 +259,12 @@ body {
 /* Pantallas de laptop comunes (entre 1200px y 1920px) */
 @media (max-width: 1920px) {
     .malla-container {
-        min-width: 1650px; /* Asegura un min-width para estas pantallas, permitiendo scroll horizontal si es necesario */
+        min-width: 1800px; /* Ajuste para que los semestres quepan lado a lado */
         gap: 25px; /* Ligeramente menos gap */
     }
     .year-block {
-        min-width: 270px;
-        max-width: 300px;
+        min-width: 350px; /* Bloques de año un poco más pequeños */
+        max-width: 400px;
     }
     .ramo {
         width: 140px; /* Ramos ligeramente más pequeños */
@@ -275,19 +286,29 @@ body {
     .semester-block h3 { font-size: 1em; }
 }
 
-/* Tablet en horizontal (entre 900px y 1200px) */
+/* Tablet en horizontal (entre 900px y 1200px) - Mantiene años y semestres horizontales, con scroll si es necesario */
 @media (max-width: 1200px) {
     .malla-container {
-        min-width: 1300px; /* Adaptamos el min-width para estas pantallas */
+        min-width: 1300px; /* Mantiene un min-width, forzando scroll horizontal si la ventana es más estrecha */
         gap: 15px;
     }
     .year-block {
-        min-width: 200px;
-        max-width: 250px;
+        min-width: 300px; /* Asegura que el año sea lo suficientemente ancho para los dos semestres */
+        max-width: 350px;
         padding: 10px;
     }
+    .year-semesters-wrapper { 
+        flex-direction: row; /* Mantiene semestres horizontales */
+        flex-wrap: nowrap; /* Fuerza a que no se envuelvan */
+        gap: 10px;
+    }
+    .semester-block {
+        flex: 1; /* Permite que cada semestre crezca y se distribuya equitativamente */
+        min-width: 140px; /* Ancho mínimo para cada semestre */
+        max-width: 170px; /* Ancho máximo para cada semestre */
+    }
     .ramo {
-        width: 100px; /* Ramos más estrechos */
+        width: 100%; /* Ramos ocupan el 100% del ancho del semestre */
         min-height: 55px;
         font-size: 0.85em;
         padding: 8px 10px;
@@ -310,7 +331,7 @@ body {
 }
 
 
-/* Tablet en vertical y móviles (menos de 900px) */
+/* Móviles (menos de 900px) - Se apila todo verticalmente para que sea usable */
 @media (max-width: 900px) {
     body {
         padding: 10px;
@@ -347,13 +368,17 @@ body {
         font-size: 1.5em;
         margin-bottom: 12px;
     }
-    .semesters-container {
-        flex-direction: column;
+    .year-semesters-wrapper {
+        flex-direction: column; /* Semestres siempre apilados verticalmente en móvil */
         gap: 15px;
     }
     .semester-block {
         gap: 10px;
         padding: 12px;
+        flex: unset; /* Quitar flex para que ocupen todo el ancho disponible si se apilan */
+        width: 100%; /* Ocupar todo el ancho disponible */
+        min-width: unset; /* Sin ancho mínimo fijo aquí */
+        max-width: unset; /* Sin ancho máximo fijo aquí */
     }
     .semester-block h3 {
         font-size: 1.1em;
