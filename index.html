@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Malla Curricular Psicología UNAB</title>
-    <link rel="stylesheet" href="estilos.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Malla Curricular Psicología UNAB</title>
+<link rel="stylesheet" href="estilos.css" />
 </head>
 <body>
     <h1>Malla Curricular Psicología - Universidad Andrés Bello</h1>
 
     <div id="malla-container">
 
-        <!-- Años 1 a 4 -->
-        <div class="años-container">
+        <!-- Contenedor años 1 a 4 -->
+        <div id="años-1a4" class="años-container">
 
             <!-- Año 1 -->
-            <div class="año" data-año="1">
+            <section class="año" data-año="1">
                 <h2>1° Año</h2>
                 <div class="semestres">
-                    <!-- Semestre 1 -->
+                    <!-- I Semestre -->
                     <div class="semestre" data-semestre="1">
                         <h3>I Semestre</h3>
                         <div class="ramos-columna">
@@ -39,15 +39,14 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Semestre 2 -->
+                    <!-- II Semestre -->
                     <div class="semestre" data-semestre="2">
                         <h3>II Semestre</h3>
                         <div class="ramos-columna">
                             <div class="ramo ámbito2" data-id="Sistemas Psicológicos" data-prerrequisitos="">
                                 Sistemas<br>Psicológicos
                             </div>
-                            <div class="ramo ámbito2" data-id="Procesos Psicológicos y Neurociencias" data-prerrequisitos="">
+                            <div class="ramo ámbito2" data-id="Procesos Psicológicos y Neurociencias" data-prerrequisitos="Tópicos de Neurobiología">
                                 Procesos<br>Psicológicos<br>y<br>Neurociencias
                             </div>
                             <div class="ramo ámbito2" data-id="Psicología y Epistemología" data-prerrequisitos="">
@@ -62,13 +61,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Año 2 -->
-            <div class="año" data-año="2">
+            <section class="año" data-año="2">
                 <h2>2° Año</h2>
                 <div class="semestres">
-                    <!-- Semestre 3 -->
+                    <!-- III Semestre -->
                     <div class="semestre" data-semestre="3">
                         <h3>III Semestre</h3>
                         <div class="ramos-columna">
@@ -89,8 +88,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Semestre 4 -->
+                    <!-- IV Semestre -->
                     <div class="semestre" data-semestre="4">
                         <h3>IV Semestre</h3>
                         <div class="ramos-columna">
@@ -112,13 +110,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Año 3 -->
-            <div class="año" data-año="3">
+            <section class="año" data-año="3">
                 <h2>3° Año</h2>
                 <div class="semestres">
-                    <!-- Semestre 5 -->
+                    <!-- V Semestre -->
                     <div class="semestre" data-semestre="5">
                         <h3>V Semestre</h3>
                         <div class="ramos-columna">
@@ -139,8 +137,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Semestre 6 -->
+                    <!-- VI Semestre -->
                     <div class="semestre" data-semestre="6">
                         <h3>VI Semestre</h3>
                         <div class="ramos-columna">
@@ -162,13 +159,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Año 4 -->
-            <div class="año" data-año="4">
+            <section class="año" data-año="4">
                 <h2>4° Año</h2>
                 <div class="semestres">
-                    <!-- Semestre 7 -->
+                    <!-- VII Semestre -->
                     <div class="semestre" data-semestre="7">
                         <h3>VII Semestre</h3>
                         <div class="ramos-columna">
@@ -189,8 +186,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Semestre 8 -->
+                    <!-- VIII Semestre -->
                     <div class="semestre" data-semestre="8">
                         <h3>VIII Semestre</h3>
                         <div class="ramos-columna">
@@ -212,42 +208,24 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+
         </div>
 
-        <!-- Separador vertical LICENCIADO EN PSICOLOGÍA -->
+        <!-- Separador vertical entre 4° y 5° año -->
         <div id="separador-licenciado">
-            <span>L</span>
-            <span>I</span>
-            <span>C</span>
-            <span>E</span>
-            <span>N</span>
-            <span>C</span>
-            <span>I</span>
-            <span>A</span>
-            <span>D</span>
-            <span>O</span>
+            <span>L</span><span>I</span><span>C</span><span>E</span><span>N</span><span>C</span><span>I</span><span>A</span><span>D</span><span>O</span>
             <br />
-            <span>E</span>
-            <span>N</span>
+            <span>E</span><span>N</span>
             <br />
-            <span>P</span>
-            <span>S</span>
-            <span>I</span>
-            <span>C</span>
-            <span>O</span>
-            <span>L</span>
-            <span>O</span>
-            <span>G</span>
-            <span>Í</span>
-            <span>A</span>
+            <span>P</span><span>S</span><span>I</span><span>C</span><span>O</span><span>L</span><span>O</span><span>G</span><span>Í</span><span>A</span>
         </div>
 
         <!-- Año 5 -->
-        <div class="año" data-año="5">
+        <section class="año" data-año="5">
             <h2>5° Año</h2>
             <div class="semestres">
-                <!-- Semestre 9 -->
+                <!-- IX Semestre -->
                 <div class="semestre" data-semestre="9">
                     <h3>IX Semestre</h3>
                     <div class="ramos-columna">
@@ -268,8 +246,7 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Semestre 10 -->
+                <!-- X Semestre -->
                 <div class="semestre" data-semestre="10">
                     <h3>X Semestre</h3>
                     <div class="ramos-columna">
@@ -279,18 +256,14 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
     </div>
 
-    <!-- Contador de ramos aprobados -->
-    <div id="contador-aprobados">
-        Ramos aprobados: <span id="contador">0</span>
-    </div>
+    <div id="contador-aprobados">Ramos aprobados: 0</div>
 
-    <!-- Leyenda Ámbitos -->
     <div id="leyenda-ambitos">
-        <div class="ambito ámbito1">Ámbito I:<br>Interdisciplina,<br>Educación General<br>e Inglés</div>
+        <div class="ambito ámbito1">Ámbito I:<br>Interdisciplina, Educación<br>General e Inglés</div>
         <div class="ambito ámbito2">Ámbito II:<br>Bases Conceptuales<br>y/o Transversales</div>
         <div class="ambito ámbito3">Ámbito III:<br>Diagnóstico</div>
         <div class="ambito ámbito4">Ámbito IV:<br>Intervención</div>
@@ -298,6 +271,6 @@
         <div class="ambito ámbito6">Ámbito VI:<br>Experiencias<br>Integradoras</div>
     </div>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
