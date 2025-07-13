@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Mapeo de requisitos para desbloqueo
+  // Mapa de requisitos (nombre del ramo: array de nombres de sus prerequisitos)
   const requisitosMap = {
     "Procesos Psicológicos y Neurociencias": ["Tópicos de Neurobiología"],
     "Inglés II": ["Inglés I"],
@@ -8,68 +8,103 @@ document.addEventListener("DOMContentLoaded", () => {
     "Inglés IV": ["Inglés III"],
     "Razonamiento Científico y TICS": ["Habilidades Comunicativas"],
     "Psicoanálisis II": ["Psicoanálisis I"],
-    "Taller de Integración": ["Psicoanálisis I", "Psicología del Desarrollo II"],
     "Psicología del Desarrollo II": ["Psicología del Desarrollo I"],
+    "Taller de Integración": ["Psicoanálisis I", "Psicología del Desarrollo II"],
     "Investigación II": ["Investigación I"],
     "Psicodiagnóstico Clínico II": ["Psicodiagnóstico Clínico I"],
     "Psicopatología y Psiquiatría II": ["Psicopatología y Psiquiatría I"],
     "Psicopatología Infantojuvenil": ["Psicopatología y Psiquiatría I"],
-    "Integrador I: Taller de Investigación": ["Taller de Integración", "Psicología Jurídica"],
+    "Integrador I: Taller de Investigación": ["Taller de Integración"],
     "Diagnóstico e Intervención Social": ["Psicología Social"],
-    "Diagnóstico e Intervención Educacional": ["Psicología Educacional"],
+    "Psicología Educacional": ["Psicopatología y Psiquiatría II"],
     "Diagnóstico e Intervención Organizacional": ["Psicología del Trabajo y las Organizaciones"],
-    "Diagnóstico e Intervención Jurídica": ["Psicología Jurídica"],
     "Intervención Clínica Sistémica": ["Clínica Sistémica"],
     "Clínica Infantojuvenil": ["Psicopatología Infantojuvenil"],
+    "Diagnóstico e Intervención Jurídica": ["Psicología Jurídica"],
+    "Taller de Intervención Clínica": ["Integrador I: Taller de Investigación", "Psicología y Salud", "Taller de Diagnóstico e Intervención Social", "Electivo de Formación Profesional I", "Electivo de Formación Profesional II"],
+    "Psicología y Salud": [],
+    "Taller de Diagnóstico e Intervención Social": [],
+    "Electivo de Formación Profesional I": [],
+    "Electivo de Formación Profesional II": [],
     "Integrador II: Práctica Profesional": [
       "Taller de Intervención Clínica",
       "Psicología y Salud",
       "Taller de Diagnóstico e Intervención Social",
       "Electivo de Formación Profesional I",
       "Electivo de Formación Profesional II"
-    ]
+    ],
   };
 
-  const ramosDivs = document.querySelectorAll(".ramo");
+  // Obtiene todos los ramos
+  const ramos = document.querySelectorAll(".ramo");
 
-  // Activar ramos sin requisitos al cargar
-  ramosDivs.forEach(div => {
-    const nombre = div.dataset.nombre;
-    if (!requisitosMap.hasOwnProperty(nombre)) {
-      div.classList.add("activo");
-      div.style.opacity = "1";
-    } else {
-      div.style.opacity = "0.5";
+  // Guarda estado en localStorage: { aprobado: true/false }
+  const estadoKey = "mallaPsicologiaAprobados";
+  let estado = {};
+
+  // Carga estado guardado o crea vacío
+  const cargarEstado = () => {
+    const saved = localStorage.getItem(estadoKey);
+    if (saved) {
+      estado = JSON.parse(saved);
     }
-  });
+  };
 
-  function desbloquearRamos(nombreAprobado) {
-    for (const [ramo, requisitos] of Object.entries(requisitosMap)) {
-      if (requisitos.includes(nombreAprobado)) {
-        const todosAprobados = requisitos.every(req => {
-          const elem = document.querySelector(`.ramo[data-nombre="${CSS.escape(req)}"]`);
-          return elem && elem.classList.contains("aprobado");
-        });
+  // Guarda estado en localStorage
+  const guardarEstado = () => {
+    localStorage.setItem(estadoKey, JSON.stringify(estado));
+  };
 
-        if (todosAprobados) {
-          const elem = document.querySelector(`.ramo[data-nombre="${CSS.escape(ramo)}"]`);
-          if (elem && !elem.classList.contains("activo")) {
-            elem.classList.add("activo");
-            elem.style.opacity = "1";
-          }
+  // Verifica si se cumplen todos los requisitos para un ramo
+  const requisitosCumplidos = (nombre) => {
+    const reqs = requisitosMap[nombre];
+    if (!reqs || reqs.length === 0) return true;
+    return reqs.every(r => estado[r]);
+  };
+
+  // Actualiza el estado visual y de desbloqueo
+  const actualizarEstadoVisual = () => {
+    ramos.forEach(ramo => {
+      const nombre = ramo.dataset.nombre;
+      if (estado[nombre]) {
+        ramo.classList.add("aprobado");
+        ramo.classList.remove("activo");
+        ramo.removeAttribute("title");
+      } else {
+        // Si cumple requisitos, se activa para click
+        if (requisitosCumplidos(nombre)) {
+          ramo.classList.add("activo");
+          ramo.setAttribute("title", "Haz click para aprobar este ramo");
+        } else {
+          ramo.classList.remove("activo");
+          ramo.removeAttribute("title");
         }
+        ramo.classList.remove("aprobado");
       }
-    }
-  }
-
-  // Click para aprobar y desbloquear
-  ramosDivs.forEach(div => {
-    div.addEventListener("click", () => {
-      if (!div.classList.contains("activo") || div.classList.contains("aprobado")) return;
-      div.classList.add("aprobado");
-      div.classList.remove("activo");
-      desbloquearRamos(div.dataset.nombre);
     });
-  });
+  };
 
+  // Toggle aprobación y actualizar desbloqueo
+  const toggleAprobacion = (ramo) => {
+    const nombre = ramo.dataset.nombre;
+    if (!ramo.classList.contains("activo")) return; // solo si está activo
+
+    estado[nombre] = !estado[nombre]; // alterna aprobado o no
+    actualizarEstadoVisual();
+    guardarEstado();
+  };
+
+  // Inicializa: carga estado, actualiza visual y agrega eventos
+  const init = () => {
+    cargarEstado();
+    actualizarEstadoVisual();
+
+    ramos.forEach(ramo => {
+      ramo.addEventListener("click", () => {
+        toggleAprobacion(ramo);
+      });
+    });
+  };
+
+  init();
 });
