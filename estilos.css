@@ -1,241 +1,260 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Malla Psicología UNAB</title>
-  <link rel="stylesheet" href="estilos.css" />
-</head>
-<body>
-  <h1>Malla Interactiva Psicología - Universidad Andrés Bello</h1>
-  <div id="contador-aprobados" class="contador">Ramos aprobados: 0</div>
+/* Fuente */
+body, h1, h2, h3, .ramo, .contador, .leyenda, .texto-licenciado {
+  font-family: 'Candara', sans-serif !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  <div class="malla-container">
-    <div id="malla" class="malla">
+/* Contenedor general */
+body {
+  background: #fefefe;
+  overflow-y: hidden; /* evitar scroll vertical */
+  user-select: none;
+  padding: 15px;
+  color: #222;
+}
 
-      <!-- PRIMER AÑO -->
-      <div class="anio">
-        <h2>PRIMER AÑO</h2>
-        <div class="semestres">
-          <div class="semestre">
-            <h3>I SEMESTRE</h3>
-            <div class="ramo ambito-2" data-nombre="Historia y Fundamentos de la Psicología" tabindex="0">
-              Historia y<br>Fundamentos de<br>la Psicología
-            </div>
-            <div class="ramo ambito-2" data-nombre="Tópicos de Neurobiología" tabindex="0" data-prereqs="">
-              Tópicos de<br>Neurobiología
-            </div>
-            <div class="ramo ambito-2" data-nombre="Psicología y Sociedad" tabindex="0">
-              Psicología y<br>Sociedad
-            </div>
-            <div class="ramo ambito-1" data-nombre="Inglés I" tabindex="0">
-              Inglés I
-            </div>
-            <div class="ramo ambito-1" data-nombre="Eje de Formación Interdisciplinaria I" tabindex="0">
-              Eje de Formación<br>Interdisciplinaria I
-            </div>
-          </div>
-          <div class="semestre">
-            <h3>II SEMESTRE</h3>
-            <div class="ramo ambito-2" data-nombre="Sistemas Psicológicos" tabindex="0">
-              Sistemas<br>Psicológicos
-            </div>
-            <div class="ramo ambito-2" data-nombre="Procesos Psicológicos y Neurociencias" tabindex="0">
-              Procesos Psicológicos<br>y Neurociencias
-            </div>
-            <div class="ramo ambito-5" data-nombre="Psicología y Epistemología" tabindex="0">
-              Psicología y<br>Epistemología
-            </div>
-            <div class="ramo ambito-1" data-nombre="Inglés II" tabindex="0" data-prereqs="Inglés I">
-              Inglés II
-            </div>
-            <div class="ramo ambito-1" data-nombre="Habilidades Comunicativas" tabindex="0">
-              Habilidades<br>Comunicativas
-            </div>
-          </div>
-        </div>
-      </div>
+/* Título principal */
+h1 {
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 15px;
+  text-align: center;
+}
 
-      <!-- SEGUNDO AÑO -->
-      <div class="anio">
-        <h2>SEGUNDO AÑO</h2>
-        <div class="semestres">
-          <div class="semestre">
-            <h3>III SEMESTRE</h3>
-            <div class="ramo ambito-2" data-nombre="Psicoanálisis I" tabindex="0">
-              Psicoanálisis I
-            </div>
-            <div class="ramo ambito-2" data-nombre="Psicología del Desarrollo I" tabindex="0">
-              Psicología del<br>Desarrollo I
-            </div>
-            <div class="ramo ambito-5" data-nombre="Investigación I" tabindex="0">
-              Investigación I
-            </div>
-            <div class="ramo ambito-1" data-nombre="Inglés III" tabindex="0" data-prereqs="Inglés II">
-              Inglés III
-            </div>
-            <div class="ramo ambito-1" data-nombre="Razonamiento Científico y TICS" tabindex="0" data-prereqs="Habilidades Comunicativas">
-              Razonamiento Científico<br>y TICS
-            </div>
-          </div>
-          <div class="semestre">
-            <h3>IV SEMESTRE</h3>
-            <div class="ramo ambito-2" data-nombre="Psicoanálisis II" tabindex="0" data-prereqs="Psicoanálisis I">
-              Psicoanálisis II
-            </div>
-            <div class="ramo ambito-2" data-nombre="Psicología del Desarrollo II" tabindex="0" data-prereqs="Psicología del Desarrollo I">
-              Psicología del<br>Desarrollo II
-            </div>
-            <div class="ramo ambito-5" data-nombre="Investigación II" tabindex="0" data-prereqs="Investigación I">
-              Investigación II
-            </div>
-            <div class="ramo ambito-1" data-nombre="Inglés IV" tabindex="0" data-prereqs="Inglés III">
-              Inglés IV
-            </div>
-            <div class="ramo ambito-1" data-nombre="Eje de Formación Interdisciplinaria II" tabindex="0">
-              Eje de Formación<br>Interdisciplinaria II
-            </div>
-          </div>
-        </div>
-      </div>
+/* Contador */
+.contador {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+}
 
-      <!-- TERCER AÑO -->
-      <div class="anio">
-        <h2>TERCER AÑO</h2>
-        <div class="semestres">
-          <div class="semestre">
-            <h3>V SEMESTRE</h3>
-            <div class="ramo ambito-3" data-nombre="Psicodiagnóstico Clínico I" tabindex="0">
-              Psicodiagnóstico<br>Clínico I
-            </div>
-            <div class="ramo ambito-3" data-nombre="Psicopatología y Psiquiatría I" tabindex="0">
-              Psicopatología y<br>Psiquiatría I
-            </div>
-            <div class="ramo ambito-6" data-nombre="Taller de Integración" tabindex="0" data-prereqs="Psicoanálisis I, Psicología del Desarrollo II">
-              Taller de<br>Integración
-            </div>
-            <div class="ramo ambito-2" data-nombre="Psicología Social" tabindex="0">
-              Psicología<br>Social
-            </div>
-            <div class="ramo ambito-1" data-nombre="Eje de Formación Interdisciplinaria III" tabindex="0">
-              Eje de Formación<br>Interdisciplinaria III
-            </div>
-          </div>
-          <div class="semestre">
-            <h3>VI SEMESTRE</h3>
-            <div class="ramo ambito-3" data-nombre="Psicodiagnóstico Clínico II" tabindex="0" data-prereqs="Psicodiagnóstico Clínico I">
-              Psicodiagnóstico<br>Clínico II
-            </div>
-            <div class="ramo ambito-3" data-nombre="Psicopatología y Psiquiatría II" tabindex="0" data-prereqs="Psicopatología y Psiquiatría I">
-              Psicopatología y<br>Psiquiatría II
-            </div>
-            <div class="ramo ambito-3" data-nombre="Psicología Educacional" tabindex="0" data-prereqs="Procesos Psicológicos y Neurociencias">
-              Psicología<br>Educacional
-            </div>
-            <div class="ramo ambito-3" data-nombre="Diagnóstico e Intervención Social" tabindex="0" data-prereqs="Psicología Social">
-              Diagnóstico e<br>Intervención Social
-            </div>
-            <div class="ramo ambito-3" data-nombre="Psicología del Trabajo y las Organizaciones" tabindex="0" data-prereqs="Psicología Social">
-              Psicología del<br>Trabajo y las<br>Organizaciones
-            </div>
-          </div>
-        </div>
-      </div>
+/* Contenedor malla */
+.malla-container {
+  overflow-x: auto; /* scroll horizontal si necesario */
+  padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+}
 
-      <!-- CUARTO AÑO -->
-      <div class="anio">
-        <h2>CUARTO AÑO</h2>
-        <div class="semestres">
-          <div class="semestre">
-            <h3>VII SEMESTRE</h3>
-            <div class="ramo ambito-3" data-nombre="Clínica Sistémica" tabindex="0" data-prereqs="Psicología Educacional">
-              Clínica Sistémica
-            </div>
-            <div class="ramo ambito-3" data-nombre="Psicopatología Infantojuvenil" tabindex="0" data-prereqs="Psicopatología y Psiquiatría II">
-              Psicopatología<br>Infantojuvenil
-            </div>
-            <div class="ramo ambito-3" data-nombre="Diagnóstico e Intervención Educacional" tabindex="0" data-prereqs="Psicología Educacional">
-              Diagnóstico e<br>Intervención<br>Educacional
-            </div>
-            <div class="ramo ambito-3" data-nombre="Psicología Jurídica" tabindex="0" data-prereqs="Diagnóstico e Intervención Social">
-              Psicología<br>Jurídica
-            </div>
-            <div class="ramo ambito-3" data-nombre="Diagnóstico e Intervención Organizacional" tabindex="0" data-prereqs="Psicología del Trabajo y las Organizaciones">
-              Diagnóstico e<br>Intervención<br>Organizacional
-            </div>
-          </div>
-          <div class="semestre">
-            <h3>VIII SEMESTRE</h3>
-            <div class="ramo ambito-4" data-nombre="Intervención Clínica Sistémica" tabindex="0" data-prereqs="Clínica Sistémica">
-              Intervención<br>Clínica Sistémica
-            </div>
-            <div class="ramo ambito-4" data-nombre="Clínica Infantojuvenil" tabindex="0" data-prereqs="Psicopatología Infantojuvenil">
-              Clínica<br>Infantojuvenil
-            </div>
-            <div class="ramo ambito-6" data-nombre="Integrador I: Taller de Investigación" tabindex="0" data-prereqs="Taller de Integración">
-              Integrador I:<br>Taller de<br>Investigación
-            </div>
-            <div class="ramo ambito-3" data-nombre="Diagnóstico e Intervención Jurídica" tabindex="0" data-prereqs="Psicología Jurídica">
-              Diagnóstico e<br>Intervención<br>Jurídica
-            </div>
-            <div class="ramo ambito-4" data-nombre="Clínica Psicoanalítica" tabindex="0" data-prereqs="Psicoanálisis II">
-              Clínica<br>Psicoanalítica
-            </div>
-          </div>
-        </div>
-      </div>
+/* Malla principal: años en fila */
+.malla {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: flex-start;
+  white-space: nowrap;
+  font-size: 12px;
+}
 
-      <!-- SEPARADOR LICENCIADO -->
-        <div class="separador-licenciado">
-          <div class="texto-licenciado">
-            L<br>I<br>C<br>E<br>N<br>C<br>I<br>A<br>D<br>O<br><br>E<br>N<br><br>P<br>S<br>I<br>C<br>O<br>L<br>O<br>G<br>Í<br>A
-          </div>
-        </div>
+/* Cada año bloque */
+.anio {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #bbb;
+  border-radius: 6px;
+  background: #fff;
+  min-width: 220px;
+  max-width: 220px;
+  padding: 8px;
+  box-sizing: border-box;
+  user-select: none;
+}
 
-      <!-- QUINTO AÑO -->
-      <div class="anio">
-        <h2>QUINTO AÑO</h2>
-        <div class="semestres">
-          <div class="semestre">
-            <h3>IX SEMESTRE</h3>
-            <div class="ramo ambito-4" data-nombre="Taller de Intervención Clínica" tabindex="0" data-prereqs="Intervención Clínica Sistémica">
-              Taller de<br>Intervención Clínica
-            </div>
-            <div class="ramo ambito-4" data-nombre="Psicología y Salud" tabindex="0" data-prereqs="Psicología y Salud">
-              Psicología<br>y Salud
-            </div>
-            <div class="ramo ambito-4" data-nombre="Taller de Diagnóstico e Intervención Social" tabindex="0" data-prereqs="Diagnóstico e Intervención Social">
-              Taller Diagnóstico<br>e Intervención Social
-            </div>
-            <div class="ramo ambito-3" data-nombre="Electivo de Formación Profesional I" tabindex="0" data-prereqs="">
-              Electivo Formación<br>Profesional I
-            </div>
-            <div class="ramo ambito-4" data-nombre="Electivo de Formación Profesional II" tabindex="0" data-prereqs="">
-              Electivo Formación<br>Profesional II
-            </div>
-          </div>
-          <div class="semestre">
-            <h3>X SEMESTRE</h3>
-            <div class="ramo ambito-6" data-nombre="Integrador II: Práctica Profesional" tabindex="0" data-prereqs="Taller de Intervención Clínica, Psicología y Salud, Taller de Diagnóstico e Intervención Social, Electivo de Formación Profesional I, Electivo de Formación Profesional II">
-              Integrador II:<br>Práctica Profesional
-            </div>
-          </div>
-        </div>
-      </div>
+/* Título año */
+.anio > h2 {
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12px;
+  user-select: text;
+}
 
-    </div>
-  </div>
+/* Contenedor semestres */
+.semestres {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
 
-  <!-- LEYENDA DE LOS ÁMBITOS -->
-  <div id="leyenda">
-    <div class="leyenda leyenda-1">Ámbito I: Interdisciplina, Educación General e Inglés</div>
-    <div class="leyenda leyenda-2">Ámbito II: Bases Conceptuales y/o Transversales de la Psicología</div>
-    <div class="leyenda leyenda-3">Ámbito III: Diagnóstico</div>
-    <div class="leyenda leyenda-4">Ámbito IV: Intervención</div>
-    <div class="leyenda leyenda-5">Ámbito V: Investigación</div>
-    <div class="leyenda leyenda-6">Experiencias Integradoras</div>
-  </div>
+/* Cada semestre bloque */
+.semestre {
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid #999;
+  border-radius: 5px;
+  background: #fafafa;
+  min-width: 100px;
+  max-width: 100px;
+  padding: 6px 4px 10px 4px;
+  box-sizing: border-box;
+}
 
-  <script src="script.js"></script>
-</body>
-</html>
+/* Título semestre */
+.semestre > h3 {
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+  user-select: text;
+}
+
+/* Ramos (bloques) */
+.ramo {
+  border-radius: 5px;
+  padding: 6px 6px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  text-align: center;
+  white-space: normal;
+  font-size: 11.5px;
+  line-height: 1.1;
+  border: 2px solid transparent;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-word;
+  font-family: 'Candara', sans-serif !important;
+}
+
+/* Hover */
+.ramo:hover {
+  border-color: #666;
+}
+
+/* Ámbitos con colores */
+.ambito-1 {
+  background-color: #FFB6C1; /* LightPink */
+  color: #4b004b;
+}
+.ambito-2 {
+  background-color: #C71585; /* MediumVioletRed */
+  color: #fff;
+}
+.ambito-3 {
+  background-color: #800080; /* Purple */
+  color: #fff;
+}
+.ambito-4 {
+  background-color: #DB7093; /* PaleVioletRed */
+  color: #4b004b;
+}
+.ambito-5 {
+  background-color: #FF1493; /* DeepPink */
+  color: #fff;
+}
+.ambito-6 {
+  background-color: #D8BFD8; /* Thistle */
+  color: #4b004b;
+}
+
+/* Ramo aprobado (tono menos intenso pero se ve color) */
+.ramo.aprobado {
+  filter: brightness(0.7);
+  color: #222;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #222;
+  font-family: 'Candara', sans-serif !important;
+}
+
+/* Bloqueado: menos opaco, no clickeable */
+.ramo.bloqueado {
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Separador LICENCIADO */
+.separador-licenciado {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  min-width: 40px;
+  border-left: 2px dashed #999;
+  border-right: 2px dashed #999;
+  margin: 0 10px;
+  padding: 0 6px;
+  background-color: transparent;
+  user-select: none;
+}
+
+/* Texto vertical LICENCIADO */
+.texto-licenciado {
+  font-weight: 700;
+  color: #333;
+  font-size: 13px;
+  line-height: 1.0;
+  text-align: center;
+  letter-spacing: 2px;
+  white-space: pre-line;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  user-select: none;
+}
+
+/* Leyenda ámbitos */
+#leyenda {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+  user-select: none;
+}
+
+.leyenda {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 5px;
+  min-width: 180px;
+  text-align: center;
+  box-sizing: border-box;
+  color: #222;
+}
+
+.leyenda-1 {
+  background-color: #FFB6C1;
+  color: #4b004b;
+}
+
+.leyenda-2 {
+  background-color: #C71585;
+  color: #fff;
+}
+
+.leyenda-3 {
+  background-color: #800080;
+  color: #fff;
+}
+
+.leyenda-4 {
+  background-color: #DB7093;
+  color: #4b004b;
+}
+
+.leyenda-5 {
+  background-color: #FF1493;
+  color: #fff;
+}
+
+.leyenda-6 {
+  background-color: #D8BFD8;
+  color: #4b004b;
+}
+
+/* Evitar scroll vertical */
+body, html {
+  overflow-y: hidden;
+}
+
+/* Scroll horizontal solo para la malla */
+.malla-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+}
