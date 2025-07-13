@@ -1,36 +1,37 @@
 body {
     font-family: 'Candara', sans-serif;
     margin: 0;
-    padding: 10px; /* Reducido el padding general */
+    padding: 10px;
     background-color: #f0f2f5;
     color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-x: auto; /* Permitir scroll horizontal si es necesario */
-    overflow-y: auto; /* Permitir scroll vertical si es necesario, aunque el objetivo es evitarlo */
-    min-width: 1000px; /* Ancho mínimo para evitar que se comprima demasiado en pantallas estrechas */
+    overflow-x: auto; /* Permitir scroll horizontal si es absolutamente necesario */
+    overflow-y: auto; /* Permitir scroll vertical si es absolutamente necesario */
+    min-width: 1400px; /* Incrementado el ancho mínimo para acomodar la malla sin scroll en pantallas comunes */
+    box-sizing: border-box; /* Incluir padding y border en el ancho/alto total */
 }
 
 .header {
     text-align: center;
-    margin-bottom: 20px; /* Reducido el margen inferior */
+    margin-bottom: 20px;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 30px; /* Reducido el padding horizontal */
+    padding: 0 30px;
     box-sizing: border-box;
 }
 
 .header h1 {
-    font-size: 2em; /* Ligeramente reducido */
+    font-size: 2em;
     color: #555;
     margin: 0;
 }
 
 .approved-counter {
-    font-size: 1.1em; /* Ligeramente reducido */
+    font-size: 1.1em;
     font-weight: bold;
     color: #007bff;
 }
@@ -39,11 +40,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 15px; /* Reducido el gap entre bloques de año */
-    padding-bottom: 30px; /* Reducido el espacio para la leyenda */
+    gap: 15px; /* Espacio entre bloques de año */
+    padding-bottom: 30px;
     position: relative;
-    transform: scale(0.9); /* Escala general para que quepa todo */
-    transform-origin: top center; /* Mantiene el centro superior como origen de la escala */
+    /* Eliminamos el transform: scale general aquí para control más fino */
 }
 
 .year-block {
@@ -52,37 +52,37 @@ body {
     align-items: center;
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 10px; /* Reducido el padding interno */
+    padding: 10px;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     flex-shrink: 0;
 }
 
 .year-block h2 {
-    font-size: 1.4em; /* Ligeramente reducido */
+    font-size: 1.3em; /* Ajustado ligeramente */
     margin-top: 0;
-    margin-bottom: 10px; /* Ajustado el margen */
+    margin-bottom: 10px;
     color: #444;
 }
 
 .semesters-container {
     display: flex;
-    gap: 10px; /* Reducido el gap entre semestres */
+    gap: 10px; /* Espacio entre semestres */
 }
 
 .semester-block {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px; /* Reducido el gap entre ramos */
+    gap: 8px; /* Espacio entre ramos */
     border: 1px dashed #e0e0e0;
     border-radius: 5px;
-    padding: 8px; /* Reducido el padding interno */
+    padding: 8px;
     background-color: #fdfdfd;
 }
 
 .semester-block h3 {
-    font-size: 1em; /* Ligeramente reducido */
+    font-size: 0.95em; /* Ajustado ligeramente */
     margin: 0;
     color: #666;
 }
@@ -90,29 +90,29 @@ body {
 .ramo {
     border: 1px solid #aaa;
     border-radius: 5px;
-    padding: 6px 10px; /* Reducido el padding interno */
+    padding: 6px 8px; /* Reducido el padding para optimizar espacio */
     text-align: center;
     cursor: pointer;
-    width: 120px; /* Ancho fijo ligeramente reducido */
-    height: 55px; /* Alto fijo ligeramente reducido */
+    width: 110px; /* Ancho fijo ligeramente más pequeño */
+    height: 50px; /* Alto fijo ligeramente más pequeño */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8em; /* Tamaño de fuente ligeramente reducido */
-    line-height: 1.1; /* Ajustado para mejor legibilidad con menos espacio */
+    font-size: 0.78em; /* Tamaño de fuente ligeramente más pequeño */
+    line-height: 1.1;
     box-sizing: border-box;
     transition: background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
     word-wrap: break-word;
     overflow: hidden;
 }
 
-/* Ambit colors - Sin cambios en los colores */
-.ramo[data-ambito="1"] { background-color: #FFB6C1; border-color: #FFB6C1; } /* LightPink */
-.ramo[data-ambito="2"] { background-color: #C71585; border-color: #C71585; color: white;} /* MediumVioletRed */
-.ramo[data-ambito="3"] { background-color: #800080; border-color: #800080; color: white;} /* Purple */
-.ramo[data-ambito="4"] { background-color: #DB7093; border-color: #DB7093; color: white;} /* PaleVioletRed */
-.ramo[data-ambito="5"] { background-color: #FF1493; border-color: #FF1493; color: white;} /* DeepPink */
-.ramo[data-ambito="6"] { background-color: #D8BFD8; border-color: #D8BFD8; } /* Thistle */
+/* Ambit colors - Sin cambios */
+.ramo[data-ambito="1"] { background-color: #FFB6C1; border-color: #FFB6C1; }
+.ramo[data-ambito="2"] { background-color: #C71585; border-color: #C71585; color: white;}
+.ramo[data-ambito="3"] { background-color: #800080; border-color: #800080; color: white;}
+.ramo[data-ambito="4"] { background-color: #DB7093; border-color: #DB7093; color: white;}
+.ramo[data-ambito="5"] { background-color: #FF1493; border-color: #FF1493; color: white;}
+.ramo[data-ambito="6"] { background-color: #D8BFD8; border-color: #D8BFD8; }
 
 /* Approved style */
 .ramo.approved > span {
@@ -140,13 +140,13 @@ body {
     text-align: center;
     font-weight: bold;
     color: #666;
-    font-size: 0.8em; /* Ligeramente reducido para que quepa mejor */
+    font-size: 0.7em; /* Reducido el tamaño de fuente para el separador */
     white-space: nowrap;
-    height: 100%; /* Sigue tomando la altura completa del contenedor flex */
-    padding: 0 8px; /* Padding horizontal reducido */
+    height: 100%;
+    padding: 0 5px; /* Reducido el padding horizontal */
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
-    margin: 0 8px; /* Margen horizontal reducido */
+    margin: 0 5px; /* Reducido el margen horizontal */
 }
 
 /* Legend styles */
@@ -154,103 +154,114 @@ body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 10px; /* Reducido el gap en la leyenda */
-    margin-top: 30px; /* Reducido el margen superior */
-    padding: 15px; /* Reducido el padding */
+    gap: 8px; /* Reducido el gap en la leyenda */
+    margin-top: 25px; /* Reducido el margen superior */
+    padding: 10px;
     width: 100%;
     box-sizing: border-box;
-    max-width: 1500px; /* Ajustado el ancho máximo */
-    transform: scale(0.9); /* Escala general para que quepa todo */
-    transform-origin: top center; /* Mantiene el centro superior como origen de la escala */
+    max-width: 1500px;
+    /* Eliminamos el transform: scale general aquí */
 }
 
 .legend-item {
     border: 1px solid #aaa;
     border-radius: 5px;
-    padding: 6px 10px; /* Reducido el padding */
+    padding: 6px 8px; /* Reducido el padding */
     text-align: center;
-    width: 120px; /* Mismo ancho que los ramos */
-    height: 55px; /* Misma altura que los ramos */
+    width: 110px; /* Mismo ancho que los ramos */
+    height: 50px; /* Misma altura que los ramos */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75em; /* Tamaño de fuente ligeramente más pequeño */
+    font-size: 0.7em; /* Tamaño de fuente ligeramente más pequeño */
     line-height: 1.1;
     box-sizing: border-box;
     font-weight: bold;
     color: #333;
 }
 
-/* Responsive adjustments */
-/* Para pantallas muy grandes, la escala puede ser un poco mayor */
-@media (min-width: 2000px) {
-    .malla-container, .legend-container {
-        transform: scale(1); /* Volver a escala 1:1 si hay mucho espacio */
-    }
-}
+/* Media Queries para responsividad */
 
-/* Ajustes para pantallas de escritorio comunes (1200px - 1920px) */
-@media (max-width: 1920px) {
+/* Pantallas grandes (Full HD y más) */
+@media (min-width: 1920px) {
     body {
-        padding: 5px;
+        min-width: unset; /* Permitir que el body se expanda naturalmente */
+    }
+    .ramo {
+        width: 120px;
+        height: 55px;
+        font-size: 0.85em;
+        padding: 8px 10px;
+    }
+    .semester-block {
+        gap: 10px;
+        padding: 10px;
+    }
+    .licenciado-separator {
+        font-size: 0.8em;
+        padding: 0 8px;
+        margin: 0 8px;
+    }
+    .legend-item {
+        width: 120px;
+        height: 55px;
+        font-size: 0.8em;
+        padding: 8px 10px;
     }
     .malla-container {
-        transform: scale(0.88); /* Ajuste fino de escala */
+        gap: 20px;
     }
     .legend-container {
-        transform: scale(0.88); /* Ajuste fino de escala */
+        gap: 15px;
     }
 }
 
+/* Pantallas de laptop comunes (aprox. 1200px - 1600px) */
 @media (max-width: 1600px) {
-    .malla-container {
-        transform: scale(0.8); /* Reducir más la escala */
-    }
-    .legend-container {
-        transform: scale(0.8); /* Reducir más la escala */
-    }
-}
-
-@media (max-width: 1400px) {
-    .malla-container {
-        transform: scale(0.75); /* Reducir aún más la escala */
-    }
-    .legend-container {
-        transform: scale(0.75); /* Reducir aún más la escala */
+    body {
+        min-width: 1200px; /* Asegurar un mínimo para evitar colapsos */
     }
     .header h1 {
-        font-size: 1.6em;
+        font-size: 1.8em;
     }
     .approved-counter {
+        font-size: 1em;
+    }
+    .year-block h2 {
+        font-size: 1.2em;
+    }
+    .semester-block h3 {
         font-size: 0.9em;
     }
 }
 
-/* Mobile adjustments (manteniendo la lógica de apilamiento vertical) */
+/* Tablet y pantallas más pequeñas (vertical) */
 @media (max-width: 900px) {
     body {
         padding: 10px;
-        min-width: unset; /* Quitar el min-width en móviles */
+        min-width: unset; /* Deshabilitar min-width fijo para pantallas pequeñas */
+        overflow-x: auto; /* Permitir scroll horizontal en caso de que sea necesario */
     }
     .malla-container {
-        flex-direction: column;
+        flex-direction: column; /* Apilar años verticalmente */
         align-items: center;
-        gap: 20px; /* Ajuste de gap para móvil */
-        transform: none; /* Eliminar la escala en móvil */
+        gap: 20px;
         padding-bottom: 20px;
     }
     .year-block {
-        width: 95%;
-        max-width: 400px; /* Limitar el ancho para que no se extienda demasiado */
+        width: 95%; /* Ocupar casi todo el ancho disponible */
+        max-width: 400px; /* Limitar el ancho máximo para la legibilidad */
+        padding: 15px;
     }
     .semesters-container {
-        flex-direction: column;
+        flex-direction: column; /* Apilar semestres verticalmente */
+        gap: 15px;
     }
     .ramo {
-        width: 100%; /* Ocupar todo el ancho disponible en móvil */
-        height: auto; /* Altura automática para que el texto quepa */
-        min-height: 50px; /* Altura mínima para legibilidad */
-        font-size: 0.9em; /* Aumentar un poco la fuente para móvil */
+        width: 100%; /* Rellenar el ancho del bloque del semestre */
+        height: auto; /* Altura automática para el contenido */
+        min-height: 50px; /* Mínimo para legibilidad */
+        font-size: 0.9em; /* Aumentar un poco el tamaño de fuente */
         padding: 10px;
     }
     .licenciado-separator {
@@ -258,28 +269,27 @@ body {
         height: auto;
         margin: 20px 0;
         border: none;
-        border-top: 1px solid #ccc;
+        border-top: 1px solid #ccc; /* Separador horizontal simple */
         border-bottom: 1px solid #ccc;
         padding: 10px 0;
         font-size: 1.1em;
         line-height: 1.5;
-        flex-direction: row; /* Texto horizontal en móvil */
+        flex-direction: row; /* Texto del separador horizontal */
         text-align: center;
         white-space: normal;
     }
     .licenciado-separator br {
-        display: none;
+        display: none; /* Ocultar los <br> para que el texto sea horizontal */
     }
     .licenciado-separator::before {
-        content: "LICENCIADO EN PSICOLOGÍA";
+        content: "LICENCIADO EN PSICOLOGÍA"; /* Asegurar que el texto se muestre */
         display: block;
     }
     .legend-container {
-        transform: none;
         flex-direction: column;
         align-items: center;
         padding: 10px;
-        gap: 8px; /* Ajuste de gap para la leyenda en móvil */
+        gap: 10px;
     }
     .legend-item {
         width: 90%;
