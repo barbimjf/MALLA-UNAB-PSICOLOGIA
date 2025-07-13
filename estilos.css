@@ -81,19 +81,18 @@ h1 {
   box-sizing: border-box;
   cursor: pointer;
   transition: background 0.2s ease;
-  background: #dcdcdc;
   position: relative;
 }
 
 /* Hover */
 .ramo:hover {
-  background: #ccc;
+  filter: brightness(0.95);
 }
 
-/* Ramo aprobado (tachado en diagonal) */
+/* Ramos aprobados con línea diagonal */
 .ramo.aprobado {
   color: #999;
-  background: #e6e6e6;
+  background-color: #e6e6e6;
 }
 
 .ramo.aprobado::after {
@@ -126,46 +125,40 @@ h1 {
 /* === COLORES POR ÁMBITO === */
 /* ======================= */
 
-/* Ámbito I: Interdisciplina, Educación General e Inglés */
 .interdisciplina {
-  background-color: #FFB6C1;
+  background-color: #FFB6C1; /* LightPink */
 }
 
-/* Ámbito II: Bases Conceptuales y/o Transversales */
 .bases {
-  background-color: #C71585;
-  color: #fff;
+  background-color: #C71585; /* MediumVioletRed */
+  color: white;
 }
 
-/* Ámbito III: Diagnóstico */
 .diagnostico {
-  background-color: #800080;
-  color: #fff;
+  background-color: #800080; /* Purple */
+  color: white;
 }
 
-/* Ámbito IV: Intervención */
 .intervencion {
-  background-color: #DB7093;
-  color: #fff;
+  background-color: #DB7093; /* PaleVioletRed */
+  color: white;
 }
 
-/* Ámbito V: Investigación */
 .investigacion {
-  background-color: #FF1493;
-  color: #fff;
+  background-color: #FF1493; /* DeepPink */
+  color: white;
 }
 
-/* Experiencias Integradoras */
 .integradoras {
-  background-color: #D8BFD8;
+  background-color: #D8BFD8; /* Thistle */
 }
 
-/* Accesibilidad extra */
-.ramo.aprobado.integradoras::after,
-.ramo.aprobado.investigacion::after,
-.ramo.aprobado.diagnostico::after,
+/* Aprobado + ámbito = línea más visible */
 .ramo.aprobado.interdisciplina::after,
 .ramo.aprobado.bases::after,
-.ramo.aprobado.intervencion::after {
+.ramo.aprobado.diagnostico::after,
+.ramo.aprobado.intervencion::after,
+.ramo.aprobado.investigacion::after,
+.ramo.aprobado.integradoras::after {
   border-top: 2px solid #000;
 }
