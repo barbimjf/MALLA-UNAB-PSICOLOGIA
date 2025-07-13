@@ -1,87 +1,157 @@
-// Datos para manejar prerrequisitos y desbloqueo
-
-// Mapa id ramo → array de id(s) que desbloquea
-const prerrequisitos = {
-  1: [2],
-  2: [7],
-  4: [9],
-  9: [11],
-  10: [13],
-  11: [12, 21],
-  12: [22],
-  13: [14],
-  14: [15],
-  21: [31],
-  22: [23, 24],
-  23: [25, 26],
-  27: [28],
-  28: [30],
-  30: [32],
-  31: [34],
-  34: [35, 36],
-  36: [37, 38, 39, 40],
-  41: [42],
-  42: [43],
-  43: [44],
-  44: [45],
-  45: [46]
-};
-
-// Inicializamos contador de aprobados
-let aprobadosCount = 0;
-
-// Función para actualizar contador en pantalla
-function actualizarContador() {
-  document.getElementById('contador').textContent = aprobadosCount;
-}
-
-// Función para desbloquear ramos dependientes de un ramo
-function desbloquearRamos(id) {
-  if (!prerrequisitos[id]) return;
-  prerrequisitos[id].forEach(depId => {
-    const ramo = document.querySelector(`.ramo[data-id="${depId}"]`);
-    if (ramo && !ramo.classList.contains('aprobado')) {
-      ramo.classList.add('desbloqueable');
-      ramo.style.opacity = "1";
-      ramo.style.pointerEvents = "auto";
-    }
-  });
-}
-
-// Al cargar la página, deshabilitar todos los ramos no desbloqueables
 document.addEventListener('DOMContentLoaded', () => {
-  const ramos = document.querySelectorAll('.ramo');
+  const ramos = document.querySelectorAll('.ramo.clickable');
+  const contadorElem = document.getElementById('contador');
+
+  // Mapa: id ramo -> array ids desbloqueados
+  const desbloqueos = {};
   ramos.forEach(ramo => {
-    if (!ramo.classList.contains('desbloqueable')) {
-      ramo.style.opacity = "0.6";
-      ramo.style.pointerEvents = "none";
+    const id = ramo.dataset.id;
+    const unlockStr = ramo.dataset.unlocks;
+    desbloqueos[id] = unlockStr ? unlockStr.split(',').map(s => s.trim()) : [];
+  });
+
+  // Inicialmente bloqueamos todos los ramos que tengan prerrequisitos (es decir, que estén desbloqueados desde otro)
+  // Para eso calculamos el set de ramos desbloqueados (los que no están en unlock)
+  const desbloqueadosSet = new Set();
+  // Consideramos que los ramos sin prerrequisitos (que desbloquean otros o no) están desbloqueados por defecto
+  // Buscamos todos los ramos que no están en ningún unlocks
+  const todosIds = new Set([...ramos].map(r => r.dataset.id));
+  const desbloqueadosDesdeOtros = new Set();
+
+  for (const unlocks of Object.values(desbloqueos)) {
+    unlocks.forEach(id => desbloqueadosDesdeOtros.add(id));
+  }
+
+  // Los ramos que están desbloqueados inicialmente son los que no están en desbloqueadosDesdeOtros
+  todosIds.forEach(id => {
+    if (!desbloqueadosDesdeOtros.has(id)) {
+      desbloqueadosSet.add(id);
     }
   });
-  actualizarContador();
-});
 
-// Evento click para cada ramo
-document.addEventListener('click', e => {
-  const ramo = e.target.closest('.ramo');
-  if (!ramo || ramo.classList.contains('aprobado') || !ramo.classList.contains('desbloqueable')) return;
-
-  // Marcar aprobado
-  ramo.classList.add('aprobado');
-  aprobadosCount++;
-  actualizarContador();
-
-  // Desbloquear prerrequisitos
-  const id = ramo.dataset.id;
-  desbloquearRamos(id);
-});
-
-// Soporte accesibilidad: tecla Enter para aprobar ramo
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' || e.key === ' ') {
-    const ramo = document.activeElement;
-    if (ramo && ramo.classList.contains('ramo') && !ramo.classList.contains('aprobado') && ramo.classList.contains('desbloqueable')) {
-      ramo.click();
-      e.preventDefault();
+  // Función para bloquear o desbloquear visualmente
+  function bloquearRamo(ramoElem, bloquear = true) {
+    if (bloquear) {
+      ramoElem.classList.remove('clickable');
+      ramoElem.style.pointerEvents = 'none';
+      ramoElem.style.opacity = '0.5';
+      ramoElem.tabIndex = -1;
+    } else {
+      ramoElem.classList.add('clickable');
+      ramoElem.style.pointerEvents = '';
+      ramoElem.style.opacity = '1';
+      ramoElem.tabIndex = 0;
     }
   }
+
+  // Inicializamos la visualización según prerrequisitos
+  ramos.forEach(ramo => {
+    const id = ramo.dataset.id;
+    if (!desbloqueadosSet.has(id)) {
+      bloquearRamo(ramo, true);
+    } else {
+      bloquearRamo(ramo, false);
+    }
+  });
+
+  // Estado de aprobados
+  const aprobados = new Set();
+
+  // Actualizar contador
+  function actualizarContador() {
+    contadorElem.textContent = aprobados.size;
+  }
+
+  // Al hacer click en ramo
+  ramos.forEach(ramo => {
+    ramo.addEventListener('click', () => {
+      if (!ramo.classList.contains('clickable')) return; // ignorar si está bloqueado
+
+      const id = ramo.dataset.id;
+
+      if (aprobados.has(id)) {
+        // Si ya estaba aprobado, desmarcar y bloquear los desbloqueados recursivamente
+        aprobados.delete(id);
+        ramo.classList.remove('aprobado');
+        // Bloquear recursivamente todos los desbloqueados que dependen de este ramo, si no tienen otro prerrequisito aprobado
+        bloquearDesbloqueados(id);
+      } else {
+        // Marcar aprobado
+        aprobados.add(id);
+        ramo.classList.add('aprobado');
+        // Desbloquear los que dependen de este ramo
+        desbloquearDesbloqueados(id);
+      }
+      actualizarContador();
+    });
+
+    // Accesibilidad: activar con Enter o espacio
+    ramo.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        ramo.click();
+      }
+    });
+  });
+
+  // Desbloquea los ramos que dependen del id si todos sus prerrequisitos están aprobados
+  function desbloquearDesbloqueados(id) {
+    const desbloqueados = Object.entries(desbloqueos)
+      .filter(([_, arr]) => arr.includes(id))
+      .map(([key]) => key);
+
+    desbloqueados.forEach(ramoId => {
+      // Verificar si todos sus prerrequisitos están aprobados
+      const prerrequisitos = Object.entries(desbloqueos)
+        .filter(([_, arr]) => arr.includes(ramoId))
+        .map(([key]) => key);
+
+      // En este esquema simple, sólo hay prerrequisito directo (padre)
+      // Pero para robustez, verificamos todos
+      const ramosPrerrequisitos = [];
+      for (const [padreId, hijos] of Object.entries(desbloqueos)) {
+        if (hijos.includes(ramoId)) ramosPrerrequisitos.push(padreId);
+      }
+
+      // Si todos los prerrequisitos están aprobados, desbloquear
+      const todosAprobados = ramosPrerrequisitos.every(prId => aprobados.has(prId));
+
+      if (todosAprobados) {
+        const ramoElem = document.querySelector(`.ramo[data-id="${ramoId}"]`);
+        if (ramoElem) bloquearRamo(ramoElem, false);
+      }
+    });
+  }
+
+  // Bloquear recursivamente los desbloqueados dependientes si el prerrequisito no está aprobado
+  function bloquearDesbloqueados(id) {
+    const desbloqueados = Object.entries(desbloqueos)
+      .filter(([_, arr]) => arr.includes(id))
+      .map(([key]) => key);
+
+    desbloqueados.forEach(ramoId => {
+      // Si existe otro prerrequisito aprobado, no bloquear
+      const ramosPrerrequisitos = [];
+      for (const [padreId, hijos] of Object.entries(desbloqueos)) {
+        if (hijos.includes(ramoId)) ramosPrerrequisitos.push(padreId);
+      }
+
+      const otroPrerrequisitoAprobado = ramosPrerrequisitos.some(prId => prId !== id && aprobados.has(prId));
+
+      if (!otroPrerrequisitoAprobado) {
+        const ramoElem = document.querySelector(`.ramo[data-id="${ramoId}"]`);
+        if (ramoElem) {
+          bloquearRamo(ramoElem, true);
+          if (aprobados.has(ramoId)) {
+            aprobados.delete(ramoId);
+            ramoElem.classList.remove('aprobado');
+            // Recursividad para sus desbloqueados
+            bloquearDesbloqueados(ramoId);
+          }
+        }
+      }
+    });
+  }
+
+  actualizarContador();
 });
