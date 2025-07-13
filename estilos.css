@@ -1,37 +1,37 @@
 body {
     font-family: 'Candara', sans-serif;
     margin: 0;
-    padding: 5px; /* Reducido el padding global */
+    padding: 2px; /* Mínimo padding global */
     background-color: #f0f2f5;
     color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: hidden; /* **Oculta el scroll por defecto para forzar el escalado a que la malla quepa** */
+    overflow: hidden; /* **Oculta el scroll por defecto para forzar el contenido a caber** */
     min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
     box-sizing: border-box;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 15px; /* Margen reducido */
+    margin-bottom: 8px; /* Margen muy reducido */
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px; /* Padding reducido */
+    padding: 0 10px; /* Padding reducido */
     box-sizing: border-box;
     flex-shrink: 0;
 }
 
 .header h1 {
-    font-size: 1.8em; /* Tamaño de fuente ligeramente menor */
+    font-size: 1.5em; /* Tamaño de fuente más pequeño */
     color: #555;
     margin: 0;
 }
 
 .approved-counter {
-    font-size: 1em; /* Tamaño de fuente ligeramente menor */
+    font-size: 0.9em; /* Tamaño de fuente más pequeño */
     font-weight: bold;
     color: #007bff;
 }
@@ -40,15 +40,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 10px; /* Reducido el gap entre bloques de año */
-    padding-bottom: 20px; /* Reducido el padding inferior */
+    gap: 8px; /* Gap entre bloques de año muy reducido */
+    padding-bottom: 15px; /* Padding inferior reducido */
     position: relative;
     width: 100%;
     flex-grow: 1;
     flex-wrap: nowrap;
-    /* **Aplicamos el escalado aquí para todo el contenedor de la malla** */
-    transform: scale(0.85); /* **Escalado inicial para intentar que quepa todo** */
-    transform-origin: top center; /* El escalado se origina desde el centro superior */
+    /* No hay transform: scale aquí, confiamos en los tamaños base */
     box-sizing: border-box;
 }
 
@@ -57,28 +55,28 @@ body {
     flex-direction: column;
     align-items: center;
     border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 8px; /* Padding ligeramente menor */
+    border-radius: 6px; /* Bordes ligeramente más pequeños */
+    padding: 6px; /* Padding reducido */
     background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra más sutil */
     flex-shrink: 0;
-    min-width: 200px; /* Ancho mínimo ajustado */
+    width: 10%; /* Ancho porcentual para los bloques de año, se ajustará */
+    min-width: 150px; /* Un mínimo para que no se colapse demasiado */
     flex: 1;
-    max-width: 280px; /* Ancho máximo ajustado */
-    height: fit-content; /* Se ajusta a su contenido */
+    height: fit-content;
 }
 
 .year-block h2 {
-    font-size: 1.2em; /* Tamaño de fuente ligeramente menor */
+    font-size: 1.1em; /* Tamaño de fuente más pequeño */
     margin-top: 0;
-    margin-bottom: 8px; /* Margen reducido */
+    margin-bottom: 6px; /* Margen reducido */
     color: #444;
 }
 
 .semesters-container {
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Reducido el gap entre semestres */
+    gap: 6px; /* Gap entre semestres reducido */
     width: 100%;
 }
 
@@ -86,40 +84,40 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px; /* Reducido el gap entre ramos */
+    gap: 4px; /* Gap entre ramos muy reducido */
     border: 1px dashed #e0e0e0;
-    border-radius: 5px;
-    padding: 6px; /* Padding ligeramente menor */
+    border-radius: 4px; /* Bordes ligeramente más pequeños */
+    padding: 4px; /* Padding reducido */
     background-color: #fdfdfd;
     width: 100%;
     box-sizing: border-box;
 }
 
 .semester-block h3 {
-    font-size: 0.9em; /* Tamaño de fuente ligeramente menor */
+    font-size: 0.85em; /* Tamaño de fuente más pequeño */
     margin: 0;
     color: #666;
 }
 
 .ramo {
     border: 1px solid #aaa;
-    border-radius: 5px;
-    padding: 4px 6px; /* Padding aún más reducido */
+    border-radius: 4px; /* Bordes ligeramente más pequeños */
+    padding: 2px 3px; /* Padding extremadamente reducido */
     text-align: center;
     cursor: pointer;
-    width: 98%; /* Ocupa casi todo el ancho disponible */
-    min-height: 40px; /* Altura mínima ajustada */
-    height: auto;
+    width: 90px; /* **Ancho fijo y muy pequeño** */
+    height: 40px; /* **Altura fija y muy pequeña** */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.7em; /* Tamaño de fuente aún más reducido */
-    line-height: 1.05; /* Ajustado el interlineado */
+    font-size: 0.65em; /* **Tamaño de fuente muy pequeño para que quepa todo** */
+    line-height: 1; /* Interlineado mínimo */
     box-sizing: border-box;
     transition: background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
-    word-wrap: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-wrap: break-word; /* Permite que palabras largas se dividan */
+    overflow: hidden; /* Oculta cualquier desbordamiento */
+    text-overflow: ellipsis; /* Añade puntos suspensivos si el texto se corta */
+    white-space: pre-wrap; /* Permite saltos de línea explícitos o que el navegador rompa líneas si no cabe */
 }
 
 /* Ambit colors - Sin cambios */
@@ -156,13 +154,13 @@ body {
     text-align: center;
     font-weight: bold;
     color: #666;
-    font-size: 0.6em; /* Tamaño de fuente aún más pequeño */
+    font-size: 0.55em; /* Tamaño de fuente extremadamente pequeño */
     white-space: nowrap;
-    align-self: stretch; /* Permite que el separador se estire verticalmente */
-    padding: 0 4px; /* Padding mínimo */
+    align-self: stretch; /* Se estira verticalmente para igualar la altura de la malla */
+    padding: 0 3px; /* Padding mínimo */
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
-    margin: 0 4px; /* Margen mínimo */
+    margin: 0 3px; /* Margen mínimo */
     box-sizing: border-box;
 }
 
@@ -171,31 +169,27 @@ body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 6px; /* Reducido el gap en la leyenda */
-    margin-top: 15px; /* Margen superior reducido */
-    padding: 10px;
+    gap: 6px; /* Gap reducido */
+    margin-top: 10px; /* Margen superior mínimo */
+    padding: 8px;
     width: 100%;
     box-sizing: border-box;
-    max-width: 1200px; /* Reducido el ancho máximo de la leyenda */
+    max-width: 1000px; /* Ancho máximo ajustado */
     flex-shrink: 0;
-    /* Aplica el mismo escalado para que se vea consistente con la malla */
-    transform: scale(0.85);
-    transform-origin: top center;
 }
 
 .legend-item {
     border: 1px solid #aaa;
-    border-radius: 5px;
-    padding: 4px 6px; /* Igual que los ramos */
+    border-radius: 4px;
+    padding: 2px 3px; /* Igual que los ramos */
     text-align: center;
-    width: 90px; /* Ancho fijo ligeramente menor */
-    min-height: 40px; /* Misma altura mínima que los ramos */
-    height: auto;
+    width: 80px; /* Ancho fijo muy pequeño */
+    height: 35px; /* Altura fija muy pequeña */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.65em; /* Tamaño de fuente aún más reducido */
-    line-height: 1.05;
+    font-size: 0.6em; /* Tamaño de fuente extremadamente pequeño */
+    line-height: 1;
     box-sizing: border-box;
     font-weight: bold;
     color: #333;
@@ -203,61 +197,49 @@ body {
 
 /* Media Queries para responsividad */
 
-/* Pantallas grandes (Full HD y más) */
+/* Pantallas de escritorio grandes (Full HD y más) */
 @media (min-width: 1920px) {
-    .malla-container, .legend-container {
-        transform: scale(0.95); /* Un poco menos de escalado para pantallas muy grandes */
+    body {
+        padding: 5px;
     }
-    .ramo {
-        width: 95%; /* Mantiene el porcentaje, se beneficiará de más espacio */
-        min-height: 45px;
-        font-size: 0.75em;
-        padding: 5px 7px;
-    }
-    .legend-item {
-        width: 100px;
-        min-height: 45px;
-        font-size: 0.7em;
-        padding: 5px 7px;
-    }
+    .header h1 { font-size: 1.8em; }
+    .approved-counter { font-size: 1em; }
+    .malla-container { gap: 10px; padding-bottom: 20px; }
+    .year-block { padding: 8px; min-width: 180px; }
+    .year-block h2 { font-size: 1.2em; }
+    .semester-block { padding: 6px; gap: 6px; }
+    .semester-block h3 { font-size: 0.9em; }
+    .ramo { width: 100px; height: 45px; font-size: 0.7em; padding: 4px 6px; }
+    .licenciado-separator { font-size: 0.65em; padding: 0 5px; margin: 0 5px; }
+    .legend-container { gap: 8px; margin-top: 15px; }
+    .legend-item { width: 90px; height: 40px; font-size: 0.65em; padding: 4px 6px; }
 }
 
 /* Pantallas de laptop comunes (aprox. 1200px - 1600px) */
 @media (max-width: 1600px) {
-    .malla-container, .legend-container {
-        transform: scale(0.8); /* Más escalado para estas pantallas */
-    }
-    .header h1 {
-        font-size: 1.6em;
-    }
-    .approved-counter {
-        font-size: 0.9em;
-    }
-    .year-block h2 {
-        font-size: 1.1em;
-    }
-    .semester-block h3 {
-        font-size: 0.85em;
-    }
+    /* No necesitamos un transform: scale, los tamaños base y media queries lo manejan */
+    .header h1 { font-size: 1.6em; }
+    .approved-counter { font-size: 0.9em; }
+    .year-block h2 { font-size: 1.1em; }
+    .semester-block h3 { font-size: 0.85em; }
 }
 
 /* Tablet y pantallas más pequeñas (vertical) */
 @media (max-width: 900px) {
     body {
         padding: 10px;
-        overflow: auto; /* Permitir scroll en móviles ya que el diseño es vertical */
+        overflow: auto; /* Permitir scroll vertical en móviles */
     }
     .malla-container {
-        flex-direction: column; /* Apilar años verticalmente */
+        flex-direction: column;
         align-items: center;
         gap: 20px;
         padding-bottom: 20px;
         width: 100%;
-        transform: none; /* Eliminar escalado en móviles */
     }
     .year-block {
         width: 95%;
-        max-width: 400px;
+        max-width: 350px; /* Reducido el max-width para móvil */
         padding: 15px;
         min-width: unset;
     }
@@ -266,12 +248,13 @@ body {
         gap: 15px;
     }
     .ramo {
-        width: 100%;
-        height: auto;
-        min-height: 50px;
-        font-size: 0.9em;
+        width: 100%; /* Ocupar todo el ancho disponible */
+        height: auto; /* Altura automática para que el texto quepa */
+        min-height: 50px; /* Mínima altura para legibilidad */
+        font-size: 0.9em; /* Fuente más grande para móvil */
         padding: 10px;
-        text-overflow: clip;
+        white-space: normal; /* Permitir que el texto se envuelva naturalmente */
+        text-overflow: clip; /* No mostrar ellipsis en móvil, solo cortar si es necesario */
     }
     .licenciado-separator {
         width: 100%;
@@ -283,7 +266,7 @@ body {
         padding: 10px 0;
         font-size: 1.1em;
         line-height: 1.5;
-        flex-direction: row;
+        flex-direction: row; /* Texto horizontal en móvil */
         text-align: center;
         white-space: normal;
         align-self: center;
@@ -300,7 +283,6 @@ body {
         align-items: center;
         padding: 10px;
         gap: 10px;
-        transform: none; /* Eliminar escalado en móviles */
     }
     .legend-item {
         width: 90%;
