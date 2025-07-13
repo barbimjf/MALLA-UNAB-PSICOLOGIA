@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-  // Mapa de requisitos (nombre del ramo: array de nombres de sus prerequisitos)
   const requisitosMap = {
     "Procesos Psicológicos y Neurociencias": ["Tópicos de Neurobiología"],
     "Inglés II": ["Inglés I"],
@@ -17,15 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
     "Integrador I: Taller de Investigación": ["Taller de Integración"],
     "Diagnóstico e Intervención Social": ["Psicología Social"],
     "Psicología Educacional": ["Psicopatología y Psiquiatría II"],
+    "Diagnóstico e Intervención Educacional": ["Psicología Educacional"],
+    "Psicología Jurídica": ["Diagnóstico e Intervención Educacional"],
+    "Diagnóstico e Intervención Jurídica": ["Psicología Jurídica"],
     "Diagnóstico e Intervención Organizacional": ["Psicología del Trabajo y las Organizaciones"],
     "Intervención Clínica Sistémica": ["Clínica Sistémica"],
     "Clínica Infantojuvenil": ["Psicopatología Infantojuvenil"],
-    "Diagnóstico e Intervención Jurídica": ["Psicología Jurídica"],
-    "Taller de Intervención Clínica": ["Integrador I: Taller de Investigación", "Psicología y Salud", "Taller de Diagnóstico e Intervención Social", "Electivo de Formación Profesional I", "Electivo de Formación Profesional II"],
-    "Psicología y Salud": [],
-    "Taller de Diagnóstico e Intervención Social": [],
-    "Electivo de Formación Profesional I": [],
-    "Electivo de Formación Profesional II": [],
     "Integrador II: Práctica Profesional": [
       "Taller de Intervención Clínica",
       "Psicología y Salud",
@@ -35,76 +30,54 @@ document.addEventListener("DOMContentLoaded", () => {
     ],
   };
 
-  // Obtiene todos los ramos
+  // Tomamos todos los ramos
   const ramos = document.querySelectorAll(".ramo");
 
-  // Guarda estado en localStorage: { aprobado: true/false }
-  const estadoKey = "mallaPsicologiaAprobados";
-  let estado = {};
+  // Guardamos el estado aprobado en localStorage para persistencia
+  const guardado = localStorage.getItem("ramosAprobados");
+  let aprobados = guardado ? JSON.parse(guardado) : [];
 
-  // Carga estado guardado o crea vacío
-  const cargarEstado = () => {
-    const saved = localStorage.getItem(estadoKey);
-    if (saved) {
-      estado = JSON.parse(saved);
-    }
-  };
-
-  // Guarda estado en localStorage
-  const guardarEstado = () => {
-    localStorage.setItem(estadoKey, JSON.stringify(estado));
-  };
-
-  // Verifica si se cumplen todos los requisitos para un ramo
-  const requisitosCumplidos = (nombre) => {
-    const reqs = requisitosMap[nombre];
-    if (!reqs || reqs.length === 0) return true;
-    return reqs.every(r => estado[r]);
-  };
-
-  // Actualiza el estado visual y de desbloqueo
-  const actualizarEstadoVisual = () => {
-    ramos.forEach(ramo => {
+  // Funcion para actualizar estados y desbloquear
+  function actualizarEstados() {
+    ramos.forEach((ramo) => {
       const nombre = ramo.dataset.nombre;
-      if (estado[nombre]) {
+      // Si está aprobado
+      if (aprobados.includes(nombre)) {
         ramo.classList.add("aprobado");
         ramo.classList.remove("activo");
-        ramo.removeAttribute("title");
+        ramo.style.pointerEvents = "none";
       } else {
-        // Si cumple requisitos, se activa para click
-        if (requisitosCumplidos(nombre)) {
+        // Revisar si está desbloqueado (sin requisitos o requisitos aprobados)
+        const requisitos = requisitosMap[nombre];
+        if (!requisitos || requisitos.every(r => aprobados.includes(r))) {
           ramo.classList.add("activo");
-          ramo.setAttribute("title", "Haz click para aprobar este ramo");
+          ramo.style.pointerEvents = "auto";
         } else {
           ramo.classList.remove("activo");
-          ramo.removeAttribute("title");
+          ramo.style.pointerEvents = "none";
         }
-        ramo.classList.remove("aprobado");
       }
     });
-  };
+  }
 
-  // Toggle aprobación y actualizar desbloqueo
-  const toggleAprobacion = (ramo) => {
-    const nombre = ramo.dataset.nombre;
-    if (!ramo.classList.contains("activo")) return; // solo si está activo
+  // Inicializamos
+  actualizarEstados();
 
-    estado[nombre] = !estado[nombre]; // alterna aprobado o no
-    actualizarEstadoVisual();
-    guardarEstado();
-  };
-
-  // Inicializa: carga estado, actualiza visual y agrega eventos
-  const init = () => {
-    cargarEstado();
-    actualizarEstadoVisual();
-
-    ramos.forEach(ramo => {
-      ramo.addEventListener("click", () => {
-        toggleAprobacion(ramo);
-      });
+  // Al click en ramo activo, se aprueba o desaprueba
+  ramos.forEach((ramo) => {
+    ramo.addEventListener("click", () => {
+      if (!ramo.classList.contains("activo")) return; // solo activo puede clickear
+      const nombre = ramo.dataset.nombre;
+      if (aprobados.includes(nombre)) {
+        // Desaprobar
+        aprobados = aprobados.filter(r => r !== nombre);
+      } else {
+        // Aprobar
+        aprobados.push(nombre);
+      }
+      // Guardar estado
+      localStorage.setItem("ramosAprobados", JSON.stringify(aprobados));
+      actualizarEstados();
     });
-  };
-
-  init();
+  });
 });
