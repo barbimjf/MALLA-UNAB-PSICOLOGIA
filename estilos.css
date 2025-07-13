@@ -15,12 +15,16 @@ h1 {
 }
 
 #malla {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
 }
 
 .anio {
-  margin-bottom: 2.5rem;
+  display: contents; /* Para que los semestres sean grid items directos */
+  margin-bottom: 2rem;
 }
 
 .semestre {
@@ -28,7 +32,11 @@ h1 {
   padding: 1rem;
   border-radius: 10px;
   background-color: #f7f7f7;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 220px;
 }
 
 .semestre h3 {
@@ -37,12 +45,13 @@ h1 {
   font-weight: 700;
   font-size: 1.25rem;
   color: #333;
+  width: 100%;
 }
 
 /* Cada ramo es un botón visual */
 .ramo {
   display: inline-block;
-  margin: 0.4rem 0.7rem;
+  margin: 0.3rem 0.3rem;
   padding: 0.55rem 1.2rem;
   border-radius: 8px;
   color: #fff;
@@ -56,7 +65,6 @@ h1 {
   font-size: 1rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.15);
   border: 2px solid transparent;
-  /* Para que se note que es clickeable cuando activo */
 }
 
 /* Cuando está disponible para clic */
@@ -128,4 +136,74 @@ h1 {
 /* Para evitar que ramos no activos tengan cursor pointer */
 .ramo:not(.activo) {
   cursor: default;
+}
+/* Leyenda de Ámbitos (Colores y texto) */
+#leyenda-ambitos {
+  max-width: 1200px;
+  margin: 2rem auto 4rem auto;
+  padding: 1rem;
+  border: 2px solid #444;
+  border-radius: 12px;
+  background-color: #fafafa;
+  font-family: Copperplate, Papyrus, fantasy;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem;
+  user-select: none;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #222;
+}
+
+.ambito {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 200px;
+}
+
+.ambito .color-box {
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  border: 2px solid #333;
+}
+
+/* Colores que ya usas para ámbitos */
+
+.color-interdisciplina {
+  background-color: #FFB6C1; /* LightPink */
+  border-color: #b06875;
+  color: #000;
+}
+
+.color-bases {
+  background-color: #C71585; /* MediumVioletRed */
+  border-color: #750043;
+  color: #fff;
+}
+
+.color-diagnostico {
+  background-color: #800080; /* Purple */
+  border-color: #4b004b;
+  color: #fff;
+}
+
+.color-intervencion {
+  background-color: #DB7093; /* PaleVioletRed */
+  border-color: #874b5e;
+  color: #000;
+}
+
+.color-investigacion {
+  background-color: #FF1493; /* DeepPink */
+  border-color: #b4006f;
+  color: #fff;
+}
+
+.color-integrador {
+  background-color: #D8BFD8; /* Thistle */
+  border-color: #a38fa3;
+  color: #000;
 }
