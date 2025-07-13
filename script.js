@@ -1,90 +1,98 @@
-// Variables globales
-const ramos = document.querySelectorAll(".ramo");
-const contador = document.getElementById("contador-aprobados");
-const totalRamos = ramos.length;
+(() => {
+  const ramos = Array.from(document.querySelectorAll(".ramo"));
+  const contador = document.getElementById("contador-aprobados");
+  const totalRamos = ramos.length;
 
-let aprobados = new Set();
+  // Construimos un mapa para acceso rápido por nombre
+  const ramoMap = new Map(ramos.map(r => [r.dataset.nombre, r]));
 
-// Inicializar bloqueo de ramos según prerequisitos
-function inicializarBloqueos() {
+  // Creamos un mapa de prerequisitos: nombre ramo -> array de prereqs (names)
+  const prereqMap = new Map();
+
+  // Extraemos prerequisitos de cada ramo (por data-prereqs separados por coma)
   ramos.forEach(ramo => {
-    const desbloqueados = (ramo.dataset.unlocks || "").split(",").map(x => x.trim());
-    // Si un ramo tiene prereq (lo desbloquean otros), está bloqueado hasta que apruebes prereqs
-    // Por defecto desbloqueado si nadie lo bloquea (sin prereq)
-    // Aquí no se hace bloqueo inicial porque solo desbloqueas cuando apruebas
-    // Pero puedes desactivar ramos sin prereq si quieres (No recomendado)
+    const prereqsRaw = ramo.dataset.prereqs || "";
+    const prereqs = prereqsRaw.split(",").map(s => s.trim()).filter(Boolean);
+    prereqMap.set(ramo.dataset.nombre, prereqs);
   });
-}
 
-// Función para actualizar la interfaz y bloqueo/desbloqueo de ramos
-function actualizarEstado() {
-  // Marcar los ramos que deben desbloquearse
-  ramos.forEach(ramo => {
-    // Si está aprobado, desbloqueado
-    if (aprobados.has(ramo.dataset.nombre)) {
-      ramo.classList.add("aprobado");
-      ramo.classList.remove("bloqueado");
-      return;
-    }
-    // Si algún ramo que desbloquea este ramo está aprobado, desbloquear
-    const prereqs = [];
-    ramos.forEach(r => {
-      const unlocks = (r.dataset.unlocks || "").split(",").map(x => x.trim());
-      if (unlocks.includes(ramo.dataset.nombre)) {
-        prereqs.push(r.dataset.nombre);
-      }
-    });
-    // Si tiene prereqs, verificar si alguno está aprobado
-    if (prereqs.length > 0) {
-      // Si al menos uno de los prereqs está aprobado, desbloquear
-      const algunoAprobado = prereqs.some(p => aprobados.has(p));
-      if (algunoAprobado) {
+  // Estado: aprobados (Set de nombres)
+  let aprobados = new Set();
+
+  // Leer estado guardado (si existe)
+  const saved = localStorage.getItem("ramos-aprobados");
+  if (saved) {
+    try {
+      aprobados = new Set(JSON.parse(saved));
+    } catch { aprobados = new Set(); }
+  }
+
+  // Función para verificar si un ramo puede desbloquearse (todos sus prereqs aprobados)
+  function puedeAprobar(nombre) {
+    const prereqs = prereqMap.get(nombre) || [];
+    return prereqs.every(pr => aprobados.has(pr));
+  }
+
+  // Actualiza clases y estados visuales
+  function actualizarEstados() {
+    ramos.forEach(ramo => {
+      const nombre = ramo.dataset.nombre;
+      if (aprobados.has(nombre)) {
+        ramo.classList.add("aprobado");
         ramo.classList.remove("bloqueado");
+        ramo.setAttribute("aria-pressed", "true");
+        ramo.setAttribute("tabindex", "0");
+      } else if (puedeAprobar(nombre)) {
+        ramo.classList.remove("bloqueado");
+        ramo.classList.remove("aprobado");
+        ramo.setAttribute("aria-pressed", "false");
+        ramo.setAttribute("tabindex", "0");
       } else {
         ramo.classList.add("bloqueado");
+        ramo.classList.remove("aprobado");
+        ramo.setAttribute("aria-pressed", "false");
+        ramo.setAttribute("tabindex", "-1");
       }
+    });
+
+    contador.textContent = `Ramos aprobados: ${aprobados.size} / ${totalRamos}`;
+
+    // Guardar estado
+    localStorage.setItem("ramos-aprobados", JSON.stringify(Array.from(aprobados)));
+  }
+
+  // Maneja clic o teclado para toggle aprobado
+  function toggleRamo(event) {
+    const ramo = event.currentTarget;
+    const nombre = ramo.dataset.nombre;
+
+    if (ramo.classList.contains("bloqueado")) {
+      alert("Debes aprobar los ramos requisitos primero.");
+      return;
+    }
+
+    if (aprobados.has(nombre)) {
+      aprobados.delete(nombre);
     } else {
-      // No tiene prereqs, desbloqueado por defecto (excepto si aprobado)
-      if (!aprobados.has(ramo.dataset.nombre)) {
-        ramo.classList.remove("bloqueado");
+      aprobados.add(nombre);
+    }
+    actualizarEstados();
+  }
+
+  // Asignar listeners y roles para accesibilidad
+  ramos.forEach(ramo => {
+    ramo.setAttribute("role", "button");
+    ramo.setAttribute("tabindex", "0");
+    ramo.setAttribute("aria-pressed", aprobados.has(ramo.dataset.nombre) ? "true" : "false");
+
+    ramo.addEventListener("click", toggleRamo);
+    ramo.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggleRamo(e);
       }
-    }
+    });
   });
 
-  // Actualizar contador
-  contador.textContent = `Aprobados: ${aprobados.size} / ${totalRamos}`;
-}
-
-// Evento clic para aprobar o desaprobar ramo
-function toggleAprobado(e) {
-  const ramo = e.currentTarget;
-  // Si está bloqueado, no hacer nada
-  if (ramo.classList.contains("bloqueado")) {
-    alert("Debes aprobar el ramo requisito primero.");
-    return;
-  }
-  const nombre = ramo.dataset.nombre;
-  if (aprobados.has(nombre)) {
-    aprobados.delete(nombre);
-    ramo.classList.remove("aprobado");
-  } else {
-    aprobados.add(nombre);
-    ramo.classList.add("aprobado");
-  }
-  actualizarEstado();
-}
-
-// Inicialización
-ramos.forEach(ramo => {
-  ramo.addEventListener("click", toggleAprobado);
-  ramo.addEventListener("keydown", e => {
-    if(e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      toggleAprobado({ currentTarget: e.currentTarget });
-    }
-  });
-
-
-// Primera actualización al cargar
-actualizarEstado();
-
+  actualizarEstados();
+})();
