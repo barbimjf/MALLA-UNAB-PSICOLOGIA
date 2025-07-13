@@ -1,15 +1,15 @@
 body {
     font-family: 'Candara', sans-serif;
     margin: 0;
-    padding: 15px; /* Padding general en el body */
+    padding: 15px; /* Padding general */
     background-color: #f0f2f5;
     color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-x: auto; /* Permitir scroll horizontal si el contenido es demasiado ancho */
-    overflow-y: auto; /* Permitir scroll vertical si el contenido es demasiado alto */
-    min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
+    overflow-x: auto; /* Permitir scroll horizontal */
+    overflow-y: auto; /* Permitir scroll vertical */
+    min-height: 100vh; /* Ocupa al menos toda la altura de la ventana */
     box-sizing: border-box;
 }
 
@@ -41,15 +41,16 @@ body {
     display: flex;
     justify-content: center; /* Centrar los bloques de año */
     align-items: flex-start;
-    gap: 20px; /* Espacio entre cada bloque de año */
+    gap: 15px; /* Un poco menos de espacio entre cada bloque de año */
     padding-bottom: 40px; /* Espacio debajo de la malla */
     position: relative;
 
-    /* **** CRÍTICO PARA EVITAR SUPERPOSICIÓN HORIZONTAL **** */
-    /* Este min-width asegura que los 5 años (más el separador) y sus gaps tengan suficiente espacio */
-    /* Si en tu pantalla particular aún ves superposición, AUMENTA este valor. */
-    /* Se calcula como (ancho_promedio_bloque_año * 5) + (gap_entre_años * 4) + (ancho_separador) */
-    min-width: 1550px; /* Valor inicial que debería funcionar en la mayoría de monitores Full HD */
+    /* **** CLAVE PARA EVITAR SUPERPOSICIÓN HORIZONTAL EN ESCRITORIO **** */
+    /* Calculamos el ancho mínimo total: (Ancho de bloque * 5 años) + (Gaps entre años * 4) + Ancho del separador */
+    /* Cada bloque de año tendrá aproximadamente 260px (ramo 120*2 + paddings) */
+    /* El separador tendrá unos 50px */
+    min-width: calc(260px * 5 + 15px * 4 + 50px); /* 1300 + 60 + 50 = 1410px aprox. */
+    /* Si sigue habiendo superposición, AUMENTA el valor de '260px' en esta línea o el '15px' */
 
     width: auto; /* Permite que el contenedor se expanda si hay espacio, pero respetando min-width */
     flex-grow: 0; /* No crece para evitar distorsiones excesivas */
@@ -67,10 +68,10 @@ body {
     padding: 12px; /* Padding dentro del bloque de año */
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    flex-shrink: 0; /* No se encoge para evitar superposiciones internas */
+    flex-shrink: 0; /* IMPEDIR QUE SE ENCOJA */
     flex-grow: 1; /* Permite que crezca si hay espacio, pero limitado por max-width */
-    min-width: 250px; /* Ancho mínimo de cada bloque de año */
-    max-width: 300px; /* Ancho máximo de cada bloque de año */
+    min-width: 250px; /* Ancho mínimo para cada bloque de año */
+    max-width: 270px; /* Ancho máximo para cada bloque de año (ajustado ligeramente) */
     height: fit-content; /* La altura se ajusta al contenido */
     box-sizing: border-box;
 }
@@ -114,7 +115,7 @@ body {
     padding: 8px 10px; /* Padding dentro de cada ramo */
     text-align: center;
     cursor: pointer;
-    width: 120px; /* Ancho fijo para cada ramo. Ajustar este si el texto se corta. */
+    width: 120px; /* Ancho fijo para cada ramo. AJUSTA ESTE SI EL TEXTO NO CABE O ES MUY LARGO. */
     min-height: 60px; /* Altura mínima para cada ramo */
     height: auto; /* Permite que la altura crezca si el texto es muy largo */
     display: flex;
@@ -165,14 +166,17 @@ body {
     font-weight: bold;
     color: #666;
     font-size: 0.8em; /* Tamaño de fuente para el separador */
-    white-space: nowrap; /* Evita que el texto se rompa si es horizontal */
-    align-self: stretch; /* Permite que el separador se estire verticalmente para igualar la altura de la malla */
+    white-space: nowrap; /* Importante para que el texto se mantenga vertical */
+    align-self: stretch; /* Permite que el separador se estire verticalmente */
     padding: 0 8px; /* Padding horizontal del separador */
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
     margin: 0 8px; /* Margen horizontal del separador */
     box-sizing: border-box;
+    /* Ajuste para que el texto "LICENCIADO" no se desborde al apilarse verticalmente */
+    width: 50px; /* Ancho fijo para el separador vertical, ajustar si el texto no cabe */
 }
+
 
 /* Contenedor de la leyenda */
 .legend-container {
@@ -208,20 +212,23 @@ body {
 
 /* Media Queries para responsividad */
 
-/* Pantallas de escritorio grandes (Full HD y más) */
+/* Pantallas de escritorio muy grandes (Full HD y más) */
 @media (min-width: 1920px) {
     .malla-container {
-        min-width: 1700px; /* Mayor min-width para pantallas muy anchas */
+        min-width: 1750px; /* Aumentamos el min-width para más espacio */
         gap: 25px;
     }
     .year-block {
-        min-width: 280px;
+        min-width: 300px; /* Bloques de año un poco más anchos */
         max-width: 350px;
     }
     .ramo {
         width: 140px; /* Ramos un poco más anchos */
         min-height: 65px;
         font-size: 0.95em;
+    }
+    .licenciado-separator {
+        width: 60px; /* Separador un poco más ancho */
     }
     .legend-item {
         width: 140px;
@@ -233,17 +240,22 @@ body {
 /* Pantallas de laptop comunes (aprox. 1200px - 1600px) */
 @media (max-width: 1600px) {
     .malla-container {
-        min-width: 1300px; /* Asegura un min-width para estas pantallas */
-        gap: 15px;
+        /* Reajustamos min-width para que haya un scroll horizontal si es necesario */
+        min-width: 1450px; /* Valor ajustado */
+        gap: 10px; /* Reducimos el gap */
     }
     .year-block {
-        min-width: 220px;
-        max-width: 280px;
+        min-width: 240px; /* Bloques de año un poco más pequeños */
+        max-width: 260px;
     }
     .ramo {
-        width: 110px; /* Ramos un poco más estrechos */
-        min-height: 55px;
-        font-size: 0.85em;
+        width: 115px; /* Ramos más estrechos */
+        min-height: 58px;
+        font-size: 0.88em;
+    }
+    .licenciado-separator {
+        width: 45px; /* Separador más estrecho */
+        font-size: 0.75em;
     }
     .legend-item {
         width: 120px;
