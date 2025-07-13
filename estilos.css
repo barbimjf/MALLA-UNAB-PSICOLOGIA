@@ -254,11 +254,11 @@ h1 {
 
 /* Scroll suave horizontal para malla */
 .malla::-webkit-scrollbar {
-  height: 8px;
+  height: 5px;
 }
 .malla::-webkit-scrollbar-thumb {
   background: #c71585;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 .malla::-webkit-scrollbar-track {
   background: #eee;
