@@ -1,5 +1,6 @@
-body {
-  font-family: 'Candara', sans-serif;
+/* Fuente global */
+body, html {
+  font-family: 'Candara', sans-serif !important;
   margin: 10px;
   background-color: #fff;
   color: #333;
@@ -79,6 +80,7 @@ body {
   align-items: center;
   justify-content: center;
   word-break: break-word;
+  font-family: 'Candara', sans-serif !important;
 }
 
 /* Al hacer hover */
@@ -86,7 +88,7 @@ body {
   border-color: #666;
 }
 
-/* Ámbitos con los colores indicados */
+/* Ámbitos con colores exactos */
 .ambito-1 {
   background-color: #FFB6C1; /* LightPink */
   color: #4b004b;
@@ -119,6 +121,7 @@ body {
   text-decoration: line-through;
   text-decoration-thickness: 2px;
   text-decoration-color: #222;
+  font-family: 'Candara', sans-serif !important;
 }
 
 /* Contador de aprobados */
@@ -127,6 +130,7 @@ body {
   font-size: 15px;
   margin-bottom: 12px;
   user-select: none;
+  font-family: 'Candara', sans-serif !important;
 }
 
 /* Separador LICENCIADO */
@@ -140,10 +144,11 @@ body {
   margin: 0 10px;
   padding: 0 6px;
   background-color: transparent;
+  font-family: 'Candara', sans-serif !important;
 }
 
 .texto-licenciado {
-  font-family: 'Candara', sans-serif;
+  font-family: 'Candara', sans-serif !important;
   font-size: 13px;
   font-weight: bold;
   color: #333;
@@ -164,7 +169,7 @@ body {
   font-size: 13px;
   font-weight: 600;
   user-select: none;
-  font-family: 'Candara', sans-serif;
+  font-family: 'Candara', sans-serif !important;
 }
 
 .leyenda {
@@ -174,6 +179,7 @@ body {
   white-space: nowrap;
   color: #fff;
   box-sizing: border-box;
+  font-family: 'Candara', sans-serif !important;
 }
 
 .leyenda-1 { background-color: #FFB6C1; color: #4b004b; }
