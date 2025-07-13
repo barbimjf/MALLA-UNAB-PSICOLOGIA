@@ -84,6 +84,16 @@ ramos.forEach(ramo => {
     }
   });
 });
+/* Elimina cualquier ::after que haga tachado diagonal */
+
+.ramo.aprobado {
+  color: #999;
+}
+
+.ramo.aprobado span {
+  text-decoration: line-through;
+}
+
 
 // Primera actualización al cargar
 actualizarEstado();
