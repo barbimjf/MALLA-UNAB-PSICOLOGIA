@@ -1,39 +1,30 @@
-// script.js
-
 document.addEventListener('DOMContentLoaded', () => {
   const ramos = document.querySelectorAll('.ramo');
   const contador = document.getElementById('contador');
 
-  // Mapear ramos por id para acceso rápido
+  // Mapa de ramos por ID para acceso rápido
   const ramosMap = {};
   ramos.forEach(r => {
-    const id = r.dataset.id;
-    ramosMap[id] = r;
-    // Al inicio, deshabilitar todos que tienen prerrequisitos (no tienen desbloqueo previo)
-    // Solo dejamos habilitados los que no son desbloqueables (sin prerrequisitos)
-    // Pero para simplificar, todos habilitados al inicio menos los que se desbloquean después
-    // Se entiende que si un ramo tiene prerrequisitos, será desbloqueado por otro
-    // Por eso, bloqueamos los que tienen "data-unlocks" apuntando a ellos
+    ramosMap[r.dataset.id] = r;
   });
 
-  // Construimos el mapa de prerrequisitos inverso: ramo_id -> lista de ids que lo desbloquean
-  // En este diseño el "data-unlocks" es para ramos que este desbloquea, entonces invertimos para saber quién depende de quién
+  // Construir prerrequisitos inversos (quién desbloquea a quién)
+  // data-unlocks = lista de ids que este ramo desbloquea
   const desbloqueadosPor = {};
   ramos.forEach(r => {
     const unlocks = r.dataset.unlocks;
     if (unlocks) {
       unlocks.split(',').forEach(idUnlock => {
-        idUnlock = idUnlock.trim();
-        if (!desbloqueadosPor[idUnlock]) desbloqueadosPor[idUnlock] = [];
-        desbloqueadosPor[idUnlock].push(r.dataset.id);
+        const idTrim = idUnlock.trim();
+        if (!desbloqueadosPor[idTrim]) desbloqueadosPor[idTrim] = [];
+        desbloqueadosPor[idTrim].push(r.dataset.id);
       });
     }
   });
 
-  // Ahora deshabilitamos los ramos que tienen prerrequisitos (o sea, que aparecen en desbloqueadosPor)
+  // Inicialmente bloquear ramos que tienen prerrequisitos
   ramos.forEach(r => {
-    const id = r.dataset.id;
-    if (desbloqueadosPor[id]) {
+    if (desbloqueadosPor[r.dataset.id]) {
       r.classList.add('bloqueado');
       r.style.pointerEvents = 'none';
       r.style.opacity = '0.4';
@@ -41,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Contador de aprobados
   let aprobados = 0;
 
   function actualizarContador() {
@@ -62,18 +52,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
   ramos.forEach(r => {
     r.addEventListener('click', () => {
-      if (r.classList.contains('aprobado') || r.classList.contains('bloqueado')) return;
+      // Si está bloqueado, no hacer nada
+      if (r.classList.contains('bloqueado')) return;
 
-      // Marcar aprobado
-      r.classList.add('aprobado');
-      aprobados++;
-      actualizarContador();
+      // Toggle aprobado
+      const aprobado = r.classList.toggle('aprobado');
 
-      // Desbloquear los ramos que dependen de este
-      const unlocks = r.dataset.unlocks;
-      if (unlocks) {
-        desbloquearRamos(unlocks.split(',').map(id => id.trim()));
+      if (aprobado) {
+        aprobados++;
+        // desbloquear los que dependen de este ramo
+        const unlocks = r.dataset.unlocks;
+        if (unlocks) {
+          desbloquearRamos(unlocks.split(',').map(x => x.trim()));
+        }
+      } else {
+        aprobados--;
+        // Si se desmarca, bloquear nuevamente los que dependen de este ramo
+        const unlocks = r.dataset.unlocks;
+        if (unlocks) {
+          desbloquearRamos(unlocks.split(',').map(x => x.trim()).filter(id => {
+            // Solo bloquear si ninguno de sus prerrequisitos está aprobado
+            const prerrequisitos = desbloqueadosPor[id];
+            return prerrequisitos.every(pr => !ramosMap[pr].classList.contains('aprobado'));
+          }));
+          unlocks.split(',').forEach(id => {
+            const rDesbloqueado = ramosMap[id];
+            if (rDesbloqueado && desbloqueadosPor[id].some(pr => !ramosMap[pr].classList.contains('aprobado'))) {
+              rDesbloqueado.classList.add('bloqueado');
+              rDesbloqueado.style.pointerEvents = 'none';
+              rDesbloqueado.style.opacity = '0.4';
+              rDesbloqueado.style.cursor = 'default';
+              rDesbloqueado.classList.remove('aprobado');
+              aprobados--;
+            }
+          });
+        }
       }
+
+      actualizarContador();
     });
   });
 
