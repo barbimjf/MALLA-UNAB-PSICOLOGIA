@@ -23,12 +23,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // Desbloquea ramos cuyos requisitos estén aprobados
   function actualizarDesbloqueo() {
     ramos.forEach((r) => {
-      if (r.classList.contains("aprobado")) return; // ya aprobado
+      if (r.classList.contains("aprobado")) {
+        r.classList.remove("bloqueado");
+        r.style.pointerEvents = "auto";
+        r.title = "";
+        return;
+      }
 
       const requisitosRaw = r.dataset.requisitos || "";
       const requisitos = parsearRequisitos(requisitosRaw);
 
-      // Si no tiene requisitos, está desbloqueado
       if (requisitos.length === 0) {
         r.classList.remove("bloqueado");
         r.style.pointerEvents = "auto";
@@ -36,7 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Chequear si todos requisitos están aprobados
       const todosAprobados = requisitos.every((req) => {
         const ramoReq = mapaRamos[req];
         return ramoReq && ramoReq.classList.contains("aprobado");
@@ -54,8 +57,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Al hacer click, marca o desmarca aprobado y actualiza desbloqueo
+  // Al hacer click en un ramo
   ramos.forEach((r) => {
     r.addEventListener("click", () => {
       if (r.classList.contains("bloqueado")) return;
-      r.classList.toggle
+
+      r.classList.toggle("aprobado");
+
+      actualizarDesbloqueo();
+    });
+  });
+
+  // Inicializa estados
+  actualizarDesbloqueo();
+});
