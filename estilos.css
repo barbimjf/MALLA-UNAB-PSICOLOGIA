@@ -94,7 +94,7 @@ h1 {
 /* Colores ámbitos */
 .ambito1 {
   background-color: #FFB6C1; /* LightPink */
-  font-family: Papyrus, fantasy;
+  font-family: Candara, sans-serif;
   color: #4a1f22;
   border: 1px solid #e898a6;
 }
@@ -112,19 +112,19 @@ h1 {
 }
 .ambito4 {
   background-color: #DB7093; /* PaleVioletRed */
-  font-family: Papyrus, fantasy;
+  font-family: Candara, sans-serif;
   color: #4a1f22;
   border: 1px solid #bf627e;
 }
 .ambito5 {
   background-color: #FF1493; /* DeepPink */
-  font-family: Papyrus, fantasy;
+  font-family: Candara, sans-serif;
   color: #fff;
   border: 1px solid #cc117c;
 }
 .ambito6 {
   background-color: #D8BFD8; /* Thistle */
-  font-family: Papyrus, fantasy;
+  font-family: Candara, sans-serif;
   color: #4a1f22;
   border: 1px solid #b8a2b8;
 }
