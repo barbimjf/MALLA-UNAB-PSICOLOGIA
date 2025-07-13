@@ -1,39 +1,37 @@
 body {
     font-family: 'Candara', sans-serif;
     margin: 0;
-    padding: 10px;
+    padding: 5px; /* Reducido el padding global */
     background-color: #f0f2f5;
     color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Ajuste de overflow para garantizar que no haya scroll inesperado */
-    overflow-x: hidden; /* Evita scroll horizontal a menos que sea absolutamente necesario en móviles */
-    overflow-y: auto; /* Permitir scroll vertical si el contenido es demasiado largo para la pantalla */
+    overflow: hidden; /* **Oculta el scroll por defecto para forzar el escalado a que la malla quepa** */
     min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
     box-sizing: border-box;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Margen reducido */
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 20px; /* Padding reducido */
     box-sizing: border-box;
-    flex-shrink: 0; /* Previene que el header se encoja */
+    flex-shrink: 0;
 }
 
 .header h1 {
-    font-size: 2em;
+    font-size: 1.8em; /* Tamaño de fuente ligeramente menor */
     color: #555;
     margin: 0;
 }
 
 .approved-counter {
-    font-size: 1.1em;
+    font-size: 1em; /* Tamaño de fuente ligeramente menor */
     font-weight: bold;
     color: #007bff;
 }
@@ -41,13 +39,17 @@ body {
 .malla-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Alinea los años arriba */
-    gap: 15px; /* Espacio entre bloques de año */
-    padding-bottom: 30px;
+    align-items: flex-start;
+    gap: 10px; /* Reducido el gap entre bloques de año */
+    padding-bottom: 20px; /* Reducido el padding inferior */
     position: relative;
-    width: 100%; /* Permite que el contenedor se expanda */
-    flex-grow: 1; /* Permite que el contenedor de la malla tome el espacio restante */
-    flex-wrap: nowrap; /* Evita que los años se envuelvan */
+    width: 100%;
+    flex-grow: 1;
+    flex-wrap: nowrap;
+    /* **Aplicamos el escalado aquí para todo el contenedor de la malla** */
+    transform: scale(0.85); /* **Escalado inicial para intentar que quepa todo** */
+    transform-origin: top center; /* El escalado se origina desde el centro superior */
+    box-sizing: border-box;
 }
 
 .year-block {
@@ -56,44 +58,45 @@ body {
     align-items: center;
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 10px;
+    padding: 8px; /* Padding ligeramente menor */
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    flex-shrink: 0; /* No permite que el bloque de año se encoja */
-    min-width: 250px; /* Ancho mínimo para cada bloque de año */
-    flex: 1; /* Permite que cada bloque de año ocupe igual espacio */
-    max-width: 300px; /* Limita el ancho máximo del bloque de año */
+    flex-shrink: 0;
+    min-width: 200px; /* Ancho mínimo ajustado */
+    flex: 1;
+    max-width: 280px; /* Ancho máximo ajustado */
+    height: fit-content; /* Se ajusta a su contenido */
 }
 
 .year-block h2 {
-    font-size: 1.3em;
+    font-size: 1.2em; /* Tamaño de fuente ligeramente menor */
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 8px; /* Margen reducido */
     color: #444;
 }
 
 .semesters-container {
     display: flex;
-    flex-direction: column; /* Apilar semestres verticalmente dentro del año */
-    gap: 10px; /* Espacio entre semestres */
-    width: 100%; /* Asegura que los semestres ocupen el ancho completo del bloque del año */
+    flex-direction: column;
+    gap: 8px; /* Reducido el gap entre semestres */
+    width: 100%;
 }
 
 .semester-block {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px; /* Espacio entre ramos */
+    gap: 6px; /* Reducido el gap entre ramos */
     border: 1px dashed #e0e0e0;
     border-radius: 5px;
-    padding: 8px;
+    padding: 6px; /* Padding ligeramente menor */
     background-color: #fdfdfd;
-    width: 100%; /* Asegura que el bloque del semestre ocupe el ancho completo */
+    width: 100%;
     box-sizing: border-box;
 }
 
 .semester-block h3 {
-    font-size: 0.95em;
+    font-size: 0.9em; /* Tamaño de fuente ligeramente menor */
     margin: 0;
     color: #666;
 }
@@ -101,22 +104,22 @@ body {
 .ramo {
     border: 1px solid #aaa;
     border-radius: 5px;
-    padding: 5px 7px; /* Reducido el padding para aún más compacidad */
+    padding: 4px 6px; /* Padding aún más reducido */
     text-align: center;
     cursor: pointer;
-    width: 95%; /* Ancho de los ramos relativo al contenedor del semestre */
-    min-height: 45px; /* Altura mínima para la legibilidad */
-    height: auto; /* Altura automática para que el contenido quepa */
+    width: 98%; /* Ocupa casi todo el ancho disponible */
+    min-height: 40px; /* Altura mínima ajustada */
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.75em; /* Tamaño de fuente ligeramente más pequeño */
-    line-height: 1.1;
+    font-size: 0.7em; /* Tamaño de fuente aún más reducido */
+    line-height: 1.05; /* Ajustado el interlineado */
     box-sizing: border-box;
     transition: background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
     word-wrap: break-word;
-    overflow: hidden; /* Oculta el texto si se desborda */
-    text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es demasiado largo */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Ambit colors - Sin cambios */
@@ -153,14 +156,13 @@ body {
     text-align: center;
     font-weight: bold;
     color: #666;
-    font-size: 0.65em; /* Reducido aún más el tamaño de fuente */
+    font-size: 0.6em; /* Tamaño de fuente aún más pequeño */
     white-space: nowrap;
-    /* Ajustes para que se adapte a la altura de la malla */
-    align-self: stretch; /* Permite que el separador se estire en el eje transversal (vertical) */
-    padding: 0 5px;
+    align-self: stretch; /* Permite que el separador se estire verticalmente */
+    padding: 0 4px; /* Padding mínimo */
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
-    margin: 0 5px;
+    margin: 0 4px; /* Margen mínimo */
     box-sizing: border-box;
 }
 
@@ -169,28 +171,31 @@ body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 25px;
+    gap: 6px; /* Reducido el gap en la leyenda */
+    margin-top: 15px; /* Margen superior reducido */
     padding: 10px;
     width: 100%;
     box-sizing: border-box;
-    max-width: 1500px;
-    flex-shrink: 0; /* Previene que la leyenda se encoja */
+    max-width: 1200px; /* Reducido el ancho máximo de la leyenda */
+    flex-shrink: 0;
+    /* Aplica el mismo escalado para que se vea consistente con la malla */
+    transform: scale(0.85);
+    transform-origin: top center;
 }
 
 .legend-item {
     border: 1px solid #aaa;
     border-radius: 5px;
-    padding: 5px 7px; /* Igual que los ramos */
+    padding: 4px 6px; /* Igual que los ramos */
     text-align: center;
-    width: 100px; /* Ancho fijo ligeramente más pequeño */
-    min-height: 45px; /* Misma altura mínima que los ramos */
+    width: 90px; /* Ancho fijo ligeramente menor */
+    min-height: 40px; /* Misma altura mínima que los ramos */
     height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.68em; /* Tamaño de fuente ligeramente más pequeño */
-    line-height: 1.1;
+    font-size: 0.65em; /* Tamaño de fuente aún más reducido */
+    line-height: 1.05;
     box-sizing: border-box;
     font-weight: bold;
     color: #333;
@@ -200,51 +205,39 @@ body {
 
 /* Pantallas grandes (Full HD y más) */
 @media (min-width: 1920px) {
-    body {
-        overflow-x: hidden; /* Asegura que no haya scroll horizontal a menos que sea forzado */
+    .malla-container, .legend-container {
+        transform: scale(0.95); /* Un poco menos de escalado para pantallas muy grandes */
     }
     .ramo {
-        width: 115px; /* Un poco más de ancho en pantallas grandes */
-        min-height: 50px;
-        font-size: 0.8em;
-        padding: 6px 8px;
-    }
-    .semester-block {
-        gap: 10px;
-        padding: 10px;
-    }
-    .licenciado-separator {
+        width: 95%; /* Mantiene el porcentaje, se beneficiará de más espacio */
+        min-height: 45px;
         font-size: 0.75em;
-        padding: 0 8px;
-        margin: 0 8px;
+        padding: 5px 7px;
     }
     .legend-item {
-        width: 115px;
-        min-height: 50px;
-        font-size: 0.75em;
-        padding: 6px 8px;
-    }
-    .malla-container {
-        gap: 20px;
-    }
-    .legend-container {
-        gap: 10px;
+        width: 100px;
+        min-height: 45px;
+        font-size: 0.7em;
+        padding: 5px 7px;
     }
 }
 
 /* Pantallas de laptop comunes (aprox. 1200px - 1600px) */
 @media (max-width: 1600px) {
+    .malla-container, .legend-container {
+        transform: scale(0.8); /* Más escalado para estas pantallas */
+    }
     .header h1 {
-        font-size: 1.8em;
+        font-size: 1.6em;
     }
     .approved-counter {
-        font-size: 1em;
+        font-size: 0.9em;
     }
     .year-block h2 {
-        font-size: 1.2em;
+        font-size: 1.1em;
     }
     .semester-block h3 {
-        font-size: 0.9em;
+        font-size: 0.85em;
     }
 }
 
@@ -252,8 +245,7 @@ body {
 @media (max-width: 900px) {
     body {
         padding: 10px;
-        min-height: unset; /* Deshabilitar min-height para pantallas pequeñas */
-        overflow-x: auto; /* Permitir scroll horizontal en caso de que sea necesario para la malla */
+        overflow: auto; /* Permitir scroll en móviles ya que el diseño es vertical */
     }
     .malla-container {
         flex-direction: column; /* Apilar años verticalmente */
@@ -261,46 +253,46 @@ body {
         gap: 20px;
         padding-bottom: 20px;
         width: 100%;
-        min-width: unset; /* Deshabilitar min-width del container en móvil */
+        transform: none; /* Eliminar escalado en móviles */
     }
     .year-block {
-        width: 95%; /* Ocupar casi todo el ancho disponible */
-        max-width: 400px; /* Limitar el ancho máximo para la legibilidad */
+        width: 95%;
+        max-width: 400px;
         padding: 15px;
-        min-width: unset; /* Deshabilitar min-width del año en móvil */
+        min-width: unset;
     }
     .semesters-container {
-        flex-direction: column; /* Apilar semestres verticalmente */
+        flex-direction: column;
         gap: 15px;
     }
     .ramo {
-        width: 100%; /* Rellenar el ancho del bloque del semestre */
-        height: auto; /* Altura automática para el contenido */
-        min-height: 50px; /* Mínimo para legibilidad */
-        font-size: 0.9em; /* Aumentar un poco el tamaño de fuente para móviles */
+        width: 100%;
+        height: auto;
+        min-height: 50px;
+        font-size: 0.9em;
         padding: 10px;
-        text-overflow: clip; /* Quitar ellipsis en móvil si no es necesario */
+        text-overflow: clip;
     }
     .licenciado-separator {
         width: 100%;
         height: auto;
         margin: 20px 0;
         border: none;
-        border-top: 1px solid #ccc; /* Separador horizontal simple */
+        border-top: 1px solid #ccc;
         border-bottom: 1px solid #ccc;
         padding: 10px 0;
         font-size: 1.1em;
         line-height: 1.5;
-        flex-direction: row; /* Texto del separador horizontal */
+        flex-direction: row;
         text-align: center;
         white-space: normal;
-        align-self: center; /* Centrar el separador */
+        align-self: center;
     }
     .licenciado-separator br {
-        display: none; /* Ocultar los <br> para que el texto sea horizontal */
+        display: none;
     }
     .licenciado-separator::before {
-        content: "LICENCIADO EN PSICOLOGÍA"; /* Asegurar que el texto se muestre */
+        content: "LICENCIADO EN PSICOLOGÍA";
         display: block;
     }
     .legend-container {
@@ -308,6 +300,7 @@ body {
         align-items: center;
         padding: 10px;
         gap: 10px;
+        transform: none; /* Eliminar escalado en móviles */
     }
     .legend-item {
         width: 90%;
