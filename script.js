@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'ramo4-6': ['ramo4-1'], // Intervención Clínica Sistémica requiere Clínica Sistémica
         'ramo4-7': ['ramo4-2'], // Clínica Infantojuvenil requiere Psicopatología Infantojuvenil
         'ramo4-9': ['ramo4-4'], // Diagnóstico e Intervención Jurídica requiere Psicología Jurídica
-        // 'ramo4-10': [] -> Clínica Psicoanalítica no tiene prerrequisitos de otros ramos, se desbloquea por sí misma.
+        // 'ramo4-10': [] -> Clínica Psicoanalítica no tiene prerrequisitos de otros ramos.
 
         // Ramos del IX semestre (todos requieren el grupo de ramos del VIII semestre)
         'ramo5-1': ['ramo4-6', 'ramo4-7', 'ramo4-3', 'ramo4-9', 'ramo4-10'], // Taller de Intervención Clínica
