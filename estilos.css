@@ -1,38 +1,38 @@
 body {
     font-family: 'Candara', sans-serif;
     margin: 0;
-    padding: 15px; /* Padding general */
+    padding: 15px; /* Padding general en el body */
     background-color: #f0f2f5;
     color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-x: auto; /* Permitir scroll horizontal solo si el contenido lo excede */
-    overflow-y: auto; /* Permitir scroll vertical si el contenido lo excede */
-    min-height: 100vh; /* Ocupa al menos toda la altura de la ventana */
+    overflow-x: auto; /* Permitir scroll horizontal si el contenido es demasiado ancho */
+    overflow-y: auto; /* Permitir scroll vertical si el contenido es demasiado alto */
+    min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
     box-sizing: border-box;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 25px; /* Espacio debajo del encabezado */
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 40px;
+    padding: 0 40px; /* Padding lateral en el encabezado */
     box-sizing: border-box;
     flex-shrink: 0;
 }
 
 .header h1 {
-    font-size: 2.2em;
+    font-size: 2.2em; /* Tamaño del título principal */
     color: #555;
     margin: 0;
 }
 
 .approved-counter {
-    font-size: 1.2em;
+    font-size: 1.2em; /* Tamaño del contador de ramos */
     font-weight: bold;
     color: #007bff;
 }
@@ -41,19 +41,20 @@ body {
     display: flex;
     justify-content: center; /* Centrar los bloques de año */
     align-items: flex-start;
-    gap: 20px; /* Espacio cómodo entre bloques de año */
-    padding-bottom: 40px;
+    gap: 20px; /* Espacio entre cada bloque de año */
+    padding-bottom: 40px; /* Espacio debajo de la malla */
     position: relative;
-    /* **** CLAVE: Mínimo ancho para la malla completa **** */
-    /* Este valor es el ancho mínimo total necesario para mostrar todos los bloques sin superposición */
-    /* Calcula: (ancho_ramo * 2 (semestres) + paddings) * 5 (años) + gaps */
-    min-width: 1550px; /* Este valor podría necesitar ajuste fino en tu pantalla */
-    /* Si aún hay superposición en tu pantalla, AUMENTA este valor (por ejemplo, a 1600px o 1700px) */
 
-    width: 100%; /* Ocupa el 100% del espacio disponible, pero respeta el min-width */
-    flex-grow: 0; /* No crece para evitar distorsiones */
+    /* **** CRÍTICO PARA EVITAR SUPERPOSICIÓN HORIZONTAL **** */
+    /* Este min-width asegura que los 5 años (más el separador) y sus gaps tengan suficiente espacio */
+    /* Si en tu pantalla particular aún ves superposición, AUMENTA este valor. */
+    /* Se calcula como (ancho_promedio_bloque_año * 5) + (gap_entre_años * 4) + (ancho_separador) */
+    min-width: 1550px; /* Valor inicial que debería funcionar en la mayoría de monitores Full HD */
+
+    width: auto; /* Permite que el contenedor se expanda si hay espacio, pero respetando min-width */
+    flex-grow: 0; /* No crece para evitar distorsiones excesivas */
     flex-shrink: 0; /* No se encoge por debajo del min-width */
-    flex-wrap: nowrap; /* Mantiene los años en una sola línea */
+    flex-wrap: nowrap; /* Mantiene los años en una sola línea horizontal */
     box-sizing: border-box;
 }
 
@@ -63,19 +64,19 @@ body {
     align-items: center;
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 12px;
+    padding: 12px; /* Padding dentro del bloque de año */
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     flex-shrink: 0; /* No se encoge para evitar superposiciones internas */
     flex-grow: 1; /* Permite que crezca si hay espacio, pero limitado por max-width */
-    min-width: 250px; /* Ancho mínimo para cada bloque de año */
-    max-width: 300px; /* Ancho máximo para cada bloque de año */
-    height: fit-content;
+    min-width: 250px; /* Ancho mínimo de cada bloque de año */
+    max-width: 300px; /* Ancho máximo de cada bloque de año */
+    height: fit-content; /* La altura se ajusta al contenido */
     box-sizing: border-box;
 }
 
 .year-block h2 {
-    font-size: 1.5em;
+    font-size: 1.5em; /* Tamaño del título del año */
     margin-top: 0;
     margin-bottom: 10px;
     color: #444;
@@ -84,7 +85,7 @@ body {
 .semesters-container {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 12px; /* Espacio entre los semestres */
     width: 100%;
 }
 
@@ -92,17 +93,17 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 10px; /* Espacio entre los ramos dentro de un semestre */
     border: 1px dashed #e0e0e0;
     border-radius: 5px;
-    padding: 10px;
+    padding: 10px; /* Padding dentro del bloque de semestre */
     background-color: #fdfdfd;
     width: 100%;
     box-sizing: border-box;
 }
 
 .semester-block h3 {
-    font-size: 1em;
+    font-size: 1em; /* Tamaño del título del semestre */
     margin: 0;
     color: #666;
 }
@@ -110,26 +111,26 @@ body {
 .ramo {
     border: 1px solid #aaa;
     border-radius: 5px;
-    padding: 8px 10px;
+    padding: 8px 10px; /* Padding dentro de cada ramo */
     text-align: center;
     cursor: pointer;
-    width: 120px; /* Ancho fijo para cada ramo, ajustar si el texto no cabe bien */
+    width: 120px; /* Ancho fijo para cada ramo. Ajustar este si el texto se corta. */
     min-height: 60px; /* Altura mínima para cada ramo */
-    height: auto; /* Permite que crezca si el texto es muy largo */
+    height: auto; /* Permite que la altura crezca si el texto es muy largo */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9em; /* Tamaño de fuente por defecto */
-    line-height: 1.2;
+    font-size: 0.9em; /* Tamaño de fuente de los ramos */
+    line-height: 1.2; /* Espaciado entre líneas */
     box-sizing: border-box;
     transition: background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
-    word-wrap: break-word;
-    overflow: hidden; /* Oculta texto si se desborda, con ellipsis si es posible */
-    text-overflow: ellipsis;
-    white-space: pre-wrap; /* Respeta los <br> y salta de línea si la palabra es muy larga */
+    word-wrap: break-word; /* Permite que palabras largas se rompan */
+    overflow: hidden; /* Oculta cualquier contenido que se desborde */
+    text-overflow: ellipsis; /* Añade puntos suspensivos si el texto se corta (si no hay <br>) */
+    white-space: pre-wrap; /* Mantiene los saltos de línea explícitos (<br>) y permite que el navegador rompa líneas largas */
 }
 
-/* Ambit colors - Sin cambios */
+/* Colores de ámbito - (Estos no han cambiado y están bien) */
 .ramo[data-ambito="1"] { background-color: #FFB6C1; border-color: #FFB6C1; }
 .ramo[data-ambito="2"] { background-color: #C71585; border-color: #C71585; color: white;}
 .ramo[data-ambito="3"] { background-color: #800080; border-color: #800080; color: white;}
@@ -137,7 +138,7 @@ body {
 .ramo[data-ambito="5"] { background-color: #FF1493; border-color: #FF1493; color: white;}
 .ramo[data-ambito="6"] { background-color: #D8BFD8; border-color: #D8BFD8; }
 
-/* Approved style */
+/* Estilo de ramo aprobado */
 .ramo.approved > span {
     text-decoration: line-through;
 }
@@ -145,7 +146,7 @@ body {
     opacity: 0.6;
 }
 
-/* Locked style */
+/* Estilo de ramo bloqueado */
 .ramo.locked {
     opacity: 0.4;
     cursor: not-allowed;
@@ -154,7 +155,7 @@ body {
     color: #666 !important;
 }
 
-/* Separator between 4th and 5th year */
+/* Separador "Licenciado en Psicología" */
 .licenciado-separator {
     display: flex;
     flex-direction: column;
@@ -163,42 +164,42 @@ body {
     text-align: center;
     font-weight: bold;
     color: #666;
-    font-size: 0.8em;
-    white-space: nowrap;
-    align-self: stretch;
-    padding: 0 8px;
+    font-size: 0.8em; /* Tamaño de fuente para el separador */
+    white-space: nowrap; /* Evita que el texto se rompa si es horizontal */
+    align-self: stretch; /* Permite que el separador se estire verticalmente para igualar la altura de la malla */
+    padding: 0 8px; /* Padding horizontal del separador */
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
-    margin: 0 8px;
+    margin: 0 8px; /* Margen horizontal del separador */
     box-sizing: border-box;
 }
 
-/* Legend styles */
+/* Contenedor de la leyenda */
 .legend-container {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 30px;
+    flex-wrap: wrap; /* Permite que los ítems de la leyenda pasen a la siguiente línea */
+    gap: 10px; /* Espacio entre los ítems de la leyenda */
+    margin-top: 30px; /* Espacio encima de la leyenda */
     padding: 15px;
     width: 100%;
     box-sizing: border-box;
-    max-width: 1500px;
+    max-width: 1500px; /* Ancho máximo para la leyenda */
     flex-shrink: 0;
 }
 
 .legend-item {
     border: 1px solid #aaa;
     border-radius: 5px;
-    padding: 8px 10px;
+    padding: 8px 10px; /* Padding dentro de cada ítem de leyenda */
     text-align: center;
-    width: 130px;
-    min-height: 55px;
+    width: 130px; /* Ancho de cada ítem de leyenda */
+    min-height: 55px; /* Altura mínima de cada ítem de leyenda */
     height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.85em;
+    font-size: 0.85em; /* Tamaño de fuente de la leyenda */
     line-height: 1.2;
     box-sizing: border-box;
     font-weight: bold;
@@ -207,7 +208,7 @@ body {
 
 /* Media Queries para responsividad */
 
-/* Pantallas grandes (Full HD y más) */
+/* Pantallas de escritorio grandes (Full HD y más) */
 @media (min-width: 1920px) {
     .malla-container {
         min-width: 1700px; /* Mayor min-width para pantallas muy anchas */
@@ -255,11 +256,12 @@ body {
     .semester-block h3 { font-size: 0.95em; }
 }
 
-/* Tablet y pantallas más pequeñas (vertical) - El scroll vertical es esperado aquí */
+/* Tablet y pantallas más pequeñas (vertical) - Aquí el scroll vertical es esperado */
 @media (max-width: 900px) {
     body {
         padding: 10px;
-        min-width: unset; /* Quita el min-width en móviles */
+        overflow-x: hidden; /* Ocultar scroll horizontal en móvil */
+        min-width: unset; /* Eliminar min-width en móvil */
     }
     .header {
         flex-direction: column;
@@ -279,11 +281,11 @@ body {
         gap: 25px;
         padding-bottom: 20px;
         width: 100%;
-        min-width: unset; /* Quita el min-width del contenedor en móviles */
+        min-width: unset; /* Eliminar min-width del contenedor de la malla en móvil */
     }
     .year-block {
         width: 95%;
-        max-width: 380px; /* Limita el ancho en móviles */
+        max-width: 380px; /* Limita el ancho del año en móvil */
         padding: 15px;
         min-width: unset;
     }
@@ -304,15 +306,15 @@ body {
     }
     .ramo {
         width: 100%; /* Ocupar todo el ancho disponible */
-        height: auto; /* Altura automática */
-        min-height: 70px; /* Altura mínima más cómoda para móvil */
+        height: auto; /* Altura automática para el texto */
+        min-height: 70px; /* Altura mínima cómoda para móvil */
         font-size: 1em; /* Fuente más grande para móvil */
         padding: 12px;
         white-space: normal; /* Permitir que el texto se envuelva naturalmente */
         text-overflow: clip; /* Sin puntos suspensivos en móvil */
     }
     .licenciado-separator {
-        width: 100%;
+        width: 100%; /* Ocupa todo el ancho en móvil */
         height: auto;
         margin: 25px 0;
         border: none;
@@ -321,16 +323,16 @@ body {
         padding: 12px 0;
         font-size: 1.2em;
         line-height: 1.5;
-        flex-direction: row; /* Texto horizontal */
+        flex-direction: row; /* Texto horizontal en móvil */
         text-align: center;
         white-space: normal;
         align-self: center;
     }
     .licenciado-separator br {
-        display: none;
+        display: none; /* Ocultar los <br> en móvil para que sea horizontal */
     }
     .licenciado-separator::before {
-        content: "LICENCIADO EN PSICOLOGÍA";
+        content: "LICENCIADO EN PSICOLOGÍA"; /* Asegurar que el texto esté ahí */
         display: block;
     }
     .legend-container {
