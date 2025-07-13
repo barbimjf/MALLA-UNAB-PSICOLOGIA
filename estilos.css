@@ -244,13 +244,68 @@ h1 {
   border: 1px solid #999;
 }
 
-/* Colores para leyenda (coincide con ámbitos) */
-.legend-box.ambito1 { background-color: #FFB6C1; }
-.legend-box.ambito2 { background-color: #C71585; }
-.legend-box.ambito3 { background-color: #800080; }
-.legend-box.ambito4 { background-color: #DB7093; }
-.legend-box.ambito5 { background-color: #FF1493; }
-.legend-box.ambito6 { background-color: #D8BFD8; }
+/* Ambitos: asegurarse que tienen color y buen contraste */
+.ambito1 {
+  background-color: #FFB6C1; /* LightPink */
+  font-family: Papyrus, fantasy;
+  color: #4a1f22;
+  border: 1px solid #e898a6;
+}
+.ambito2 {
+  background-color: #C71585; /* MediumVioletRed */
+  font-family: Copperplate, fantasy;
+  color: #fff;
+  border: 1px solid #9c1268;
+}
+.ambito3 {
+  background-color: #800080; /* Purple */
+  font-family: Copperplate, fantasy;
+  color: #fff;
+  border: 1px solid #520052;
+}
+.ambito4 {
+  background-color: #DB7093; /* PaleVioletRed */
+  font-family: Papyrus, fantasy;
+  color: #4a1f22;
+  border: 1px solid #bf627e;
+}
+.ambito5 {
+  background-color: #FF1493; /* DeepPink */
+  font-family: Papyrus, fantasy;
+  color: #fff;
+  border: 1px solid #cc117c;
+}
+.ambito6 {
+  background-color: #D8BFD8; /* Thistle */
+  font-family: Papyrus, fantasy;
+  color: #4a1f22;
+  border: 1px solid #b8a2b8;
+}
+
+/* Tachado diagonal - corregido para verse bien */
+.ramo.aprobado {
+  color: #555 !important;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.ramo.aprobado::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  width: 120%;
+  height: 3px;
+  background: #900;
+  transform: rotate(-45deg);
+  transform-origin: center;
+  pointer-events: none;
+  border-radius: 2px;
+  z-index: 10;
+}
+
 
 /* Scroll suave horizontal para malla */
 .malla::-webkit-scrollbar {
