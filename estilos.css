@@ -1,242 +1,171 @@
+/* Tipografía y base */
 body {
   font-family: Candara, sans-serif;
-  background-color: #fdfdfd;
   margin: 0;
-  padding: 2rem;
+  padding: 1rem;
+  background: #f9f9f9;
   color: #222;
 }
 
 h1 {
   text-align: center;
   margin-bottom: 2rem;
-  font-weight: 700;
-  font-size: 2rem;
 }
 
-#leyenda-ambitos {
-  max-width: 1200px;
-  margin: 2rem auto 4rem auto;
-  padding: 1rem;
-  border: 2px solid #444;
-  border-radius: 12px;
-  background-color: #fafafa;
-  font-family: Candara, sans-serif;
+/* Contenedor de la malla */
+.malla {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.2rem;
-  user-select: none;
-  font-weight: 700;
-  font-size: 1rem;
-  color: #222;
-}
-
-.ambito {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 220px;
-}
-
-.ambito .color-box {
-  width: 28px;
-  height: 28px;
-  border-radius: 5px;
-  border: 2px solid #333;
-}
-
-.color-interdisciplina {
-  background-color: #FFB6C1;
-  border-color: #b06875;
-}
-
-.color-bases {
-  background-color: #C71585;
-  border-color: #750043;
-}
-
-.color-diagnostico {
-  background-color: #800080;
-  border-color: #4b004b;
-}
-
-.color-intervencion {
-  background-color: #DB7093;
-  border-color: #874b5e;
-}
-
-.color-investigacion {
-  background-color: #FF1493;
-  border-color: #b4006f;
-}
-
-.color-integrador {
-  background-color: #D8BFD8;
-  border-color: #a38fa3;
-}
-
-/* Contenedor general de años: fila horizontal */
-.fila-anios {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
   flex-wrap: nowrap;
+  gap: 2rem;
   overflow-x: auto;
-  padding-bottom: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
-/* Cada año: bloque vertical */
+/* Cada bloque de año */
 .anio {
-  border: 2px solid #222;
-  border-radius: 10px;
-  padding: 1rem;
   display: flex;
   flex-direction: column;
-  min-width: 320px;
-  max-width: 320px;
-  background-color: #fff;
-  box-shadow: 0 0 10px #ccc;
+  align-items: center;
+  min-width: 330px;
+  border: 2px solid #aaa;
+  border-radius: 10px;
+  padding: 1rem;
+  background: #ffffff;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
-/* Título del año */
-.anio > h2 {
+.anio h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
   text-align: center;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
 }
 
-/* Contenedor de semestres: fila horizontal bajo el año */
-.fila-semestres {
+/* Semestres dentro del año */
+.semestres {
   display: flex;
+  flex-wrap: nowrap;
   gap: 1rem;
   justify-content: center;
 }
 
-/* Cada semestre: columna vertical */
+/* Semestre como columna de ramos */
 .semestre {
-  border: 2px solid #000;
-  border-radius: 10px;
-  background-color: #f7f7f7;
-  flex: 1 1 140px;
-  min-width: 140px;
-  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 520px;
-  overflow-y: auto;
+  background: #f0f0f0;
+  padding: 0.5rem;
+  border-radius: 6px;
+  min-width: 160px;
+  box-sizing: border-box;
 }
 
-/* Título semestre */
 .semestre h3 {
-  margin-bottom: 1rem;
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: #333;
-  width: 100%;
-  text-align: center;
-}
-
-/* Ramos */
-.ramo {
-  margin: 0.3rem 0;
-  padding: 0.55rem 1rem;
-  border-radius: 8px;
-  color: #fff;
-  cursor: pointer;
-  user-select: none;
-  opacity: 0.4;
-  transition: opacity 0.25s ease, transform 0.2s ease;
-  width: 100%;
-  font-weight: 600;
+  margin-bottom: 0.5rem;
   font-size: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-  border: 2px solid transparent;
-  position: relative;
   text-align: center;
 }
 
-/* Activo para click */
-.ramo.activo {
-  opacity: 1;
-  border-color: #333;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+/* Estilos generales para ramos */
+.ramo {
+  padding: 0.5rem;
+  margin: 0.3rem 0;
+  width: 100%;
+  text-align: center;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  word-wrap: break-word;
+  white-space: normal;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  background: #dcdcdc;
+  position: relative;
 }
 
-/* Aprobado con línea diagonal */
+/* Hover */
+.ramo:hover {
+  background: #ccc;
+}
+
+/* Ramo aprobado (tachado en diagonal) */
 .ramo.aprobado {
-  opacity: 1 !important;
-  cursor: default;
-  background-color: #555 !important;
-  color: #eee !important;
-  border-color: #000 !important;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  transform: scale(1.05);
+  color: #999;
+  background: #e6e6e6;
 }
 
-.ramo.aprobado::before {
-  content: "";
+.ramo.aprobado::after {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 140%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.7);
+  height: 100%;
+  border-top: 2px solid #a00;
   transform: rotate(-45deg);
-  transform-origin: top left;
+  transform-origin: center;
   pointer-events: none;
-  z-index: 10;
 }
 
-/* Colores ámbitos */
-.ramo.interdisciplina {
-  background-color: #FFB6C1;
-  color: #000;
-}
-
-.ramo.bases {
-  background-color: #C71585;
-}
-
-.ramo.diagnostico {
-  background-color: #800080;
-}
-
-.ramo.intervencion {
-  background-color: #DB7093;
-  color: #000;
-}
-
-.ramo.investigacion {
-  background-color: #FF1493;
-}
-
-.ramo.integrador {
-  background-color: #D8BFD8;
-  color: #000;
-}
-
-/* Separador Licenciado */
-.separator {
-  text-align: center;
-  margin: 3rem 0 2rem 0;
+/* Separador de Licenciatura */
+.separador {
+  background: #ffe6e6;
+  border: 2px dashed #d33;
   padding: 1rem;
-  border-top: 3px dashed #800080;
-  font-weight: 700;
-  background-color: #f0f0f0;
-  font-size: 1.3rem;
-  font-family: Candara, sans-serif;
-  color: #4b0082;
+  text-align: center;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #900;
+  min-width: 300px;
+  flex-shrink: 0;
 }
 
-/* Hover para activos no aprobados */
-.ramo.activo:not(.aprobado):hover {
-  opacity: 0.85;
-  transform: scale(1.08);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+/* ======================= */
+/* === COLORES POR ÁMBITO === */
+/* ======================= */
+
+/* Ámbito I: Interdisciplina, Educación General e Inglés */
+.interdisciplina {
+  background-color: #FFB6C1;
 }
 
-/* Cursor default para no activos */
-.ramo:not(.activo) {
-  cursor: default;
+/* Ámbito II: Bases Conceptuales y/o Transversales */
+.bases {
+  background-color: #C71585;
+  color: #fff;
+}
+
+/* Ámbito III: Diagnóstico */
+.diagnostico {
+  background-color: #800080;
+  color: #fff;
+}
+
+/* Ámbito IV: Intervención */
+.intervencion {
+  background-color: #DB7093;
+  color: #fff;
+}
+
+/* Ámbito V: Investigación */
+.investigacion {
+  background-color: #FF1493;
+  color: #fff;
+}
+
+/* Experiencias Integradoras */
+.integradoras {
+  background-color: #D8BFD8;
+}
+
+/* Accesibilidad extra */
+.ramo.aprobado.integradoras::after,
+.ramo.aprobado.investigacion::after,
+.ramo.aprobado.diagnostico::after,
+.ramo.aprobado.interdisciplina::after,
+.ramo.aprobado.bases::after,
+.ramo.aprobado.intervencion::after {
+  border-top: 2px solid #000;
 }
