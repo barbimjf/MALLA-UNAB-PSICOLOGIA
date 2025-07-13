@@ -195,41 +195,31 @@ h1 {
 }
 
 /* Separador LICENCIADO */
-.separador-licenciado {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  min-width: 40px;
-  border-left: 2px dashed #999;
-  border-right: 2px dashed #999;
-  margin: 0 10px;
-  padding: 0 6px;
-  background-color: transparent;
-  user-select: none;
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.05);
-}
-
-/* Texto vertical LICENCIADO (mejorado) */
 .texto-licenciado {
-  font-weight: 700;
-  color: #333;
-  font-size: 14px;
-  line-height: 1.1;
-  text-align: center;
-  letter-spacing: 2.5px;
-  white-space: pre-line;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  user-select: none;
-  padding: 8px 2px;
-  max-height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 4px;
+  align-items: center;
+  width: 38px; /* bloque delgado */
+  font-family: 'Candara', sans-serif !important;
+  font-weight: 700;
+  font-size: 14px;
+  color: #333;
+  user-select: none;
+  padding: 6px 0;
   background-color: #fafafa;
-  border-radius: 4px;
+  border-radius: 5px;
   box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+}
+
+.texto-licenciado span {
+  line-height: 1.2;
+  margin: 0;
+  padding: 0;
+}
+
+.texto-licenciado .espacio {
+  height: 14px; /* espacio vertical entre palabras */
+}
 }
 
 /* Leyenda ámbitos */
