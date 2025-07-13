@@ -17,26 +17,38 @@ h1 {
 #malla {
   max-width: 1200px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
+/* Cada año */
 .anio {
-  display: contents; /* Para que los semestres sean grid items directos */
-  margin-bottom: 2rem;
+  border: 2px solid #222;
+  border-radius: 10px;
+  padding: 1rem;
 }
 
+/* Contenedor horizontal de semestres dentro del año */
+.semestres-container {
+  display: flex;
+  gap: 1.3rem;
+  overflow-x: auto; /* Para que en pantallas muy pequeñas se pueda scrollear horizontal */
+  padding-bottom: 0.5rem;
+}
+
+/* Cada semestre como columna */
 .semestre {
+  flex: 0 0 250px; /* ancho fijo para columna */
   border: 2px solid #000;
   padding: 1rem;
   border-radius: 10px;
   background-color: #f7f7f7;
-  margin-bottom: 0;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 220px;
+  min-height: 250px;
 }
 
 .semestre h3 {
@@ -48,9 +60,8 @@ h1 {
   width: 100%;
 }
 
-/* Cada ramo es un botón visual */
+/* Cada ramo botón */
 .ramo {
-  display: inline-block;
   margin: 0.3rem 0.3rem;
   padding: 0.55rem 1.2rem;
   border-radius: 8px;
@@ -67,14 +78,14 @@ h1 {
   border: 2px solid transparent;
 }
 
-/* Cuando está disponible para clic */
+/* Activo para click */
 .ramo.activo {
   opacity: 1;
   border-color: #333;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-/* Cuando se aprueba */
+/* Aprobado estilo */
 .ramo.aprobado {
   opacity: 1;
   text-decoration: line-through;
@@ -82,11 +93,11 @@ h1 {
   cursor: default;
   box-shadow: 0 4px 10px rgba(0,0,0,0.5);
   border-color: #000;
-  background-color: #555 !important; /* Color uniforme para aprobado */
+  background-color: #555 !important;
   color: #eee !important;
 }
 
-/* Colores por ámbito */
+/* Colores de ámbitos */
 .ramo.interdisciplina {
   background-color: #FFB6C1; /* LightPink */
   color: #000;
@@ -102,6 +113,7 @@ h1 {
 
 .ramo.intervencion {
   background-color: #DB7093; /* PaleVioletRed */
+  color: #000;
 }
 
 .ramo.investigacion {
@@ -126,18 +138,19 @@ h1 {
   color: #4b0082;
 }
 
-/* Efecto hover para ramos activos (no aprobados) */
+/* Hover para activos no aprobados */
 .ramo.activo:not(.aprobado):hover {
   opacity: 0.85;
   transform: scale(1.08);
   box-shadow: 0 6px 14px rgba(0,0,0,0.4);
 }
 
-/* Para evitar que ramos no activos tengan cursor pointer */
+/* Cursor default para no activos */
 .ramo:not(.activo) {
   cursor: default;
 }
-/* Leyenda de Ámbitos (Colores y texto) */
+
+/* Leyenda de Ámbitos */
 #leyenda-ambitos {
   max-width: 1200px;
   margin: 2rem auto 4rem auto;
@@ -160,7 +173,7 @@ h1 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  min-width: 200px;
+  min-width: 220px;
 }
 
 .ambito .color-box {
@@ -170,40 +183,39 @@ h1 {
   border: 2px solid #333;
 }
 
-/* Colores que ya usas para ámbitos */
-
+/* Colores Leyenda */
 .color-interdisciplina {
-  background-color: #FFB6C1; /* LightPink */
+  background-color: #FFB6C1;
   border-color: #b06875;
   color: #000;
 }
 
 .color-bases {
-  background-color: #C71585; /* MediumVioletRed */
+  background-color: #C71585;
   border-color: #750043;
   color: #fff;
 }
 
 .color-diagnostico {
-  background-color: #800080; /* Purple */
+  background-color: #800080;
   border-color: #4b004b;
   color: #fff;
 }
 
 .color-intervencion {
-  background-color: #DB7093; /* PaleVioletRed */
+  background-color: #DB7093;
   border-color: #874b5e;
   color: #000;
 }
 
 .color-investigacion {
-  background-color: #FF1493; /* DeepPink */
+  background-color: #FF1493;
   border-color: #b4006f;
   color: #fff;
 }
 
 .color-integrador {
-  background-color: #D8BFD8; /* Thistle */
+  background-color: #D8BFD8;
   border-color: #a38fa3;
   color: #000;
 }
