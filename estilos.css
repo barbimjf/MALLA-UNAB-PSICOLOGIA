@@ -112,16 +112,26 @@ h1 {
 
 /* Separador Licenciatura */
 .separador {
-  background: #ffe6e6;
+  writing-mode: vertical-rl; /* texto vertical de arriba hacia abajo */
+  text-orientation: mixed;   /* hace que las letras se vean normales, no rotadas */
+  white-space: nowrap;
+  width: 2.5rem;             /* ancho del bloque, ajusta si quieres más ancho */
+  min-width: auto;
+  padding: 0.5rem;
+  margin: 0 1rem;            /* espacio horizontal entre años */
   border: 2px dashed #d33;
-  padding: 1rem;
-  text-align: center;
   border-radius: 10px;
-  font-weight: bold;
+  background: #ffe6e6;
   color: #900;
-  min-width: 300px;
-  flex-shrink: 0;
-  margin: 2rem 0;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;            /* para que no se reduzca en flexbox */
+  user-select: none;
+  box-sizing: border-box;
+}
 }
 
 /* ======================= */
