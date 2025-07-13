@@ -1,44 +1,58 @@
-/* Fuente */
+/* === Fuente y Reset básico === */
 body, h1, h2, h3, .ramo, .contador, .leyenda, .texto-licenciado {
   font-family: 'Candara', sans-serif !important;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: #222;
 }
 
-/* Contenedor general */
+/* === Contenedor general === */
 body {
   background: #fefefe;
   overflow-y: hidden; /* evitar scroll vertical */
   user-select: none;
   padding: 15px;
-  color: #222;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Título principal */
+/* === Títulos principales === */
 h1 {
   font-weight: 700;
   font-size: 24px;
   margin-bottom: 15px;
   text-align: center;
+  color: #333;
 }
 
-/* Contador */
 .contador {
   font-weight: 700;
   font-size: 15px;
   margin-bottom: 20px;
   text-align: center;
+  color: #555;
 }
 
-/* Contenedor malla */
+/* === Contenedor malla: scroll horizontal === */
 .malla-container {
-  overflow-x: auto; /* scroll horizontal si necesario */
+  overflow-x: auto;
   padding-bottom: 10px;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #c0c0c0 transparent;
 }
 
-/* Malla principal: años en fila */
+.malla-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.malla-container::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border-radius: 4px;
+}
+
+/* === Malla principal: años en fila === */
 .malla {
   display: flex;
   gap: 15px;
@@ -48,7 +62,7 @@ h1 {
   font-size: 12px;
 }
 
-/* Cada año bloque */
+/* === Bloque año === */
 .anio {
   display: flex;
   flex-direction: column;
@@ -57,28 +71,35 @@ h1 {
   background: #fff;
   min-width: 220px;
   max-width: 220px;
-  padding: 8px;
+  padding: 12px 10px;
   box-sizing: border-box;
   user-select: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: box-shadow 0.25s ease;
 }
 
-/* Título año */
+.anio:hover {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+/* Título del año */
 .anio > h2 {
   font-size: 16px;
   font-weight: 700;
   text-align: center;
   margin-bottom: 12px;
+  color: #333;
   user-select: text;
 }
 
-/* Contenedor semestres */
+/* Contenedor semestres (horizontal) */
 .semestres {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
 }
 
-/* Cada semestre bloque */
+/* Bloque semestre */
 .semestre {
   display: flex;
   flex-direction: column;
@@ -87,8 +108,9 @@ h1 {
   background: #fafafa;
   min-width: 100px;
   max-width: 100px;
-  padding: 6px 4px 10px 4px;
+  padding: 8px 6px 12px;
   box-sizing: border-box;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.03);
 }
 
 /* Título semestre */
@@ -96,42 +118,46 @@ h1 {
   font-size: 13px;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  color: #444;
   user-select: text;
 }
 
-/* Ramos (bloques) */
+/* Ramos (materias) */
 .ramo {
-  border-radius: 5px;
-  padding: 6px 6px;
-  margin-bottom: 6px;
+  border-radius: 6px;
+  padding: 8px 6px;
+  margin-bottom: 8px;
   cursor: pointer;
   text-align: center;
-  white-space: normal;
-  font-size: 11.5px;
-  line-height: 1.1;
+  font-size: 12px;
+  line-height: 1.2;
   border: 2px solid transparent;
-  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
-  min-height: 46px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   word-break: break-word;
   font-family: 'Candara', sans-serif !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  background-color: #fff;
 }
 
-/* Hover */
+/* Hover efecto */
 .ramo:hover {
   border-color: #666;
+  background-color: #f0f0f0;
+  color: #111;
 }
 
-/* Ámbitos con colores */
+/* Ámbitos con colores (más saturados, buen contraste) */
 .ambito-1 {
-  background-color: #FFB6C1; /* LightPink */
+  background-color: #ffb6c1; /* LightPink */
   color: #4b004b;
 }
 .ambito-2 {
-  background-color: #C71585; /* MediumVioletRed */
+  background-color: #c71585; /* MediumVioletRed */
   color: #fff;
 }
 .ambito-3 {
@@ -139,29 +165,29 @@ h1 {
   color: #fff;
 }
 .ambito-4 {
-  background-color: #DB7093; /* PaleVioletRed */
+  background-color: #db7093; /* PaleVioletRed */
   color: #4b004b;
 }
 .ambito-5 {
-  background-color: #FF1493; /* DeepPink */
+  background-color: #ff1493; /* DeepPink */
   color: #fff;
 }
 .ambito-6 {
-  background-color: #D8BFD8; /* Thistle */
+  background-color: #d8bfd8; /* Thistle */
   color: #4b004b;
 }
 
-/* Ramo aprobado (tono menos intenso pero se ve color) */
+/* Ramo aprobado: menos saturado, tachado */
 .ramo.aprobado {
   filter: brightness(0.7);
   color: #222;
   text-decoration: line-through;
   text-decoration-thickness: 2px;
   text-decoration-color: #222;
-  font-family: 'Candara', sans-serif !important;
+  cursor: default;
 }
 
-/* Bloqueado: menos opaco, no clickeable */
+/* Ramo bloqueado: opaco y no clickeable */
 .ramo.bloqueado {
   pointer-events: none;
   opacity: 0.6;
@@ -180,27 +206,37 @@ h1 {
   padding: 0 6px;
   background-color: transparent;
   user-select: none;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.05);
 }
 
-/* Texto vertical LICENCIADO */
+/* Texto vertical LICENCIADO (mejorado) */
 .texto-licenciado {
   font-weight: 700;
   color: #333;
-  font-size: 13px;
-  line-height: 1.0;
+  font-size: 14px;
+  line-height: 1.1;
   text-align: center;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
   white-space: pre-line;
   writing-mode: vertical-rl;
   text-orientation: mixed;
   user-select: none;
+  padding: 8px 2px;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  background-color: #fafafa;
+  border-radius: 4px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.1);
 }
 
 /* Leyenda ámbitos */
 #leyenda {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 15px;
   margin-top: 25px;
   flex-wrap: wrap;
   user-select: none;
@@ -209,45 +245,43 @@ h1 {
 .leyenda {
   font-size: 12px;
   font-weight: 600;
-  padding: 6px 10px;
-  border-radius: 5px;
+  padding: 8px 12px;
+  border-radius: 6px;
   min-width: 180px;
   text-align: center;
   box-sizing: border-box;
   color: #222;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+  background-color: #fff;
 }
 
+/* Leyenda colores */
 .leyenda-1 {
-  background-color: #FFB6C1;
+  background-color: #ffb6c1;
   color: #4b004b;
 }
-
 .leyenda-2 {
-  background-color: #C71585;
+  background-color: #c71585;
   color: #fff;
 }
-
 .leyenda-3 {
   background-color: #800080;
   color: #fff;
 }
-
 .leyenda-4 {
-  background-color: #DB7093;
+  background-color: #db7093;
   color: #4b004b;
 }
-
 .leyenda-5 {
-  background-color: #FF1493;
+  background-color: #ff1493;
   color: #fff;
 }
-
 .leyenda-6 {
-  background-color: #D8BFD8;
+  background-color: #d8bfd8;
   color: #4b004b;
 }
 
-/* Evitar scroll vertical */
+/* Scroll vertical oculto en body/html */
 body, html {
   overflow-y: hidden;
 }
