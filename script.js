@@ -13,8 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "Psicopatología y Psiquiatría II": ["Psicopatología y Psiquiatría I"],
     "Psicopatología Infantojuvenil": ["Psicopatología y Psiquiatría I"],
     "Integrador I: Taller de Investigación": ["Taller de Integración"],
+    "Psicología Educacional": ["Psicodiagnóstico Clínico II"],
     "Diagnóstico e Intervención Social": ["Psicología Social"],
-    "Psicología Educacional": ["Psicopatología y Psiquiatría II"],
+    "Psicología del Trabajo y las Organizaciones": ["Diagnóstico e Intervención Social"],
     "Diagnóstico e Intervención Educacional": ["Psicología Educacional"],
     "Psicología Jurídica": ["Diagnóstico e Intervención Educacional"],
     "Diagnóstico e Intervención Jurídica": ["Psicología Jurídica"],
@@ -30,24 +31,22 @@ document.addEventListener("DOMContentLoaded", () => {
     ],
   };
 
-  // Tomamos todos los ramos
+  // Seleccionamos todos los ramos
   const ramos = document.querySelectorAll(".ramo");
 
-  // Guardamos el estado aprobado en localStorage para persistencia
+  // Recuperar ramos aprobados de localStorage
   const guardado = localStorage.getItem("ramosAprobados");
   let aprobados = guardado ? JSON.parse(guardado) : [];
 
-  // Funcion para actualizar estados y desbloquear
+  // Función para actualizar estado y desbloqueo
   function actualizarEstados() {
     ramos.forEach((ramo) => {
       const nombre = ramo.dataset.nombre;
-      // Si está aprobado
       if (aprobados.includes(nombre)) {
         ramo.classList.add("aprobado");
         ramo.classList.remove("activo");
         ramo.style.pointerEvents = "none";
       } else {
-        // Revisar si está desbloqueado (sin requisitos o requisitos aprobados)
         const requisitos = requisitosMap[nombre];
         if (!requisitos || requisitos.every(r => aprobados.includes(r))) {
           ramo.classList.add("activo");
@@ -60,22 +59,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Inicializamos
   actualizarEstados();
 
-  // Al click en ramo activo, se aprueba o desaprueba
-  ramos.forEach((ramo) => {
+  // Evento click para aprobar/desaprobar
+  ramos.forEach(ramo => {
     ramo.addEventListener("click", () => {
-      if (!ramo.classList.contains("activo")) return; // solo activo puede clickear
+      if (!ramo.classList.contains("activo")) return;
       const nombre = ramo.dataset.nombre;
       if (aprobados.includes(nombre)) {
-        // Desaprobar
         aprobados = aprobados.filter(r => r !== nombre);
       } else {
-        // Aprobar
         aprobados.push(nombre);
       }
-      // Guardar estado
       localStorage.setItem("ramosAprobados", JSON.stringify(aprobados));
       actualizarEstados();
     });
