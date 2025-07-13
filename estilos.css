@@ -1,55 +1,38 @@
 body {
     font-family: 'Candara', sans-serif;
     margin: 0;
-    padding: 0; /* Padding global a cero */
+    padding: 15px; /* Más padding global para mejor espacio */
     background-color: #f0f2f5;
     color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* **La clave: ocultar overflow y aplicar zoom/escala** */
-    overflow: hidden; /* Oculta cualquier barra de desplazamiento */
-    width: 100vw; /* Ocupa el 100% del ancho de la ventana */
-    height: 100vh; /* Ocupa el 100% del alto de la ventana */
+    overflow: auto; /* Permitir scroll en ambas direcciones si es necesario */
+    min-width: 1400px; /* Asegura un ancho mínimo para la vista de escritorio antes de que aparezca scroll horizontal innecesario */
+    min-height: 100vh; /* Ocupa al menos toda la altura de la ventana */
     box-sizing: border-box;
-
-    /* Intentamos escalado si zoom no funciona bien, o para mayor compatibilidad */
-    /* Este valor puede requerir ajuste manual si aún hay scroll */
-    transform: scale(0.8); /* Empieza con una escala agresiva del 80% */
-    transform-origin: top center; /* Escala desde el centro superior */
-    transition: transform 0.2s ease-out; /* Transición suave para redimensionar */
-}
-
-/* Contenedor principal para aplicar el zoom/escala y que todo quepa */
-#root-container { /* Necesitarías envolver todo tu body en un div con id="root-container" */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    /* Si el transform en body no funciona, aplicar aquí */
 }
 
 .header {
     text-align: center;
-    margin-bottom: 5px; /* Margen muy reducido */
+    margin-bottom: 25px; /* Más margen inferior */
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 5px; /* Padding mínimo */
+    padding: 0 40px; /* Más padding lateral */
     box-sizing: border-box;
     flex-shrink: 0;
 }
 
 .header h1 {
-    font-size: 1.4em; /* Tamaño de fuente más pequeño */
+    font-size: 2.2em; /* Tamaño de fuente más grande */
     color: #555;
     margin: 0;
 }
 
 .approved-counter {
-    font-size: 0.8em; /* Tamaño de fuente más pequeño */
+    font-size: 1.2em; /* Tamaño de fuente más grande */
     font-weight: bold;
     color: #007bff;
 }
@@ -58,14 +41,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 5px; /* Gap entre bloques de año muy reducido */
-    padding-bottom: 10px; /* Padding inferior mínimo */
+    gap: 20px; /* Más espacio entre bloques de año */
+    padding-bottom: 40px; /* Más padding inferior */
     position: relative;
     width: 100%;
-    flex-grow: 1; /* Permite que tome el espacio restante */
+    flex-grow: 1;
     flex-wrap: nowrap;
     box-sizing: border-box;
-    height: 100%; /* Asegura que la malla use la altura disponible */
 }
 
 .year-block {
@@ -73,28 +55,28 @@ body {
     flex-direction: column;
     align-items: center;
     border: 1px solid #ccc;
-    border-radius: 4px; /* Bordes más pequeños */
-    padding: 4px; /* Padding muy reducido */
+    border-radius: 8px;
+    padding: 12px; /* Más padding */
     background-color: #fff;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.08); /* Sombra más sutil */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     flex-shrink: 0;
-    flex: 1; /* Permite que se distribuyan equitativamente */
-    min-width: 120px; /* Ancho mínimo ajustado para ramos pequeños */
-    max-width: 200px; /* Ancho máximo para evitar que se expandan demasiado */
-    height: fit-content; /* Se ajusta a su contenido */
+    flex: 1;
+    min-width: 220px; /* Ancho mínimo más cómodo */
+    max-width: 320px; /* Ancho máximo más cómodo */
+    height: fit-content;
 }
 
 .year-block h2 {
-    font-size: 1em; /* Tamaño de fuente muy pequeño */
+    font-size: 1.5em; /* Tamaño de fuente más grande */
     margin-top: 0;
-    margin-bottom: 4px; /* Margen muy reducido */
+    margin-bottom: 10px; /* Más margen */
     color: #444;
 }
 
 .semesters-container {
     display: flex;
     flex-direction: column;
-    gap: 4px; /* Gap entre semestres muy reducido */
+    gap: 12px; /* Más espacio entre semestres */
     width: 100%;
 }
 
@@ -102,38 +84,39 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px; /* Gap entre ramos mínimo */
+    gap: 10px; /* Más espacio entre ramos */
     border: 1px dashed #e0e0e0;
-    border-radius: 3px; /* Bordes más pequeños */
-    padding: 3px; /* Padding muy reducido */
+    border-radius: 5px;
+    padding: 10px; /* Más padding */
     background-color: #fdfdfd;
     width: 100%;
     box-sizing: border-box;
 }
 
 .semester-block h3 {
-    font-size: 0.8em; /* Tamaño de fuente muy pequeño */
+    font-size: 1em; /* Tamaño de fuente más cómodo */
     margin: 0;
     color: #666;
 }
 
 .ramo {
     border: 1px solid #aaa;
-    border-radius: 3px; /* Bordes más pequeños */
-    padding: 1px 2px; /* Padding extremadamente mínimo */
+    border-radius: 5px;
+    padding: 8px 10px; /* Más padding */
     text-align: center;
     cursor: pointer;
-    width: 90px; /* **Ancho fijo muy pequeño** */
-    height: 35px; /* **Altura fija muy pequeña para que quepa** */
+    width: 140px; /* Ancho fijo más grande */
+    min-height: 60px; /* Altura mínima más grande */
+    height: auto; /* Altura automática para el contenido */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.6em; /* **Tamaño de fuente extremadamente pequeño** */
-    line-height: 1; /* Interlineado mínimo */
+    font-size: 0.9em; /* Tamaño de fuente más cómodo */
+    line-height: 1.2; /* Interlineado mejorado */
     box-sizing: border-box;
     transition: background-color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
-    word-wrap: break-word; /* Permite que palabras largas se dividan */
-    overflow: hidden; /* Oculta cualquier desbordamiento */
+    word-wrap: break-word;
+    overflow: hidden; /* Oculta el texto si se desborda, aunque con auto y brs será menos probable */
     text-overflow: ellipsis; /* Añade puntos suspensivos si el texto se corta */
     white-space: pre-wrap; /* Mantiene los saltos de línea del HTML */
 }
@@ -172,13 +155,13 @@ body {
     text-align: center;
     font-weight: bold;
     color: #666;
-    font-size: 0.5em; /* Tamaño de fuente extremadamente pequeño */
+    font-size: 0.8em; /* Tamaño de fuente más legible */
     white-space: nowrap;
     align-self: stretch; /* Se estira verticalmente */
-    padding: 0 2px; /* Padding mínimo */
+    padding: 0 8px; /* Más padding */
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
-    margin: 0 2px; /* Margen mínimo */
+    margin: 0 8px; /* Más margen */
     box-sizing: border-box;
 }
 
@@ -187,124 +170,146 @@ body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 4px; /* Gap reducido */
-    margin-top: 10px; /* Margen superior mínimo */
-    padding: 5px;
+    gap: 10px; /* Más espacio */
+    margin-top: 30px; /* Más margen superior */
+    padding: 15px;
     width: 100%;
     box-sizing: border-box;
-    max-width: 900px; /* Ancho máximo ajustado */
+    max-width: 1500px; /* Ancho máximo más grande */
     flex-shrink: 0;
 }
 
 .legend-item {
     border: 1px solid #aaa;
-    border-radius: 3px;
-    padding: 1px 2px; /* Igual que los ramos */
+    border-radius: 5px;
+    padding: 8px 10px; /* Igual que los ramos */
     text-align: center;
-    width: 80px; /* Ancho fijo muy pequeño */
-    height: 30px; /* Altura fija muy pequeña */
+    width: 130px; /* Ancho más grande */
+    min-height: 55px; /* Altura mínima más grande */
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.55em; /* Tamaño de fuente extremadamente pequeño */
-    line-height: 1;
+    font-size: 0.85em; /* Tamaño de fuente más grande */
+    line-height: 1.2;
     box-sizing: border-box;
     font-weight: bold;
     color: #333;
 }
 
-/* Media Queries para responsividad - Ajustes de escala según el ancho de la pantalla */
+/* Media Queries para responsividad */
+
+/* Pantallas de escritorio grandes (Full HD y más) */
 @media (min-width: 1920px) {
-    body { transform: scale(0.95); } /* Menos escala en pantallas grandes */
+    /* En pantallas muy grandes, la malla puede expandirse más cómodamente */
+    .malla-container {
+        gap: 25px;
+    }
+    .year-block {
+        min-width: 250px;
+        max-width: 350px;
+    }
+    .ramo {
+        width: 150px;
+        min-height: 65px;
+        font-size: 0.95em;
+    }
+    .legend-item {
+        width: 140px;
+        min-height: 60px;
+        font-size: 0.9em;
+    }
 }
 
-@media (max-width: 1600px) {
-    body { transform: scale(0.75); } /* Más escala en pantallas medianas */
-}
-
-@media (max-width: 1400px) {
-    body { transform: scale(0.7); } /* Aún más escala */
-}
-
-@media (max-width: 1200px) {
-    body { transform: scale(0.65); } /* Más escala */
-}
-
-/* Tablet y pantallas más pequeñas (vertical) - Aquí sí permitimos scroll, ya que el diseño cambia */
+/* Tablet y pantallas más pequeñas (vertical) - El scroll vertical es esperado aquí */
 @media (max-width: 900px) {
     body {
         padding: 10px;
-        overflow: auto; /* Permitir scroll vertical en móviles */
-        transform: none; /* Eliminar el escalado global en móviles */
-        width: 100vw; /* Asegura que el body use el 100% del ancho del viewport */
-        height: auto; /* La altura se ajusta al contenido, permitiendo scroll */
+        min-width: unset; /* Quita el min-width en móviles */
+    }
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+    .header h1 {
+        font-size: 1.8em;
+    }
+    .approved-counter {
+        font-size: 1em;
     }
     .malla-container {
         flex-direction: column; /* Apilar años verticalmente */
         align-items: center;
-        gap: 15px;
-        padding-bottom: 15px;
+        gap: 25px;
+        padding-bottom: 20px;
         width: 100%;
-        height: auto; /* La altura se ajusta al contenido */
     }
     .year-block {
         width: 95%;
-        max-width: 300px; /* Ancho máximo para móvil */
-        padding: 10px;
+        max-width: 380px; /* Limita el ancho en móviles */
+        padding: 15px;
         min-width: unset;
+    }
+    .year-block h2 {
+        font-size: 1.3em;
+        margin-bottom: 12px;
     }
     .semesters-container {
         flex-direction: column;
+        gap: 15px;
+    }
+    .semester-block {
         gap: 10px;
+        padding: 12px;
+    }
+    .semester-block h3 {
+        font-size: 1.1em;
     }
     .ramo {
         width: 100%; /* Ocupar todo el ancho disponible */
         height: auto; /* Altura automática */
-        min-height: 45px; /* Mínima altura para legibilidad */
-        font-size: 0.8em; /* Fuente más grande para móvil */
-        padding: 8px;
+        min-height: 70px; /* Altura mínima más cómoda para móvil */
+        font-size: 1em; /* Fuente más grande para móvil */
+        padding: 12px;
         white-space: normal; /* Permitir que el texto se envuelva naturalmente */
-        text-overflow: clip; /* No mostrar ellipsis en móvil */
+        text-overflow: clip; /* Sin puntos suspensivos en móvil */
     }
     .licenciado-separator {
         width: 100%;
         height: auto;
-        margin: 15px 0;
+        margin: 25px 0;
         border: none;
         border-top: 1px solid #ccc;
         border-bottom: 1px solid #ccc;
-        padding: 8px 0;
-        font-size: 1em;
-        line-height: 1.4;
-        flex-direction: row;
+        padding: 12px 0;
+        font-size: 1.2em;
+        line-height: 1.5;
+        flex-direction: row; /* Texto horizontal */
         text-align: center;
         white-space: normal;
         align-self: center;
     }
     .licenciado-separator br {
-        display: none;
+        display: none; /* Ocultar los <br> en móvil */
     }
     .licenciado-separator::before {
-        content: "LICENCIADO EN PSICOLOGÍA";
+        content: "LICENCIADO EN PSICOLOGÍA"; /* Asegurar texto visible */
         display: block;
     }
     .legend-container {
         flex-direction: column;
         align-items: center;
-        padding: 10px;
-        gap: 8px;
+        padding: 15px;
+        gap: 12px;
     }
     .legend-item {
-        width: 90%;
-        max-width: 250px;
+        width: 95%;
+        max-width: 350px;
         height: auto;
-        min-height: 40px;
-        font-size: 0.75em;
-        padding: 8px;
-    }
-    .header {
-        flex-direction: column;
-        gap: 8px;
-        padding: 8px;
+        min-height: 60px;
+        font-size: 1em;
+        padding: 12px;
     }
 }
