@@ -1,1 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Candara&display=swap');
 
+body {
+  font-family: 'Candara', sans-serif;
+  margin: 0;
+  background: #fff;
+  color: #222;
+}
+
+header {
+  text-align: center;
+  padding: 1rem;
+  background-color: #f2f2f2;
+  border-bottom: 2px solid #ccc;
+}
+
+h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #800080;
+}
+
+main#malla {
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.años-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.año {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  min-width: 260px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.año-titulo {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #C71585;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.semestres {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.semestre {
+  background: #fff;
+  border: 1px solid #aaa;
+  padding: 0.4rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.semestre-titulo {
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 0.4rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.3rem;
+  color: #800080;
+}
+
+.ramos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ramo {
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: default;
+  user-select: none;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Colores por ámbito */
+.ramo[data-ambito="I"] { background: #FFB6C1; }
+.ramo[data-ambito="II"] { background: #C71585; color: white; }
+.ramo[data-ambito="III"] { background: #800080; color: white; }
+.ramo[data-ambito="IV"] { background: #DB7093; }
+.ramo[data-ambito="V"] { background: #FF1493; color: white; }
+.ramo[data-ambito="VI"] { background: #D8BFD8; }
+
+/* Si el ramo abre otros, es clickeable */
+.ramo[data-abre]:not([data-abre=""]) {
+  border: 1px solid #333;
+  cursor: pointer;
+}
+
+/* Ramo activado (clickeado) */
+.ramo.activado {
+  border-color: #000;
+  box-shadow: 0 0 6px 2px #800080;
+  font-weight: 700;
+}
+
+/* Separadores verticales LICENCIADO y TÍTULO */
+.separador-licenciado, .separador-titulo {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #800080;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.3rem;
+  user-select: none;
+}
+
+.texto-vertical {
+  line-height: 1.3;
+  text-align: center;
+  white-space: pre-line;
+}
+
+.leyenda {
+  margin-top: 2rem;
+  border-top: 2px solid #800080;
+  padding-top: 1rem;
+}
+
+.leyenda h2 {
+  text-align: center;
+  color: #800080;
+  margin-bottom: 0.8rem;
+}
+
+.leyenda-colores {
+  display: flex;
