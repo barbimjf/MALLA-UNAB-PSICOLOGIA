@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const contadorAprobados = document.getElementById('contador-aprobados');
-    const ramosElementos = document.querySelectorAll('.ramo'); // Nodos DOM de todos los ramos
+    const ramosElementos = document.querySelectorAll('.ramo'); // Todos los elementos DOM con clase 'ramo'
 
-    // Objeto que almacenará el estado de aprobación de cada ramo
-    // { "Nombre del Ramo": true/false }
+    // Objeto para almacenar el estado de aprobación de cada ramo (true si aprobado, false si no)
     let estadoAprobacion = {}; 
 
-    // --- Definición COMPLETA de todos los ramos, sus ámbitos y prerrequisitos ---
-    // ¡Asegúrate de que los nombres aquí COINCIDAN EXACTAMENTE con los data-nombre en tu HTML!
+    // --- Definición COMPLETA y CORRECTA de todos los ramos, sus ámbitos y PRERREQUISITOS ---
+    // ¡Es CRÍTICO que los nombres (claves del objeto) COINCIDAN EXACTAMENTE con los 'data-nombre' en tu HTML!
+    // Si hay una tilde, un espacio extra, una mayúscula/minúscula diferente, no funcionará.
     const infoRamos = {
         // PRIMER AÑO
         "Historia y Fundamentos de la Psicología": { ambito: "II", prereq: [] },
@@ -34,9 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
         "Eje de Formación Interdisciplinaria II": { ambito: "I", prereq: [] },
 
         // TERCER AÑO
-        "Psicodiagnóstico Clínico I": { ambito: "III", prereq: [] }, // No tiene prerrequisito en la lista, pero suele tenerlo de Psicoanálisis II
-        "Psicopatología y Psiquiatría I": { ambito: "II", prereq: [] }, // No tiene prerrequisito en la lista
-        "Taller de Integración": { ambito: "VI", prereq: ["Psicoanálisis I", "Psicología del Desarrollo II"] }, // Actualizado con los 2 prerrequisitos
+        "Psicodiagnóstico Clínico I": { ambito: "III", prereq: ["Psicoanálisis II"] }, // Añadido prerrequisito
+        "Psicopatología y Psiquiatría I": { ambito: "II", prereq: [] },
+        "Taller de Integración": { ambito: "VI", prereq: ["Psicoanálisis I", "Psicología del Desarrollo II"] },
         "Psicología Social": { ambito: "II", prereq: [] },
         "Eje de Formación Interdisciplinaria III": { ambito: "I", prereq: [] },
         "Psicodiagnóstico Clínico II": { ambito: "III", prereq: ["Psicodiagnóstico Clínico I"] },
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "Diagnóstico e Intervención Organizacional": { ambito: "IV", prereq: ["Psicología del Trabajo y las Organizaciones"] },
         "Intervención Clínica Sistémica": { ambito: "IV", prereq: ["Clínica Sistémica"] },
         "Clínica Infantojuvenil": { ambito: "IV", prereq: ["Psicopatología Infantojuvenil"] },
-        "Integrador I: Taller de Investigación": { ambito: "VI", prereq: ["Taller de Integración", "Investigación II", "Psicología Jurídica"] }, // Agregados prerrequisitos
+        "Integrador I: Taller de Investigación": { ambito: "VI", prereq: ["Taller de Integración", "Investigación II", "Psicología Jurídica"] },
         "Diagnóstico e Intervención Jurídica": { ambito: "IV", prereq: ["Psicología Jurídica"] },
         "Clínica Psicoanalítica": { ambito: "IV", prereq: ["Psicoanálisis II"] },
 
@@ -67,84 +67,90 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     // --- FIN de la definición de infoRamos ---
 
-    // Función para actualizar el estado visual de todos los ramos
-    // Esta función se ejecuta en un bucle para propagar los cambios
+    // Función principal para actualizar el estado visual y lógico de todos los ramos
     function actualizarEstadoDeRamos() {
-        let cambiosRealizados;
+        let cambiosRealizados; // Bandera para saber si hubo cambios en la iteración
+        
         do {
-            cambiosRealizados = false;
+            cambiosRealizados = false; // Reiniciar para cada iteración del bucle
             ramosElementos.forEach(ramoDOM => {
                 const nombreRamo = ramoDOM.dataset.nombre;
                 const info = infoRamos[nombreRamo];
 
                 if (!info) {
-                    console.warn(`Información no encontrada para el ramo: ${nombreRamo}. Verifique data-nombre en HTML y infoRamos en JS.`);
-                    return; // Saltar si el ramo no está definido en infoRamos
+                    console.warn(`[ERROR]: Información no encontrada para el ramo '${nombreRamo}'. Verifique 'data-nombre' en HTML y las claves en 'infoRamos' en JS.`);
+                    return; // Saltamos este ramo si no está definido en infoRamos
                 }
 
-                // Si el ramo ya está aprobado, no se modifica su estado de bloqueo/aprobación
+                // 1. Manejo del estado 'aprobado'
                 if (estadoAprobacion[nombreRamo]) {
+                    // Si el ramo está marcado como aprobado en 'estadoAprobacion'
                     if (!ramoDOM.classList.contains('aprobado')) {
                         ramoDOM.classList.add('aprobado');
-                        ramoDOM.classList.remove('bloqueado');
+                        cambiosRealizados = true;
+                    }
+                    if (ramoDOM.classList.contains('bloqueado')) {
+                        ramoDOM.classList.remove('bloqueado'); // Un ramo aprobado no puede estar bloqueado
                         cambiosRealizados = true;
                     }
                 } else {
-                    // El ramo no está aprobado, verificar si está bloqueado por prerrequisitos
+                    // Si el ramo NO está marcado como aprobado
+                    if (ramoDOM.classList.contains('aprobado')) {
+                        ramoDOM.classList.remove('aprobado');
+                        cambiosRealizados = true;
+                    }
+
+                    // 2. Manejo del estado 'bloqueado' por prerrequisitos
                     const prerrequisitosCumplidos = info.prereq.every(prereqNombre => {
                         return estadoAprobacion[prereqNombre] === true;
                     });
 
                     if (prerrequisitosCumplidos) {
-                        // Si los prerrequisitos están cumplidos, el ramo ya no está bloqueado
+                        // Si todos los prerrequisitos están cumplidos, el ramo ya NO está bloqueado
                         if (ramoDOM.classList.contains('bloqueado')) {
                             ramoDOM.classList.remove('bloqueado');
                             cambiosRealizados = true;
                         }
                     } else {
-                        // Si los prerrequisitos NO están cumplidos, el ramo debe estar bloqueado
+                        // Si AL MENOS UN prerrequisito NO está cumplido, el ramo DEBE estar bloqueado
                         if (!ramoDOM.classList.contains('bloqueado')) {
                             ramoDOM.classList.add('bloqueado');
                             cambiosRealizados = true;
                         }
                     }
-                    // Asegurarse de que no tenga la clase 'aprobado' si no lo está
-                    if (ramoDOM.classList.contains('aprobado')) {
-                        ramoDOM.classList.remove('aprobado');
-                        cambiosRealizados = true;
-                    }
                 }
             });
-        } while (cambiosRealizados); // Repetir mientras se sigan realizando cambios
+        } while (cambiosRealizados); // El bucle se repite hasta que no haya más cambios en el habilitado/deshabilitado
 
         // Actualizar el contador de ramos aprobados
-        totalAprobados = Object.values(estadoAprobacion).filter(Boolean).length;
+        const totalAprobados = Object.values(estadoAprobacion).filter(Boolean).length;
         contadorAprobados.textContent = `Ramos aprobados: ${totalAprobados}`;
     }
 
-    // --- Inicialización y Event Listeners ---
-
-    // 1. Inicializar el estado de aprobación de todos los ramos a false
+    // --- Inicialización de la Malla al Cargar la Página ---
     ramosElementos.forEach(ramoDOM => {
         const nombreRamo = ramoDOM.dataset.nombre;
-        estadoAprobacion[nombreRamo] = false; // Inicialmente ningún ramo está aprobado
+        const info = infoRamos[nombreRamo];
 
-        // Asignar las clases de ámbito desde JS (o asegurar que estén en HTML)
-        const ambito = infoRamos[nombreRamo]?.ambito;
-        if (ambito) {
-            // Asegurarse de que no haya clases de ámbito antiguas
-            ramoDOM.classList.forEach(cls => {
-                if (cls.startsWith('ambito-')) {
-                    ramoDOM.classList.remove(cls);
-                }
-            });
-            ramoDOM.classList.add(`ambito-${ambito}`);
-        } else {
-            console.warn(`Ámbito no definido para el ramo: ${nombreRamo}`);
+        if (!info) {
+            console.error(`[CRÍTICO]: El ramo '${nombreRamo}' en el HTML no tiene información en el objeto 'infoRamos' del JS. Esto causará fallos.`);
+            ramoDOM.style.border = "2px solid red"; // Resaltar visualmente el error
+            ramoDOM.innerHTML = `ERROR:<br>${nombreRamo}`;
+            return; 
         }
 
-        // Insertar el texto del nombre del ramo con saltos de línea forzados
-        // Se puede personalizar más esta lógica de salto de línea si es necesario
+        // Inicialmente, ningún ramo está aprobado
+        estadoAprobacion[nombreRamo] = false; 
+
+        // Asignar las clases de ámbito desde JS (para asegurar que los colores se apliquen correctamente)
+        ramoDOM.classList.forEach(cls => { // Limpiar clases de ámbito antiguas si existen
+            if (cls.startsWith('ambito-')) {
+                ramoDOM.classList.remove(cls);
+            }
+        });
+        ramoDOM.classList.add(`ambito-${info.ambito}`);
+
+        // Insertar el texto del nombre del ramo con saltos de línea forzados para mejor visualización
         let formattedName = nombreRamo
             .replace(/ y /g, '<br>y ')
             .replace(/ e /g, '<br>e ')
@@ -159,25 +165,26 @@ document.addEventListener('DOMContentLoaded', () => {
         ramoDOM.innerHTML = formattedName;
     });
 
-    // 2. Asignar los event listeners de clic
+    // --- Event Listeners (para hacer los ramos clickeables) ---
     ramosElementos.forEach(ramoDOM => {
         const nombreRamo = ramoDOM.dataset.nombre;
 
         ramoDOM.addEventListener('click', () => {
-            // Si está bloqueado, mostrar alerta y no hacer nada
             if (ramoDOM.classList.contains('bloqueado')) {
+                // Si el ramo está bloqueado, no se puede hacer clic y se informa al usuario
                 alert('Debes aprobar los prerrequisitos para este ramo primero.');
                 return;
             }
 
-            // Cambiar el estado de aprobación
-            estadoAprobacion[nombreRamo] = !estadoAprobacion[nombreRamo]; // Alternar entre true y false
+            // Alternar el estado de aprobación del ramo
+            estadoAprobacion[nombreRamo] = !estadoAprobacion[nombreRamo];
 
-            // Actualizar el estado visual de todos los ramos y el contador
+            // Recalcular y actualizar el estado visual de toda la malla
             actualizarEstadoDeRamos();
         });
     });
 
-    // 3. Ejecutar la actualización inicial para configurar el estado visual al cargar la página
+    // Llamada inicial para configurar el estado de la malla al cargar la página
+    // Esto asegura que los ramos sin prerrequisitos estén habilitados y los demás bloqueados
     actualizarEstadoDeRamos();
 });
