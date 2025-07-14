@@ -1,110 +1,102 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const ramos = document.querySelectorAll('.ramo');
-    const contadorAprobados = document.getElementById('contador-aprobados');
-    let approvedCount = 0;
+const contador = document.getElementById('contador-aprobados');
+const ramos = document.querySelectorAll('.ramo');
 
-    // Objeto para mapear nombres de ramos a sus elementos DOM
-    // Esto es crucial para buscar ramos por su nombre de forma eficiente
-    const ramoElements = {};
-    ramos.forEach(ramo => {
-        ramoElements[ramo.dataset.nombre] = ramo;
-    });
+let estado = {}; // { "nombreRamo": true/false }
+let totalAprobados = 0;
 
-    // Función para obtener los nombres de los prerrequisitos de un ramo
-    const getPrerequisitos = (ramo) => {
-        const prereqString = ramo.dataset.prerequisito;
-        return prereqString ? prereqString.split(',').map(s => s.trim()) : [];
-    };
+// Definir ámbitos y prerrequisitos según tu lista completa.
+// Aquí un ejemplo con algunos (debes completarlo):
+const infoRamos = {
+  "Historia y Fundamentos de la Psicología": { ambito: "II", prereq: [] },
+  "Tópicos de Neurobiología": { ambito: "II", prereq: [] },
+  "Procesos Psicológicos y Neurociencias": { ambito: "II", prereq: ["Tópicos de Neurobiología"] },
+  "Psicología y Sociedad": { ambito: "II", prereq: [] },
+  "Inglés I": { ambito: "I", prereq: [] },
+  "Inglés II": { ambito: "I", prereq: ["Inglés I"] },
+  "Inglés III": { ambito: "I", prereq: ["Inglés II"] },
+  "Inglés IV": { ambito: "I", prereq: ["Inglés III"] },
+  "Eje de Formación Interdisciplinaria I": { ambito: "I", prereq: [] },
+  "Habilidades Comunicativas": { ambito: "I", prereq: [] },
+  "Razonamiento Científico y TICS": { ambito: "I", prereq: ["Habilidades Comunicativas"] },
+  "Sistemas Psicológicos": { ambito: "II", prereq: [] },
+  "Psicología y Epistemología": { ambito: "II", prereq: [] },
+  "Psicoanálisis I": { ambito: "II", prereq: [] },
+  "Psicoanálisis II": { ambito: "II", prereq: ["Psicoanálisis I"] },
+  "Psicología del Desarrollo I": { ambito: "II", prereq: [] },
+  "Psicología del Desarrollo II": { ambito: "II", prereq: ["Psicología del Desarrollo I"] },
+  "Investigación I": { ambito: "V", prereq: [] },
+  "Investigación II": { ambito: "V", prereq: ["Investigación I"] },
+  "Psicodiagnóstico Clínico I": { ambito: "III", prereq: [] },
+  "Psicodiagnóstico Clínico II": { ambito: "III", prereq: ["Psicodiagnóstico Clínico I"] },
+  "Psicopatología y Psiquiatría I": { ambito: "III", prereq: [] },
+  "Psicopatología y Psiquiatría II": { ambito: "III", prereq: ["Psicopatología y Psiquiatría I"] },
+  "Taller de Integración": { ambito: "VI", prereq: ["Psicoanálisis I"] },
+  "Psicología Social": { ambito: "II", prereq: [] },
+  "Psicología Educacional": { ambito: "III", prereq: [] },
+  "Diagnóstico e Intervención Social": { ambito: "III", prereq: [] },
+  "Psicología del Trabajo y las Organizaciones": { ambito: "III", prereq: [] },
+  "Clínica Sistémica": { ambito: "IV", prereq: [] },
+  "Psicopatología Infantojuvenil": { ambito: "III", prereq: ["Psicopatología y Psiquiatría I"] },
+  "Diagnóstico e Intervención Educacional": { ambito: "III", prereq: [] },
+  "Psicología Jurídica": { ambito: "III", prereq: [] },
+  "Diagnóstico e Intervención Organizacional": { ambito: "III", prereq: [] },
+  "Intervención Clínica Sistémica": { ambito: "IV", prereq: ["Clínica Sistémica"] },
+  "Clínica Infantojuvenil": { ambito: "IV", prereq: ["Psicopatología Infantojuvenil"] },
+  "Integrador I: Taller de Investigación": { ambito: "VI", prereq: ["Investigación II"] },
+  "Diagnóstico e Intervención Jurídica": { ambito: "III", prereq: [] },
+  "Clínica Psicoanalítica": { ambito: "IV", prereq: ["Psicoanálisis II"] },
+  "Taller de Intervención Clínica": { ambito: "VI", prereq: [] },
+  "Psicología y Salud": { ambito: "III", prereq: [] },
+  "Taller de Diagnóstico e Intervención Social": { ambito: "VI", prereq: [] },
+  "Electivo de Formación Profesional I": { ambito: "VI", prereq: [] },
+  "Electivo de Formación Profesional II": { ambito: "VI", prereq: [] },
+  "Integrador II: Práctica Profesional": { ambito: "VI", prereq: [] },
+};
 
-    // Función para obtener los nombres de los ramos que este ramo desbloquea
-    // (Este atributo 'data-prerequisito-desbloquea' se usa para la lógica de propagación)
-    const getRamosToUnlock = (ramo) => {
-        const unlockString = ramo.dataset.prerequisitoDesbloquea;
-        return unlockString ? unlockString.split(',').map(s => s.trim()) : [];
-    };
+function actualizarEstado() {
+  totalAprobados = 0;
+  ramos.forEach(ramo => {
+    const nombre = ramo.dataset.nombre;
+    const aprobado = estado[nombre] === true;
+    if (aprobado) totalAprobados++;
 
-    // Función para verificar si un ramo puede ser aprobado (todos sus prerrequisitos están aprobados)
-    const canApprove = (ramo) => {
-        const prerequisitos = getPrerequisitos(ramo);
-        if (prerequisitos.length === 0) {
-            return true; // No tiene prerrequisitos, se puede aprobar directamente
-        }
-        // Verifica si TODOS los prerrequisitos están aprobados
-        return prerequisitos.every(prereqName => {
-            const prereqElement = ramoElements[prereqName];
-            return prereqElement && prereqElement.classList.contains('aprobado');
-        });
-    };
+    // Poner clase aprobado si corresponde
+    if (aprobado) {
+      ramo.classList.add('aprobado');
+      ramo.classList.remove('bloqueado');
+    } else {
+      // Verificar prerrequisitos
+      const prereqs = infoRamos[nombre]?.prereq || [];
+      const bloqueado = prereqs.some(pr => !estado[pr]);
+      if (bloqueado) {
+        ramo.classList.add('bloqueado');
+        ramo.classList.remove('aprobado');
+      } else {
+        ramo.classList.remove('aprobado');
+        ramo.classList.remove('bloqueado');
+      }
+    }
+  });
 
-    // Actualiza el estado de todos los ramos (habilitado/deshabilitado)
-    // Se ejecuta en un bucle para asegurar la propagación de todos los cambios
-    const updateRamosState = () => {
-        let changed = true;
-        while (changed) {
-            changed = false; // Si no hay cambios en esta iteración, el bucle terminará
-            ramos.forEach(ramo => {
-                if (!ramo.classList.contains('aprobado')) { // Solo actualiza si el ramo no está aprobado
-                    if (canApprove(ramo)) {
-                        // Si puede ser aprobado y estaba deshabilitado, lo habilita
-                        if (ramo.classList.contains('deshabilitado')) {
-                            ramo.classList.remove('deshabilitado');
-                            changed = true; // Hubo un cambio
-                        }
-                    } else {
-                        // Si no puede ser aprobado y no estaba deshabilitado, lo deshabilita
-                        if (!ramo.classList.contains('deshabilitado')) {
-                            ramo.classList.add('deshabilitado');
-                            changed = true; // Hubo un cambio
-                        }
-                    }
-                }
-            });
-        }
-        updateApprovedCount(); // Actualiza el contador después de cada cambio de estado
-    };
+  contador.textContent = `Ramos aprobados: ${totalAprobados}`;
+}
 
-    // Actualiza el contador de ramos aprobados en la interfaz
-    const updateApprovedCount = () => {
-        approvedCount = document.querySelectorAll('.ramo.aprobado').length;
-        contadorAprobados.textContent = `Ramos aprobados: ${approvedCount}`;
-    };
+ramos.forEach(ramo => {
+  const nombre = ramo.dataset.nombre;
+  // Asignar ámbito
+  const ambito = infoRamos[nombre]?.ambito;
+  if (ambito) ramo.setAttribute('data-ambito', ambito);
 
-    // Asigna los eventos de clic a cada ramo
-    ramos.forEach(ramo => {
-        ramo.addEventListener('click', () => {
-            if (ramo.classList.contains('deshabilitado')) {
-                alert('¡Atención! Debes aprobar los prerrequisitos de este ramo primero.');
-                return; // Sale de la función si el ramo está deshabilitado
-            }
-            if (!ramo.classList.contains('aprobado')) {
-                // Marca el ramo como aprobado
-                ramo.classList.add('aprobado');
-                updateRamosState(); // Recalcula el estado de todos los ramos
-            }
-            // Si ya está aprobado, un clic no hace nada. Si quisieras desaprobar, se necesitaría más lógica.
-        });
-    });
-
-    // Añade el texto inicial a cada ramo y aplica los saltos de línea forzados
-    ramos.forEach(ramo => {
-        const nombre = ramo.dataset.nombre;
-        // Divide el nombre en partes para insertar <br> estratégicamente
-        let formattedName = nombre
-            .replace(/ y /g, '<br>y ')
-            .replace(/ e /g, '<br>e ')
-            .replace(/ de /g, '<br>de ')
-            .replace(/ del /g, '<br>del ')
-            .replace(/ las /g, '<br>las ')
-            .replace(/ en /g, '<br>en ')
-            .replace(/ la /g, '<br>la ')
-            .replace(/ los /g, '<br>los ')
-            .replace(/ a /g, '<br>a ')
-            .replace(/: /g, ':<br>');
-        ramo.innerHTML = formattedName;
-    });
-
-    // Llama a la inicialización y actualización del estado al cargar la página
-    // Esto asegura que todos los ramos estén en su estado correcto (deshabilitados o habilitados)
-    // basándose en sus prerrequisitos al inicio.
-    updateRamosState();
+  ramo.addEventListener('click', () => {
+    if (ramo.classList.contains('bloqueado')) return; // No clickeable si bloqueado
+    if (ramo.classList.contains('aprobado')) {
+      estado[nombre] = false;
+    } else {
+      estado[nombre] = true;
+    }
+    actualizarEstado();
+  });
 });
+
+// Inicializar
+actualizarEstado();
