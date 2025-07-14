@@ -1,187 +1,186 @@
-import os
-import json
-
-# Crear directorios para el proyecto
-os.makedirs("malla_psicologia/css", exist_ok=True)
-os.makedirs("malla_psicologia/js", exist_ok=True)
-
-# Contenido del archivo index.html
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Malla Psicología - U Andrés Bello</title>
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malla Psicología UNAB</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #fff0f5;
+    }
+    h1 {
+      text-align: center;
+      color: #b30059;
+    }
+    .malla {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding-bottom: 40px;
+    }
+    .semestre {
+      display: flex;
+      flex-direction: column;
+      background: #ffeaf3;
+      border-radius: 10px;
+      padding: 10px;
+      min-width: 180px;
+      border: 1px solid #e2b5c6;
+    }
+    .semestre h3 {
+      text-align: center;
+      color: #b30059;
+      margin: 5px 0;
+    }
+    .ramo {
+      padding: 8px;
+      border-radius: 8px;
+      margin: 5px 0;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.3s;
+      opacity: 0.5;
+      font-size: 0.9em;
+    }
+    .ramo.activo {
+      opacity: 1;
+    }
+    .ramo.aprobado {
+      text-decoration: line-through;
+      background-color: #d63384 !important;
+      color: white;
+    }
+    .separator {
+      writing-mode: vertical-lr;
+      transform: rotate(180deg);
+      text-align: center;
+      font-weight: bold;
+      color: #c2185b;
+      background: #ffe6f0;
+      padding: 10px;
+      border-left: 3px solid #c2185b;
+    }
+
+    .ambito1 { background: #fce4ec; }
+    .ambito2 { background: #f8bbd0; }
+    .ambito3 { background: #f48fb1; }
+    .ambito4 { background: #f06292; }
+    .ambito5 { background: #ec407a; }
+    .integradora { background: #f3c2d3; }
+  </style>
 </head>
 <body>
-    <h1>Malla Psicología – U Andrés Bello</h1>
-    <div id="malla-container"></div>
-    <script src="js/script.js"></script>
+
+<h1>Malla Psicología – UNAB</h1>
+<div class="malla" id="malla"></div>
+
+<script>
+const ramos = [
+  { id: 'historia', nombre: 'Historia y Fundamentos de la Psicología', semestre: 1, ambito: 'ambito2', prereq: [] },
+  { id: 'neurobio', nombre: 'Tópicos de Neurobiología', semestre: 1, ambito: 'ambito2', prereq: [] },
+  { id: 'sociedad', nombre: 'Psicología y Sociedad', semestre: 1, ambito: 'ambito2', prereq: [] },
+  { id: 'ingles1', nombre: 'Inglés I', semestre: 1, ambito: 'ambito1', prereq: [] },
+  { id: 'interdisc1', nombre: 'Eje Formación Interdisciplinaria I', semestre: 1, ambito: 'ambito1', prereq: [] },
+
+  { id: 'sistemas', nombre: 'Sistemas Psicológicos', semestre: 2, ambito: 'ambito2', prereq: [] },
+  { id: 'procesos', nombre: 'Procesos Psicológicos y Neurociencias', semestre: 2, ambito: 'ambito2', prereq: ['neurobio'] },
+  { id: 'epistemologia', nombre: 'Psicología y Epistemología', semestre: 2, ambito: 'ambito5', prereq: [] },
+  { id: 'ingles2', nombre: 'Inglés II', semestre: 2, ambito: 'ambito1', prereq: ['ingles1'] },
+  { id: 'comunicativas', nombre: 'Habilidades Comunicativas', semestre: 2, ambito: 'ambito1', prereq: [] },
+
+  { id: 'psico1', nombre: 'Psicoanálisis I', semestre: 3, ambito: 'ambito2', prereq: [] },
+  { id: 'desarrollo1', nombre: 'Psicología del Desarrollo I', semestre: 3, ambito: 'ambito2', prereq: [] },
+  { id: 'investigacion1', nombre: 'Investigación I', semestre: 3, ambito: 'ambito5', prereq: [] },
+  { id: 'ingles3', nombre: 'Inglés III', semestre: 3, ambito: 'ambito1', prereq: ['ingles2'] },
+  { id: 'tic', nombre: 'Razonamiento Científico y TICS', semestre: 3, ambito: 'ambito1', prereq: ['comunicativas'] },
+
+  { id: 'psico2', nombre: 'Psicoanálisis II', semestre: 4, ambito: 'ambito2', prereq: ['psico1'] },
+  { id: 'desarrollo2', nombre: 'Psicología del Desarrollo II', semestre: 4, ambito: 'ambito2', prereq: ['desarrollo1'] },
+  { id: 'investigacion2', nombre: 'Investigación II', semestre: 4, ambito: 'ambito5', prereq: ['investigacion1'] },
+  { id: 'ingles4', nombre: 'Inglés IV', semestre: 4, ambito: 'ambito1', prereq: ['ingles3'] },
+  { id: 'interdisc2', nombre: 'Eje Formación Interdisciplinaria II', semestre: 4, ambito: 'ambito1', prereq: [] },
+
+  { id: 'psicodiag1', nombre: 'Psicodiagnóstico Clínico I', semestre: 5, ambito: 'ambito3', prereq: [] },
+  { id: 'psicopato1', nombre: 'Psicopatología y Psiquiatría I', semestre: 5, ambito: 'ambito3', prereq: [] },
+  { id: 'integracion', nombre: 'Taller de Integración', semestre: 5, ambito: 'integradora', prereq: ['psico1', 'desarrollo2'] },
+  { id: 'social', nombre: 'Psicología Social', semestre: 5, ambito: 'ambito2', prereq: [] },
+  { id: 'interdisc3', nombre: 'Eje Formación Interdisciplinaria III', semestre: 5, ambito: 'ambito1', prereq: [] },
+
+  { id: 'psicodiag2', nombre: 'Psicodiagnóstico Clínico II', semestre: 6, ambito: 'ambito3', prereq: ['psicodiag1'] },
+  { id: 'psicopato2', nombre: 'Psicopatología y Psiquiatría II', semestre: 6, ambito: 'ambito3', prereq: ['psicopato1'] },
+  { id: 'educacional', nombre: 'Psicología Educacional', semestre: 6, ambito: 'ambito3', prereq: [] },
+  { id: 'interv_social', nombre: 'Diagnóstico e Intervención Social', semestre: 6, ambito: 'ambito3', prereq: ['social'] },
+  { id: 'trabajo_org', nombre: 'Psicología del Trabajo y las Organizaciones', semestre: 6, ambito: 'ambito3', prereq: [] },
+
+  { id: 'sistemica', nombre: 'Clínica Sistémica', semestre: 7, ambito: 'ambito3', prereq: [] },
+  { id: 'infanto_pato', nombre: 'Psicopatología Infantojuvenil', semestre: 7, ambito: 'ambito3', prereq: ['psicopato1'] },
+  { id: 'interv_educ', nombre: 'Diagnóstico e Intervención Educacional', semestre: 7, ambito: 'ambito3', prereq: ['educacional'] },
+  { id: 'juridica', nombre: 'Psicología Jurídica', semestre: 7, ambito: 'ambito3', prereq: [] },
+  { id: 'org_interv', nombre: 'Diagnóstico e Intervención Organizacional', semestre: 7, ambito: 'ambito3', prereq: ['trabajo_org'] },
+
+  { id: 'interv_sistemica', nombre: 'Intervención Clínica Sistémica', semestre: 8, ambito: 'ambito4', prereq: ['sistemica'] },
+  { id: 'infanto_clinica', nombre: 'Clínica Infantojuvenil', semestre: 8, ambito: 'ambito4', prereq: ['infanto_pato'] },
+  { id: 'integrador1', nombre: 'Integrador I: Taller de Investigación', semestre: 8, ambito: 'integradora', prereq: ['integracion', 'juridica'] },
+  { id: 'interv_juridica', nombre: 'Diagnóstico e Intervención Jurídica', semestre: 8, ambito: 'ambito3', prereq: ['juridica'] },
+  { id: 'psicoanalitica', nombre: 'Clínica Psicoanalítica', semestre: 8, ambito: 'ambito4', prereq: [] },
+
+  { id: 'separator', nombre: 'LICENCIADO/A EN PSICOLOGÍA', semestre: 8.5, separator: true },
+
+  { id: 'interv_clinica', nombre: 'Taller de Intervención Clínica', semestre: 9, ambito: 'ambito4', prereq: ['interv_sistemica', 'infanto_clinica', 'integrador1', 'interv_juridica', 'psicoanalitica'] },
+  { id: 'salud', nombre: 'Psicología y Salud', semestre: 9, ambito: 'ambito4', prereq: ['interv_sistemica', 'infanto_clinica', 'integrador1', 'interv_juridica', 'psicoanalitica'] },
+  { id: 'interv_psicosocial', nombre: 'Taller de Diagnóstico e Intervención Psicosocial', semestre: 9, ambito: 'ambito4', prereq: ['interv_sistemica', 'infanto_clinica', 'integrador1', 'interv_juridica', 'psicoanalitica'] },
+  { id: 'electivo1', nombre: 'Electivo de Formación Profesional I', semestre: 9, ambito: 'ambito3', prereq: ['psicodiag2', 'psicopato2', 'interv_social', 'trabajo_org', 'interv_educ', 'juridica'] },
+  { id: 'electivo2', nombre: 'Electivo de Formación Profesional II', semestre: 9, ambito: 'ambito4', prereq: ['interv_sistemica', 'infanto_clinica', 'integrador1', 'interv_juridica', 'psicoanalitica'] },
+
+  { id: 'integrador2', nombre: 'Integrador II: Práctica Profesional', semestre: 10, ambito: 'integradora', prereq: ['interv_clinica', 'salud', 'interv_psicosocial', 'electivo1', 'electivo2'] },
+];
+
+const contenedor = document.getElementById('malla');
+
+const totalSemestres = 10;
+for (let i = 1; i <= totalSemestres; i++) {
+  if (i === 9) {
+    const sep = document.createElement('div');
+    sep.className = 'separator';
+    sep.innerText = 'LICENCIADO/A EN PSICOLOGÍA';
+    contenedor.appendChild(sep);
+  }
+  const sem = document.createElement('div');
+  sem.className = 'semestre';
+  sem.id = 'sem' + i;
+  const h = document.createElement('h3');
+  h.textContent = `Semestre ${i}`;
+  sem.appendChild(h);
+  contenedor.appendChild(sem);
+}
+
+ramos.forEach(ramo => {
+  if (ramo.separator) return;
+  const div = document.createElement('div');
+  div.className = `ramo ${ramo.ambito}`;
+  div.dataset.id = ramo.id;
+  div.dataset.prereq = JSON.stringify(ramo.prereq);
+  div.textContent = ramo.nombre;
+  if (ramo.prereq.length === 0) div.classList.add('activo');
+  div.onclick = () => toggleAprobado(div);
+  document.getElementById('sem' + ramo.semestre).appendChild(div);
+});
+
+function toggleAprobado(el) {
+  if (!el.classList.contains('activo')) return;
+  el.classList.toggle('aprobado');
+  const aprobados = Array.from(document.querySelectorAll('.ramo.aprobado')).map(r => r.dataset.id);
+  document.querySelectorAll('.ramo').forEach(ramo => {
+    const prereqs = JSON.parse(ramo.dataset.prereq);
+    const cumple = prereqs.every(p => aprobados.includes(p));
+    if (cumple) ramo.classList.add('activo');
+    else ramo.classList.remove('activo');
+  });
+}
+</script>
+
 </body>
 </html>
-"""
-
-# Contenido del archivo styles.css
-css_content = """
-body {
-    font-family: Candara, sans-serif;
-    background-color: #fff0f5;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    color: #800080;
-}
-
-#malla-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.year {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-.semester {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-}
-
-.ramo {
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    max-width: 200px;
-    word-wrap: break-word;
-    text-align: center;
-    border: 1px solid #ccc;
-}
-
-.approved {
-    text-decoration: line-through;
-    opacity: 0.6;
-}
-
-/* Colores por ámbito */
-.ambito-1 { background-color: #FFB6C1; }
-.ambito-2 { background-color: #C71585; color: white; }
-.ambito-3 { background-color: #800080; color: white; }
-.ambito-4 { background-color: #DB7093; color: white; }
-.ambito-5 { background-color: #FF1493; color: white; }
-.ambito-6 { background-color: #D8BFD8; }
-.disabled {
-    pointer-events: none;
-    opacity: 0.4;
-}
-"""
-
-# Cargar la malla completa desde un archivo JSON generado dinámicamente
-# Para simplificar, solo se incluirán algunos ramos como ejemplo
-malla = {
-    "Primer Año": {
-        "I Semestre": [
-            { "nombre": "Historia y Fundamentos de la Psicología", "ambito": 2 },
-            { "nombre": "Tópicos de Neurobiología", "ambito": 2, "desbloquea": ["Procesos Psicológicos y Neurociencias"] },
-            { "nombre": "Psicología y Sociedad", "ambito": 2 },
-            { "nombre": "Inglés I", "ambito": 1, "desbloquea": ["Inglés II"] },
-            { "nombre": "Eje de Formación Interdisciplinaria I", "ambito": 1 }
-        ],
-        "II Semestre": [
-            { "nombre": "Sistemas Psicológicos", "ambito": 2 },
-            { "nombre": "Procesos Psicológicos y Neurociencias", "ambito": 2 },
-            { "nombre": "Psicología y Epistemología", "ambito": 5 },
-            { "nombre": "Inglés II", "ambito": 1, "desbloquea": ["Inglés III"] },
-            { "nombre": "Habilidades Comunicativas", "ambito": 1, "desbloquea": ["Razonamiento Científico y TICS"] }
-        ]
-    }
-}
-
-# Contenido del archivo script.js
-js_content = f"""
-const malla = {json.dumps(malla, ensure_ascii=False, indent=4)};
-const container = document.getElementById("malla-container");
-const ramosMap = {{}};
-
-function crearRamo(ramo) {{
-    const div = document.createElement("div");
-    div.className = `ramo ambito-${{ramo.ambito}} disabled`;
-    div.textContent = ramo.nombre;
-    div.dataset.nombre = ramo.nombre;
-    div.dataset.aprobado = "false";
-    if (ramo.desbloquea) {{
-        div.dataset.desbloquea = JSON.stringify(ramo.desbloquea);
-    }}
-    div.addEventListener("click", () => {{
-        if (div.dataset.aprobado === "false") {{
-            div.classList.add("approved");
-            div.dataset.aprobado = "true";
-            if (ramo.desbloquea) {{
-                ramo.desbloquea.forEach(nombre => {{
-                    const target = ramosMap[nombre];
-                    if (target) target.classList.remove("disabled");
-                }});
-            }}
-        }}
-    }});
-    ramosMap[ramo.nombre] = div;
-    return div;
-}}
-
-for (const [anio, semestres] of Object.entries(malla)) {{
-    const yearDiv = document.createElement("div");
-    yearDiv.className = "year";
-    const yearTitle = document.createElement("h2");
-    yearTitle.textContent = anio;
-    yearDiv.appendChild(yearTitle);
-
-    for (const [semestre, ramos] of Object.entries(semestres)) {{
-        const semDiv = document.createElement("div");
-        semDiv.className = "semester";
-        const semTitle = document.createElement("h3");
-        semTitle.textContent = semestre;
-        semDiv.appendChild(semTitle);
-
-        ramos.forEach(ramo => {{
-            const ramoDiv = crearRamo(ramo);
-            semDiv.appendChild(ramoDiv);
-        }});
-
-        yearDiv.appendChild(semDiv);
-    }}
-
-    container.appendChild(yearDiv);
-}}
-
-// Habilitar los ramos sin prerrequisitos
-Object.values(ramosMap).forEach(div => {{
-    const nombre = div.dataset.nombre;
-    const tienePrerequisitos = Object.values(malla).some(semestres =>
-        Object.values(semestres).some(ramos =>
-            ramos.some(r => r.desbloquea && r.desbloquea.includes(nombre))
-        )
-    );
-    if (!tienePrerequisitos) {{
-        div.classList.remove("disabled");
-    }}
-}});
-"""
-
-# Guardar los archivos
-with open("malla_psicologia/index.html", "w", encoding="utf-8") as f:
-    f.write(html_content)
-
-with open("malla_psicologia/css/styles.css", "w", encoding="utf-8") as f:
-    f.write(css_content)
-
-with open("malla_psicologia/js/script.js", "w", encoding="utf-8") as f:
-    f.write(js_content)
-
-print("Proyecto web generado exitosamente en la carpeta 'malla_psicologia'.")
-
