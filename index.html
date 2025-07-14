@@ -1,25 +1,73 @@
-<h2 style="margin-top: 40px; color: #003366;">Primer Año</h2>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Malla Psicología - Primer Año</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f2f7fb;
+  }
+  h1, h2 {
+    color: #003366;
+    text-align: center;
+  }
+  .semestre-container {
+    margin-top: 30px;
+  }
+  .curso {
+    background: #fff;
+    border: 2px solid #003366;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 8px;
+    cursor: pointer;
+    display: inline-block;
+    min-width: 220px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+  .curso:hover {
+    transform: scale(1.05);
+    background-color: #e6f2ff;
+  }
+  .badge {
+    background: #003366;
+    color: white;
+    font-size: 12px;
+    border-radius: 4px;
+    padding: 2px 6px;
+    display: inline-block;
+    margin-top: 5px;
+  }
+  #tooltip {
+    display: none;
+    position: absolute;
+    background: #003366;
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+    z-index: 1000;
+    max-width: 300px;
+  }
+</style>
+</head>
+<body>
 
-<div class="año" id="año-1">
-  <div>
-    <h3 style="color: #004080;">I Semestre</h3>
-    <div class="semestre" id="semestre-1" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;"></div>
-  </div>
-  <div style="margin-top: 24px;">
-    <h3 style="color: #004080;">II Semestre</h3>
-    <div class="semestre" id="semestre-2" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;"></div>
-  </div>
+<h1>Malla Psicología – U. Andrés Bello</h1>
+<h2>Primer Año</h2>
+
+<div class="semestre-container" id="semestre-1-container">
+  <h3>I Semestre</h3>
 </div>
 
-<div id="tooltip" class="tooltip" style="
-  display: none;
-  background: #003366;
-  color: white;
-  position: absolute;
-  padding: 8px;
-  border-radius: 5px;
-  z-index: 1000;
-"></div>
+<div class="semestre-container" id="semestre-2-container">
+  <h3>II Semestre</h3>
+</div>
+
+<div id="tooltip"></div>
 
 <script>
   const cursosPrimerAño = [
@@ -35,47 +83,33 @@
     { nombre: "Habilidades Comunicativas", semestre: 2, prerrequisitos: [], abre: ["Razonamiento Científico y TICS"] }
   ];
 
-  const tooltip = document.getElementById("tooltip");
+  const tooltip = document.getElementById('tooltip');
 
   cursosPrimerAño.forEach(curso => {
-    const div = document.createElement("div");
-    div.className = "curso";
-    div.style.border = "2px solid #003366";
-    div.style.borderRadius = "8px";
-    div.style.padding = "10px";
-    div.style.background = "#ffffff";
-    div.style.boxShadow = "0 2px 6px rgba(0,0,0,0.1)";
-    div.style.cursor = "pointer";
-    div.style.transition = "transform 0.2s";
+    const cursoDiv = document.createElement('div');
+    cursoDiv.className = 'curso';
+    cursoDiv.innerHTML = `<strong>${curso.nombre}</strong><br><span class="badge">Semestre ${curso.semestre}</span>`;
 
-    div.innerHTML = `
-      <strong>${curso.nombre}</strong>
-      <div class="etiqueta" style="
-        margin-top: 5px;
-        display: inline-block;
-        background: #003366;
-        color: white;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-size: 12px;
-      ">Semestre ${curso.semestre}</div>
-    `;
-
-    div.addEventListener("mouseenter", (e) => {
+    cursoDiv.addEventListener('mouseenter', (e) => {
       const rect = e.target.getBoundingClientRect();
-      tooltip.innerHTML =
-        `<strong>Semestre:</strong> ${curso.semestre}<br>` +
-        `<strong>Prerrequisitos:</strong> ${curso.prerrequisitos.length ? curso.prerrequisitos.join(", ") : "Ninguno"}<br>` +
-        `<strong>Abre:</strong> ${curso.abre && curso.abre.length ? curso.abre.join(", ") : "---"}`;
-      tooltip.style.display = "block";
-      tooltip.style.left = rect.right + 10 + "px";
-      tooltip.style.top = rect.top + window.scrollY + "px";
+      tooltip.innerHTML = `
+        <strong>Semestre:</strong> ${curso.semestre}<br>
+        <strong>Prerrequisitos:</strong> ${curso.prerrequisitos.length ? curso.prerrequisitos.join(', ') : 'Ninguno'}<br>
+        <strong>Abre:</strong> ${curso.abre && curso.abre.length ? curso.abre.join(', ') : '---'}
+      `;
+      tooltip.style.display = 'block';
+      tooltip.style.left = `${rect.right + 10}px`;
+      tooltip.style.top = `${rect.top + window.scrollY}px`;
     });
 
-    div.addEventListener("mouseleave", () => {
-      tooltip.style.display = "none";
+    cursoDiv.addEventListener('mouseleave', () => {
+      tooltip.style.display = 'none';
     });
 
-    document.getElementById(`semestre-${curso.semestre}`).appendChild(div);
+    const containerId = curso.semestre === 1 ? 'semestre-1-container' : 'semestre-2-container';
+    document.getElementById(containerId).appendChild(cursoDiv);
   });
 </script>
+
+</body>
+</html>
