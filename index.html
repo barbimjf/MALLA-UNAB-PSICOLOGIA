@@ -1,147 +1,187 @@
-<!DOCTYPE html>
+import os
+import json
+
+# Crear directorios para el proyecto
+os.makedirs("malla_psicologia/css", exist_ok=True)
+os.makedirs("malla_psicologia/js", exist_ok=True)
+
+# Contenido del archivo index.html
+html_content = """<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Malla Curricular Psicología UNAB</title>
-  <link rel="stylesheet" href="estilos.css">
+    <meta charset="UTF-8">
+    <title>Malla Psicología - U Andrés Bello</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <h1>Malla Curricular Psicología – UNAB</h1>
+    <h1>Malla Psicología – U Andrés Bello</h1>
+    <div id="malla-container"></div>
+    <script src="js/script.js"></script>
+</body>
+</html>
+"""
 
-  <div class="flex justify-center items-center gap-4 dark:text-gray-400 text-xs text-gray-800 mx-2 flex-wrap">
-  <div class="flex items-center gap-1">
-    <div class="h-4 w-4 rounded-full" style="background-color:#fff466"></div>
-    <div>Ámbito I: Interdisciplina, educación general e inglés</div>
-  </div>
-  <div class="flex items-center gap-1">
-    <div class="h-4 w-4 rounded-full" style="background-color:#f178ae"></div>
-    <div>Ámbito II: Bases conceptuales y/o transversales de la Psicología</div>
-  </div>
-  <div class="flex items-center gap-1">
-    <div class="h-4 w-4 rounded-full" style="background-color:#95979a"></div>
-    <div>Ámbito III: Diagnóstico</div>
-  </div>
-  <div class="flex items-center gap-1">
-    <div class="h-4 w-4 rounded-full" style="background-color:#b8c9e7"></div>
-    <div>Ámbito IV: Intervención</div>
-  </div>
-  <div class="flex items-center gap-1">
-    <div class="h-4 w-4 rounded-full" style="background-color:#c0cd84"></div>
-    <div>Ámbito V: Investigación</div>
-  </div>
-  <div class="flex items-center gap-1">
-    <div class="h-4 w-4 rounded-full" style="background-color:#8683be"></div>
-    <div>Experiencias Integradoras</div>
-  </div>
-</div>
+# Contenido del archivo styles.css
+css_content = """
+body {
+    font-family: Candara, sans-serif;
+    background-color: #fff0f5;
+    padding: 20px;
+}
 
-  <div class="malla">
-    <div class="año">
-      <h2>Primer Año - I Semestre</h2>
-      <div class="ramo ambito2 unlocked" data-id="historia">
-  <p title="Historia y Fundamentos de la Psicología" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Historia y Fundamentos de la Psicología</p>
-</div>
-      <div class="ramo ambito2 unlocked" data-id="neuro" data-unlocks="procesos">
-  <p title="Tópicos de Neurobiología" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Tópicos de Neurobiología</p>
-</div>
-      <div class="ramo ambito2 unlocked" data-id="psic-sociedad">
-  <p title="Psicología y Sociedad" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicología y Sociedad</p>
-</div>
-      <div class="ramo ambito1 unlocked" data-id="ingles1" data-unlocks="ingles2">
-  <p title="Inglés I" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Inglés I</p>
-</div>
-      <div class="ramo ambito1 unlocked" data-id="efi1">
-  <p title="Eje de Formación Interdisciplinaria I" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Eje de Formación Interdisciplinaria I</p>
-</div>
-    </div>
-    <div class="año">
-      <h2>Primer Año - II Semestre</h2>
-      <div class="ramo ambito2" data-id="sistemas">
-  <p title="Sistemas Psicológicos" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Sistemas Psicológicos</p>
-</div>
-      <div class="ramo ambito2" data-id="procesos">
-  <p title="Procesos Psicológicos y Neurociencias" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Procesos Psicológicos y Neurociencias</p>
-</div>
-      <div class="ramo ambito5" data-id="epistemologia">
-  <p title="Psicología y Epistemología" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicología y Epistemología</p>
-</div>
-      <div class="ramo ambito1" data-id="ingles2" data-unlocks="ingles3">
-  <p title="Inglés II" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Inglés II</p>
-</div>
-      <div class="ramo ambito1" data-id="habilidades" data-unlocks="razonamiento">
-  <p title="Habilidades Comunicativas" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Habilidades Comunicativas</p>
-</div>
-    </div>
-    <div class="año">
-  <h2>Segundo Año - III Semestre</h2>
-  <div class="ramo ambito2" data-id="psico1" data-unlocks="psico2,taller-integracion">
-    <p title="Psicoanálisis I" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicoanálisis I</p>
-  </div>
-  <div class="ramo ambito2" data-id="desarrollo1" data-unlocks="desarrollo2">
-    <p title="Psicología del Desarrollo I" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicología del Desarrollo I</p>
-  </div>
-  <div class="ramo ambito5" data-id="investigacion1" data-unlocks="investigacion2">
-    <p title="Investigación I" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Investigación I</p>
-  </div>
-  <div class="ramo ambito1" data-id="ingles3" data-unlocks="ingles4">
-    <p title="Inglés III" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Inglés III</p>
-  </div>
-  <div class="ramo ambito1" data-id="razonamiento">
-    <p title="Razonamiento Científico y TICS" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Razonamiento Científico y TICS</p>
-  </div>
-</div>
-<div class="año">
-  <h2>Segundo Año - IV Semestre</h2>
-  <div class="ramo ambito2" data-id="psico2">
-    <p title="Psicoanálisis II" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicoanálisis II</p>
-  </div>
-  <div class="ramo ambito2" data-id="desarrollo2" data-unlocks="taller-integracion">
-    <p title="Psicología del Desarrollo II" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicología del Desarrollo II</p>
-  </div>
-  <div class="ramo ambito5" data-id="investigacion2">
-    <p title="Investigación II" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Investigación II</p>
-  </div>
-  <div class="ramo ambito1" data-id="ingles4">
-    <p title="Inglés IV" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Inglés IV</p>
-  </div>
-  <div class="ramo ambito1" data-id="efi2">
-    <p title="Eje de Formación Interdisciplinaria II" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Eje de Formación Interdisciplinaria II</p>
-  </div>
-</div>
-<div class="año">
-  <h2>Tercer Año - V Semestre</h2>
-  <div class="ramo ambito3" data-id="psicodiagnostico1" data-unlocks="psicodiagnostico2">
-    <p title="Psicodiagnóstico Clínico I" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicodiagnóstico Clínico I</p>
-  </div>
-  <div class="ramo ambito3" data-id="psicopato1" data-unlocks="psicopato2,psicopato-infanto">
-    <p title="Psicopatología y Psiquiatría I" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicopatología y Psiquiatría I</p>
-  </div>
-  <div class="ramo integradora" data-id="taller-integracion" data-unlocks="integrador1">
-    <p title="Taller de Integración" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Taller de Integración</p>
-  </div>
-  <div class="ramo ambito2" data-id="psicologia-social" data-unlocks="diag-intervencion-social">
-    <p title="Psicología Social" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicología Social</p>
-  </div>
-  <div class="ramo ambito1" data-id="efi3">
-    <p title="Eje de Formación Interdisciplinaria III" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Eje de Formación Interdisciplinaria III</p>
-  </div>
-</div>
-<div class="año">
-  <h2>Tercer Año - VI Semestre</h2>
-  <div class="ramo ambito3" data-id="psicodiagnostico2" data-unlocks="electivo1">
-    <p title="Psicodiagnóstico Clínico II" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicodiagnóstico Clínico II</p>
-  </div>
-  <div class="ramo ambito3" data-id="psicopato2" data-unlocks="electivo1">
-    <p title="Psicopatología y Psiquiatría II" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicopatología y Psiquiatría II</p>
-  </div>
-  <div class="ramo ambito3" data-id="educacional" data-unlocks="diag-intervencion-educacional">
-    <p title="Psicología Educacional" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicología Educacional</p>
-  </div>
-  <div class="ramo ambito3" data-id="diag-intervencion-social" data-unlocks="electivo1">
-    <p title="Diagnóstico e Intervención Social" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Diagnóstico e Intervención Social</p>
-  </div>
-  <div class="ramo ambito3" data-id="organizacional" data-unlocks="diag-intervencion-organizacional,electivo1">
-    <p title="Psicología del Trabajo y las Organizaciones" class="line-clamp-3 text-center text-wrap" style="color: rgb(255, 255, 255);">Psicología del Trabajo y las Organizaciones</p>
-  </div>
-</div>
+h1 {
+    text-align: center;
+    color: #800080;
+}
+
+#malla-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.year {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.semester {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.ramo {
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    max-width: 200px;
+    word-wrap: break-word;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.approved {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+/* Colores por ámbito */
+.ambito-1 { background-color: #FFB6C1; }
+.ambito-2 { background-color: #C71585; color: white; }
+.ambito-3 { background-color: #800080; color: white; }
+.ambito-4 { background-color: #DB7093; color: white; }
+.ambito-5 { background-color: #FF1493; color: white; }
+.ambito-6 { background-color: #D8BFD8; }
+.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
+"""
+
+# Cargar la malla completa desde un archivo JSON generado dinámicamente
+# Para simplificar, solo se incluirán algunos ramos como ejemplo
+malla = {
+    "Primer Año": {
+        "I Semestre": [
+            { "nombre": "Historia y Fundamentos de la Psicología", "ambito": 2 },
+            { "nombre": "Tópicos de Neurobiología", "ambito": 2, "desbloquea": ["Procesos Psicológicos y Neurociencias"] },
+            { "nombre": "Psicología y Sociedad", "ambito": 2 },
+            { "nombre": "Inglés I", "ambito": 1, "desbloquea": ["Inglés II"] },
+            { "nombre": "Eje de Formación Interdisciplinaria I", "ambito": 1 }
+        ],
+        "II Semestre": [
+            { "nombre": "Sistemas Psicológicos", "ambito": 2 },
+            { "nombre": "Procesos Psicológicos y Neurociencias", "ambito": 2 },
+            { "nombre": "Psicología y Epistemología", "ambito": 5 },
+            { "nombre": "Inglés II", "ambito": 1, "desbloquea": ["Inglés III"] },
+            { "nombre": "Habilidades Comunicativas", "ambito": 1, "desbloquea": ["Razonamiento Científico y TICS"] }
+        ]
+    }
+}
+
+# Contenido del archivo script.js
+js_content = f"""
+const malla = {json.dumps(malla, ensure_ascii=False, indent=4)};
+const container = document.getElementById("malla-container");
+const ramosMap = {{}};
+
+function crearRamo(ramo) {{
+    const div = document.createElement("div");
+    div.className = `ramo ambito-${{ramo.ambito}} disabled`;
+    div.textContent = ramo.nombre;
+    div.dataset.nombre = ramo.nombre;
+    div.dataset.aprobado = "false";
+    if (ramo.desbloquea) {{
+        div.dataset.desbloquea = JSON.stringify(ramo.desbloquea);
+    }}
+    div.addEventListener("click", () => {{
+        if (div.dataset.aprobado === "false") {{
+            div.classList.add("approved");
+            div.dataset.aprobado = "true";
+            if (ramo.desbloquea) {{
+                ramo.desbloquea.forEach(nombre => {{
+                    const target = ramosMap[nombre];
+                    if (target) target.classList.remove("disabled");
+                }});
+            }}
+        }}
+    }});
+    ramosMap[ramo.nombre] = div;
+    return div;
+}}
+
+for (const [anio, semestres] of Object.entries(malla)) {{
+    const yearDiv = document.createElement("div");
+    yearDiv.className = "year";
+    const yearTitle = document.createElement("h2");
+    yearTitle.textContent = anio;
+    yearDiv.appendChild(yearTitle);
+
+    for (const [semestre, ramos] of Object.entries(semestres)) {{
+        const semDiv = document.createElement("div");
+        semDiv.className = "semester";
+        const semTitle = document.createElement("h3");
+        semTitle.textContent = semestre;
+        semDiv.appendChild(semTitle);
+
+        ramos.forEach(ramo => {{
+            const ramoDiv = crearRamo(ramo);
+            semDiv.appendChild(ramoDiv);
+        }});
+
+        yearDiv.appendChild(semDiv);
+    }}
+
+    container.appendChild(yearDiv);
+}}
+
+// Habilitar los ramos sin prerrequisitos
+Object.values(ramosMap).forEach(div => {{
+    const nombre = div.dataset.nombre;
+    const tienePrerequisitos = Object.values(malla).some(semestres =>
+        Object.values(semestres).some(ramos =>
+            ramos.some(r => r.desbloquea && r.desbloquea.includes(nombre))
+        )
+    );
+    if (!tienePrerequisitos) {{
+        div.classList.remove("disabled");
+    }}
+}});
+"""
+
+# Guardar los archivos
+with open("malla_psicologia/index.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+with open("malla_psicologia/css/styles.css", "w", encoding="utf-8") as f:
+    f.write(css_content)
+
+with open("malla_psicologia/js/script.js", "w", encoding="utf-8") as f:
+    f.write(js_content)
+
+print("Proyecto web generado exitosamente en la carpeta 'malla_psicologia'.")
+
