@@ -59,10 +59,11 @@ body {
     box-sizing: border-box;
     flex-shrink: 0; /* Evita que se encojan */
     /* Ajuste de ancho para que los 5 años y el separador quepan sin scroll */
-    min-width: calc( (100% - 140px) / 5 ); /* 140px es para márgenes y el ancho del separador */
-    max-width: calc( (100% - 140px) / 5 );
+    /* Calculo: (100% - ancho_total_margenes - ancho_separador) / numero_de_años */
+    /* Suponiendo 10px de margen a cada lado del año (20px por año) y 40px para el separador */
+    min-width: calc((100% - (20px * 5) - 40px) / 5);
+    max-width: calc((100% - (20px * 5) - 40px) / 5);
     height: 100%; /* Ocupa la altura disponible dentro del contenedor flexible */
-    display: flex; /* Asegura que flex se aplique a los hijos directos */
 }
 
 .year-block h2 {
@@ -102,7 +103,7 @@ body {
     margin-bottom: 10px;
 }
 
-.ramo {
+.course { /* Clase actualizada a 'course' */
     border-radius: 4px;
     padding: 8px 5px;
     margin-bottom: 8px;
@@ -122,13 +123,13 @@ body {
 }
 
 /* Estado de los ramos */
-.ramo.locked {
+.course.locked { /* Clase actualizada a 'course' */
     opacity: 0.6; /* Ramos bloqueados más tenues */
     cursor: not-allowed;
     pointer-events: none; /* Deshabilita el clic */
 }
 
-.ramo.approved {
+.course.approved { /* Clase actualizada a 'course' */
     text-decoration: line-through; /* Tachar el texto */
     opacity: 0.5; /* Color atenuado pero perceptible */
 }
@@ -147,9 +148,11 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    writing-mode: vertical-lr; /* Escribe de abajo hacia arriba */
-    text-orientation: mixed; /* Para que las letras individuales estén orientadas correctamente */
-    transform: rotate(180deg); /* Voltea el texto para que la base quede hacia abajo */
+    /* Para que el texto se lea de abajo hacia arriba */
+    writing-mode: vertical-lr; /* Escribe de arriba a abajo, pero las letras individuales rotan */
+    text-orientation: upright; /* Asegura que las letras se mantengan verticales */
+    /* Transformamos para que el orden de lectura sea de abajo hacia arriba */
+    transform: rotate(180deg);
     font-family: 'Candara', sans-serif;
     font-size: 1.1em;
     font-weight: bold;
@@ -185,7 +188,7 @@ body {
     text-align: center;
     color: #333;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    flex: 1 1 auto; /* Permite que los elementos crezcan y se encojan */
+    flex: 0 1 auto; /* No crecer, encogerse si es necesario, base auto */
     min-width: 150px; /* Ancho mínimo para cada ítem de leyenda */
     max-width: 200px; /* Ancho máximo */
 }
@@ -193,15 +196,15 @@ body {
 /* Media Queries para pantallas más pequeñas (responsividad) */
 @media (max-width: 1600px) {
     .year-block {
-        min-width: calc( (100% - 120px) / 5 );
-        max-width: calc( (100% - 120px) / 5 );
+        min-width: calc((100% - (20px * 5) - 35px) / 5);
+        max-width: calc((100% - (20px * 5) - 35px) / 5);
     }
     .licenciado-separator {
         padding: 0 8px;
         font-size: 1em;
         width: 35px;
     }
-    .ramo {
+    .course {
         font-size: 0.8em;
         min-height: 40px;
     }
@@ -209,13 +212,11 @@ body {
 
 @media (max-width: 1300px) {
     .year-block {
-        min-width: calc( (100% - 100px) / 5 );
-        max-width: calc( (100% - 100px) / 5 );
+        min-width: calc((100% - (20px * 5) - 30px) / 5);
+        max-width: calc((100% - (20px * 5) - 30px) / 5);
     }
     .curriculum-container {
-        /* Permite un ligero scroll horizontal si es absolutamente necesario en pantallas muy pequeñas,
-           pero intentamos evitarlo con el ajuste de anchos */
-        overflow-x: auto;
+        overflow-x: auto; /* Permite scroll horizontal en pantallas muy estrechas si no cabe */
         justify-content: flex-start; /* Alinea al inicio para permitir scroll */
     }
     .licenciado-separator {
@@ -261,6 +262,14 @@ body {
         width: 80%;
         height: auto;
         padding: 10px 0;
+        display: block; /* Asegura que el span pueda ocupar su propio espacio */
+    }
+    .licenciado-separator span { /* Estilo específico para el texto explicativo bajo el título */
+        display: block; /* Para que el span ocupe su propia línea si es necesario */
+        font-size: 0.7em; /* Tamaño más pequeño para la nota */
+        font-weight: normal;
+        margin-top: 5px;
+        color: #888;
     }
     .legend-container {
         flex-direction: column;
@@ -269,5 +278,6 @@ body {
     .legend-item {
         width: 80%;
         max-width: 300px;
+        min-width: unset; /* Quita el min-width en pantallas pequeñas para que se adapte mejor */
     }
 }
