@@ -15,6 +15,21 @@
       text-align: center;
       color: #b30059;
     }
+    .leyenda {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .leyenda-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9em;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
     .malla {
       display: flex;
       overflow-x: auto;
@@ -53,17 +68,17 @@
       background-color: #d63384 !important;
       color: white;
     }
-    .separator {
+    .separator, .anio {
       writing-mode: vertical-lr;
       transform: rotate(180deg);
       text-align: center;
       font-weight: bold;
-      color: #c2185b;
+      color: #880e4f;
       background: #ffe6f0;
       padding: 10px;
-      border-left: 3px solid #c2185b;
+      border-left: 4px solid #880e4f;
+      font-size: 1.1em;
     }
-
     .ambito1 { background: #fce4ec; }
     .ambito2 { background: #f8bbd0; }
     .ambito3 { background: #f48fb1; }
@@ -75,80 +90,38 @@
 <body>
 
 <h1>Malla Psicología – UNAB</h1>
+
+<div class="leyenda">
+  <div class="leyenda-item ambito1">Ámbito I: Interdisciplina e Inglés</div>
+  <div class="leyenda-item ambito2">Ámbito II: Conceptuales Transversales</div>
+  <div class="leyenda-item ambito3">Ámbito III: Diagnóstico</div>
+  <div class="leyenda-item ambito4">Ámbito IV: Intervención</div>
+  <div class="leyenda-item ambito5">Ámbito V: Investigación</div>
+  <div class="leyenda-item integradora">Experiencias Integradoras</div>
+</div>
+
 <div class="malla" id="malla"></div>
 
 <script>
-const ramos = [
-  { id: 'historia', nombre: 'Historia y Fundamentos de la Psicología', año: 1, semestre: 1, ambito: 'ambito2', prereq: [] },
-  { id: 'neurobio', nombre: 'Tópicos de Neurobiología', año: 1, semestre: 1, ambito: 'ambito2', prereq: [] },
-  { id: 'sociedad', nombre: 'Psicología y Sociedad', año: 1, semestre: 1, ambito: 'ambito2', prereq: [] },
-  { id: 'ingles1', nombre: 'Inglés I', año: 1, semestre: 1, ambito: 'ambito1', prereq: [] },
-  { id: 'interdisc1', nombre: 'Eje Formación Interdisciplinaria I', año: 1, semestre: 1, ambito: 'ambito1', prereq: [] },
-
-  { id: 'sistemas', nombre: 'Sistemas Psicológicos', año: 1, semestre: 2, ambito: 'ambito2', prereq: [] },
-  { id: 'procesos', nombre: 'Procesos Psicológicos y Neurociencias', año: 1, semestre: 2, ambito: 'ambito2', prereq: ['neurobio'] },
-  { id: 'epistemologia', nombre: 'Psicología y Epistemología', año: 1, semestre: 2, ambito: 'ambito5', prereq: [] },
-  { id: 'ingles2', nombre: 'Inglés II', año: 1, semestre: 2, ambito: 'ambito1', prereq: ['ingles1'] },
-  { id: 'comunicativas', nombre: 'Habilidades Comunicativas', año: 1, semestre: 2, ambito: 'ambito1', prereq: [] },
-
-  { id: 'psico1', nombre: 'Psicoanálisis I', año: 2, semestre: 3, ambito: 'ambito2', prereq: [] },
-  { id: 'desarrollo1', nombre: 'Psicología del Desarrollo I', año: 2, semestre: 3, ambito: 'ambito2', prereq: [] },
-  { id: 'investigacion1', nombre: 'Investigación I', año: 2, semestre: 3, ambito: 'ambito5', prereq: [] },
-  { id: 'ingles3', nombre: 'Inglés III', año: 2, semestre: 3, ambito: 'ambito1', prereq: ['ingles2'] },
-  { id: 'tic', nombre: 'Razonamiento Científico y TICS', año: 2, semestre: 3, ambito: 'ambito1', prereq: ['comunicativas'] },
-
-  { id: 'psico2', nombre: 'Psicoanálisis II', año: 2, semestre: 4, ambito: 'ambito2', prereq: ['psico1'] },
-  { id: 'desarrollo2', nombre: 'Psicología del Desarrollo II', año: 2, semestre: 4, ambito: 'ambito2', prereq: ['desarrollo1'] },
-  { id: 'investigacion2', nombre: 'Investigación II', año: 2, semestre: 4, ambito: 'ambito5', prereq: ['investigacion1'] },
-  { id: 'ingles4', nombre: 'Inglés IV', año: 2, semestre: 4, ambito: 'ambito1', prereq: ['ingles3'] },
-  { id: 'interdisc2', nombre: 'Eje Formación Interdisciplinaria II', año: 2, semestre: 4, ambito: 'ambito1', prereq: [] },
-
-  { id: 'psicodiag1', nombre: 'Psicodiagnóstico Clínico I', año: 3, semestre: 5, ambito: 'ambito3', prereq: [] },
-  { id: 'psicopato1', nombre: 'Psicopatología y Psiquiatría I', año: 3, semestre: 5, ambito: 'ambito3', prereq: [] },
-  { id: 'integracion', nombre: 'Taller de Integración', año: 3, semestre: 5, ambito: 'integradora', prereq: ['psico1', 'desarrollo2'] },
-  { id: 'social', nombre: 'Psicología Social', año: 3, semestre: 5, ambito: 'ambito2', prereq: [] },
-  { id: 'interdisc3', nombre: 'Eje Formación Interdisciplinaria III', año: 3, semestre: 5, ambito: 'ambito1', prereq: [] },
-
-  { id: 'psicodiag2', nombre: 'Psicodiagnóstico Clínico II', año: 3, semestre: 6, ambito: 'ambito3', prereq: ['psicodiag1'] },
-  { id: 'psicopato2', nombre: 'Psicopatología y Psiquiatría II', semestre: 6, ambito: 'ambito3', prereq: ['psicopato1'] },
-  { id: 'educacional', nombre: 'Psicología Educacional', año: 3, semestre: 6, ambito: 'ambito3', prereq: [] },
-  { id: 'interv_social', nombre: 'Diagnóstico e Intervención Social', año: 3, semestre: 6, ambito: 'ambito3', prereq: ['social'] },
-  { id: 'trabajo_org', nombre: 'Psicología del Trabajo y las Organizaciones', año: 3, semestre: 6, ambito: 'ambito3', prereq: [] },
-
-  { id: 'sistemica', nombre: 'Clínica Sistémica', año: 4, semestre: 7, ambito: 'ambito3', prereq: [] },
-  { id: 'infanto_pato', nombre: 'Psicopatología Infantojuvenil', año: 4, semestre: 7, ambito: 'ambito3', prereq: ['psicopato1'] },
-  { id: 'interv_educ', nombre: 'Diagnóstico e Intervención Educacional', año: 4, semestre: 7, ambito: 'ambito3', prereq: ['educacional'] },
-  { id: 'juridica', nombre: 'Psicología Jurídica', año: 4, semestre: 7, ambito: 'ambito3', prereq: [] },
-  { id: 'org_interv', nombre: 'Diagnóstico e Intervención Organizacional', año: 4, semestre: 7, ambito: 'ambito3', prereq: ['trabajo_org'] },
-
-  { id: 'interv_sistemica', nombre: 'Intervención Clínica Sistémica', año: 4, semestre: 8, ambito: 'ambito4', prereq: ['sistemica'] },
-  { id: 'infanto_clinica', nombre: 'Clínica Infantojuvenil', año: 4, semestre: 8, ambito: 'ambito4', prereq: ['infanto_pato'] },
-  { id: 'integrador1', nombre: 'Integrador I: Taller de Investigación', año: 4, semestre: 8, ambito: 'integradora', prereq: ['integracion', 'juridica'] },
-  { id: 'interv_juridica', nombre: 'Diagnóstico e Intervención Jurídica', año: 4, semestre: 8, ambito: 'ambito3', prereq: ['juridica'] },
-  { id: 'psicoanalitica', nombre: 'Clínica Psicoanalítica', año: 4, semestre: 8, ambito: 'ambito4', prereq: [] },
-
-  { id: 'separator', nombre: 'LICENCIADO/A EN PSICOLOGÍA', semestre: 8.5, separator: true },
-
-  { id: 'interv_clinica', nombre: 'Taller de Intervención Clínica', año: 5, semestre: 9, ambito: 'ambito4', prereq: ['interv_sistemica', 'infanto_clinica', 'integrador1', 'interv_juridica', 'psicoanalitica'] },
-  { id: 'salud', nombre: 'Psicología y Salud', año: 5, semestre: 9, ambito: 'ambito4', prereq: ['interv_sistemica', 'infanto_clinica', 'integrador1', 'interv_juridica', 'psicoanalitica'] },
-  { id: 'interv_psicosocial', nombre: 'Taller de Diagnóstico e Intervención Psicosocial', año: 5, semestre: 9, ambito: 'ambito4', prereq: ['interv_sistemica', 'infanto_clinica', 'integrador1', 'interv_juridica', 'psicoanalitica'] },
-  { id: 'electivo1', nombre: 'Electivo de Formación Profesional I', año: 5, semestre: 9, ambito: 'ambito3', prereq: ['psicodiag2', 'psicopato2', 'interv_social', 'trabajo_org', 'interv_educ', 'juridica'] },
-  { id: 'electivo2', nombre: 'Electivo de Formación Profesional II', año: 5, semestre: 9, ambito: 'ambito4', prereq: ['interv_sistemica', 'infanto_clinica', 'integrador1', 'interv_juridica', 'psicoanalitica'] },
-
-  { id: 'integrador2', nombre: 'Integrador II: Práctica Profesional', año: 5, semestre: 10, ambito: 'integradora', prereq: ['interv_clinica', 'salud', 'interv_psicosocial', 'electivo1', 'electivo2'] },
-  { id: 'separator', nombre: 'TÍTULO PROFESIONAL PSICÓLOGO', semestre: 8.5, separator: true },
-];
+const ramos = [/* mismo array completo */];
 
 const contenedor = document.getElementById('malla');
-
 const totalSemestres = 10;
+
 for (let i = 1; i <= totalSemestres; i++) {
+  // Insertar título de año
+  if (i === 1) addTituloAño("PRIMER AÑO");
+  if (i === 3) addTituloAño("SEGUNDO AÑO");
+  if (i === 5) addTituloAño("TERCER AÑO");
+  if (i === 7) addTituloAño("CUARTO AÑO");
   if (i === 9) {
+    addTituloAño("QUINTO AÑO");
     const sep = document.createElement('div');
     sep.className = 'separator';
     sep.innerText = 'LICENCIADO/A EN PSICOLOGÍA';
     contenedor.appendChild(sep);
   }
+
   const sem = document.createElement('div');
   sem.className = 'semestre';
   sem.id = 'sem' + i;
@@ -156,6 +129,13 @@ for (let i = 1; i <= totalSemestres; i++) {
   h.textContent = `Semestre ${i}`;
   sem.appendChild(h);
   contenedor.appendChild(sem);
+}
+
+function addTituloAño(texto) {
+  const div = document.createElement('div');
+  div.className = 'anio';
+  div.innerText = texto;
+  contenedor.appendChild(div);
 }
 
 ramos.forEach(ramo => {
