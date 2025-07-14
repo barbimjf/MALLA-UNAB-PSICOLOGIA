@@ -6,49 +6,95 @@
     <title>Malla Psicología UNAB</title>
     <style>
         body {
-            font-family: sans-serif;
+            font-family: 'Inter', sans-serif; /* Usando Inter para una mejor estética */
             margin: 0;
             padding: 20px;
-            background: #fff0f5;
+            background: #fff0f5; /* Fondo suave */
+            color: #333;
         }
         h1 {
             text-align: center;
-            color: #b30059;
-        }
-        .leyenda {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
+            color: #b30059; /* Color principal */
             margin-bottom: 20px;
         }
-        .leyenda-item {
+
+        /* Contenedor principal de información (contador) */
+        .info-container {
             display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.9em;
-            padding: 5px 10px;
-            border-radius: 5px;
+            justify-content: center;
+            margin-bottom: 20px;
         }
+
+        .approved-counter {
+            background: #ffeaf3;
+            color: #b30059;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid #e2b5c6;
+        }
+
+        /* Estilos de la malla principal */
         .malla {
             display: flex;
-            overflow-x: auto;
+            overflow-x: auto; /* Permite desplazamiento horizontal si hay muchos semestres */
             gap: 20px;
-            padding-bottom: 40px;
+            padding-bottom: 40px; /* Espacio para la barra de desplazamiento */
+            justify-content: flex-start; /* Alinea los grupos de años al inicio */
         }
+
+        /* Agrupación por año */
+        .year-group {
+            display: flex;
+            flex-direction: column; /* Título del año arriba de los semestres */
+            gap: 15px; /* Espacio entre el título del año y los semestres */
+            align-items: center; /* Centra el título del año */
+            min-width: 400px; /* Ancho mínimo para dos semestres + gap */
+            padding: 10px;
+            background: #ffeaf3;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e2b5c6;
+        }
+
+        /* Título del año dentro del grupo */
+        .year-group .anio {
+            writing-mode: horizontal-tb; /* Vuelve a horizontal */
+            transform: none; /* Elimina la rotación */
+            border-left: none; /* Elimina el borde izquierdo */
+            border-bottom: 4px solid #b30059; /* Borde inferior para el título del año */
+            padding: 8px 15px;
+            width: fit-content;
+            margin-bottom: 5px;
+            font-size: 1.3em;
+            color: #b30059;
+            background: #fce4ec;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Contenedor de los semestres dentro de un año */
+        .semestres-del-anio {
+            display: flex;
+            gap: 20px; /* Espacio entre los semestres */
+        }
+
         .semestre {
             display: flex;
             flex-direction: column;
-            background: #ffeaf3;
+            background: #fff; /* Fondo blanco para los semestres */
             border-radius: 10px;
             padding: 10px;
             min-width: 180px;
             border: 1px solid #e2b5c6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         .semestre h3 {
             text-align: center;
             color: #b30059;
             margin: 5px 0;
+            font-size: 1.1em;
         }
         .ramo {
             padding: 8px;
@@ -57,46 +103,185 @@
             cursor: pointer;
             text-align: center;
             transition: 0.3s;
-            opacity: 0.5;
+            opacity: 0.5; /* Ramos inactivos con menor opacidad */
             font-size: 0.9em;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
         .ramo.activo {
-            opacity: 1;
+            opacity: 1; /* Ramos activos con opacidad completa */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .ramo.aprobado {
             text-decoration: line-through;
-            background-color: #d63384 !important;
+            background-color: #d63384 !important; /* Color más oscuro para aprobados */
             color: white;
+            opacity: 1; /* Asegura que los aprobados siempre se vean claros */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        /* Estilos para los separadores de año y los títulos de grado/profesional */
-        .separator, .anio, .titulo-final {
+
+        /* Estilos para los separadores de Licenciatura y Título Profesional (VERTICALES) */
+        .separator, .titulo-final {
             writing-mode: vertical-lr; /* Orientación vertical del texto */
             transform: rotate(180deg); /* Rotar 180 grados para que el texto se lea de abajo a arriba */
             text-align: center;
             font-weight: bold;
             color: #880e4f; /* Color más oscuro para el texto de los separadores */
             background: #ffe6f0;
-            padding: 10px;
+            padding: 10px; /* Reducido para un mejor ajuste vertical */
             border-left: 4px solid #880e4f;
-            font-size: 1.1em;
+            font-size: 1.1em; /* Ajustado para vertical */
             white-space: nowrap; /* Evita que el texto se divida en varias líneas */
             display: flex; /* Para centrar el texto verticalmente en el contenedor */
             align-items: center; /* Centrado vertical */
             justify-content: center; /* Centrado horizontal (después de rotar) */
+            margin: 0 10px; /* Espacio a los lados para separarlos de los años */
+            flex-shrink: 0; /* Evita que se encojan */
         }
-        /* Colores de los ámbitos de formación */
+
+        .titulo-final {
+            border-color: #b30059;
+            color: #b30059;
+            background: #fce4ec;
+        }
+
+        /* Colores de los ámbitos */
         .ambito1 { background: #fce4ec; } /* Interdisciplina e Inglés */
         .ambito2 { background: #f8bbd0; } /* Conceptuales Transversales */
         .ambito3 { background: #f48fb1; } /* Diagnóstico */
         .ambito4 { background: #f06292; } /* Intervención */
         .ambito5 { background: #ec407a; } /* Investigación */
         .integradora { background: #f3c2d3; } /* Experiencias Integradoras */
+
+        /* Sección de Notas */
+        .grades-section {
+            margin-top: 40px;
+            background: #ffeaf3;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 1px solid #e2b5c6;
+        }
+
+        .grades-section h2 {
+            text-align: center;
+            color: #b30059;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        #gradesInputContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Grid responsivo */
+            gap: 20px;
+        }
+
+        .grade-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #e2b5c6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .grade-item span {
+            font-size: 1em;
+            color: #555;
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .grade-item input[type="number"] {
+            width: 70px; /* Ancho fijo para el input de nota */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1em;
+            -moz-appearance: textfield; /* Elimina flechas en Firefox */
+        }
+        .grade-item input[type="number"]::-webkit-outer-spin-button,
+        .grade-item input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none; /* Elimina flechas en Chrome/Safari */
+            margin: 0;
+        }
+
+        /* Leyenda de Ámbitos (nueva posición) */
+        .leyenda {
+            margin-top: 40px; /* Espacio superior */
+            margin-bottom: 40px; /* Espacio inferior antes de las notas */
+            background: #ffeaf3;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 1px solid #e2b5c6;
+            display: flex; /* Para que los items se muestren en fila */
+            justify-content: center; /* Centra los items de la leyenda */
+            flex-wrap: wrap; /* Permite que los items salten de línea */
+            gap: 10px; /* Espacio entre los items */
+        }
+        /* Asegura que los items de la leyenda tomen el color de su ámbito */
+        .leyenda-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9em;
+            padding: 5px 10px;
+            border-radius: 5px;
+            /* Los colores de fondo ya se aplican por las clases ambitoX */
+            border: 1px solid #e2b5c6; /* Borde sutil */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .malla {
+                flex-direction: column; /* Apila los grupos de años en pantallas pequeñas */
+                align-items: center;
+            }
+            .year-group {
+                min-width: unset;
+                width: 95%;
+            }
+            .semestres-del-anio {
+                flex-direction: column; /* Apila los semestres dentro del año */
+            }
+            .leyenda, .grades-section {
+                padding: 15px;
+            }
+            #gradesInputContainer {
+                grid-template-columns: 1fr; /* Una columna en móviles */
+            }
+            .separator, .titulo-final {
+                font-size: 1.2em;
+                padding: 10px 20px;
+                /* En móvil, si se apilan los años, estos separadores podrían ir horizontales de nuevo o ajustarse */
+                writing-mode: horizontal-tb;
+                transform: none;
+                border-left: none;
+                border-bottom: 4px solid; /* Mantener borde inferior */
+                margin: 20px auto;
+            }
+        }
     </style>
 </head>
 <body>
 
     <h1>Malla Psicología – UNAB</h1>
 
+    <div class="info-container">
+        <div class="approved-counter">
+            Ramos Aprobados: <span id="ramosAprobadosCount">0</span>
+        </div>
+    </div>
+
+    <div class="malla" id="malla">
+        <!-- Los grupos de años y semestres se insertarán aquí por JavaScript -->
+    </div>
+
+    <!-- La leyenda de ámbitos se mueve aquí, entre la malla y la sección de notas -->
     <div class="leyenda">
         <div class="leyenda-item ambito1">Ámbito I: Interdisciplina e Inglés</div>
         <div class="leyenda-item ambito2">Ámbito II: Conceptuales Transversales</div>
@@ -106,9 +291,15 @@
         <div class="leyenda-item integradora">Experiencias Integradoras</div>
     </div>
 
-    <div class="malla" id="malla"></div>
+    <div class="grades-section">
+        <h2>Ingreso de Notas</h2>
+        <div id="gradesInputContainer">
+            <!-- Las entradas de notas se generarán aquí por JavaScript -->
+        </div>
+    </div>
 
     <script>
+        // Definición de los ramos con sus IDs, nombres, semestres, ámbitos y prerrequisitos
         const ramos = [
             { id: 'historia', nombre: 'Historia y Fundamentos de la Psicología', semestre: 1, ambito: 'ambito2', prereq: [] },
             { id: 'neurobio', nombre: 'Tópicos de Neurobiología', semestre: 1, ambito: 'ambito2', prereq: [] },
@@ -158,8 +349,7 @@
             { id: 'interv_juridica', nombre: 'Diagnóstico e Intervención Jurídica', semestre: 8, ambito: 'ambito3', prereq: ['juridica'] },
             { id: 'psicoanalitica', nombre: 'Clínica Psicoanalítica', semestre: 8, ambito: 'ambito4', prereq: [] },
 
-            // Aquí se indica el punto donde se obtiene el grado de Licenciado
-            // Se usa un ID ficticio y se marca como separator para el script
+            // Este es un "ramo" ficticio para marcar el separador de Licenciatura
             { id: 'licenciado_separator', nombre: 'LICENCIADO/A EN PSICOLOGÍA', semestre: 8.5, separator: true },
 
             { id: 'interv_clinica', nombre: 'Taller de Intervención Clínica', semestre: 9, ambito: 'ambito4', prereq: ['interv_sistemica', 'infanto_clinica', 'integrador1', 'interv_juridica', 'psicoanalitica'] },
@@ -171,115 +361,179 @@
             { id: 'integrador2', nombre: 'Integrador II: Práctica Profesional', semestre: 10, ambito: 'integradora', prereq: ['interv_clinica', 'salud', 'interv_psicosocial', 'electivo1', 'electivo2'] },
         ];
 
-        const contenedor = document.getElementById('malla');
-        const totalSemestres = 10;
+        // Referencias a elementos del DOM
+        const contenedorMalla = document.getElementById('malla');
+        const ramosAprobadosCountElement = document.getElementById('ramosAprobadosCount');
+        const gradesInputContainer = document.getElementById('gradesInputContainer');
 
-        /**
-         * Añade un separador visual para indicar el inicio de un año.
-         * @param {string} texto El texto del título del año.
-         */
-        function addTituloAño(texto) {
-            const div = document.createElement('div');
-            div.className = 'anio';
-            div.innerText = texto;
-            contenedor.appendChild(div);
+        // Cargar datos persistentes de localStorage
+        // Usamos Set para los ramos aprobados para búsquedas eficientes
+        const approvedRamosSet = new Set(JSON.parse(localStorage.getItem('approvedRamos')) || []);
+        const grades = JSON.parse(localStorage.getItem('mallaGrades')) || {};
+
+        // Función para obtener el nombre del año en texto
+        function getNombreAño(num) {
+            const nombres = ["PRIMER", "SEGUNDO", "TERCER", "CUARTO", "QUINTO"];
+            return nombres[num - 1] || `AÑO ${num}`;
         }
 
-        // Construcción de la malla
-        for (let i = 1; i <= totalSemestres; i++) {
-            // Insertar título de año antes del primer semestre de cada año
-            if (i === 1) addTituloAño("PRIMER AÑO");
-            if (i === 3) addTituloAño("SEGUNDO AÑO");
-            if (i === 5) addTituloAño("TERCER AÑO");
-            if (i === 7) addTituloAño("CUARTO AÑO");
-            if (i === 9) {
-                addTituloAño("QUINTO AÑO");
-                // Insertar el separador de Licenciatura
-                const sepLicenciatura = document.createElement('div');
-                sepLicenciatura.className = 'separator';
-                sepLicenciatura.innerText = 'LICENCIADO/A EN PSICOLOGÍA';
-                contenedor.appendChild(sepLicenciatura);
-            }
-
-            // Crear y añadir el div para cada semestre
-            const sem = document.createElement('div');
-            sem.className = 'semestre';
-            sem.id = 'sem' + i;
-            const h = document.createElement('h3');
-            h.textContent = `Semestre ${i}`;
-            sem.appendChild(h);
-            contenedor.appendChild(sem);
+        // Función para actualizar el contador de ramos aprobados
+        function updateApprovedCounter() {
+            ramosAprobadosCountElement.textContent = approvedRamosSet.size;
         }
 
-        // Añadir el título profesional al final de la malla
-        const tituloProfesional = document.createElement('div');
-        tituloProfesional.className = 'titulo-final';
-        tituloProfesional.innerText = 'TÍTULO PROFESIONAL: PSICÓLOGO/A';
-        contenedor.appendChild(tituloProfesional);
+        // Función para actualizar el estado 'activo' de todos los ramos
+        // Basado en los prerrequisitos y los ramos aprobados
+        function updateRamoStates() {
+            document.querySelectorAll('.ramo').forEach(ramoEl => {
+                const prereqs = JSON.parse(ramoEl.dataset.prereq);
+                // Comprueba si TODOS los prerrequisitos están en el conjunto de ramos aprobados
+                const cumplePrereqs = prereqs.every(p => approvedRamosSet.has(p));
 
+                if (cumplePrereqs) {
+                    ramoEl.classList.add('activo');
+                } else {
+                    ramoEl.classList.remove('activo');
+                    // Si un ramo deja de cumplir sus prerrequisitos, se desmarca como aprobado
+                    if (ramoEl.classList.contains('aprobado')) {
+                        ramoEl.classList.remove('aprobado');
+                        approvedRamosSet.delete(ramoEl.dataset.id); // Elimina del conjunto de aprobados
+                    }
+                }
+            });
+            // Guarda el estado actualizado de los ramos aprobados en localStorage
+            localStorage.setItem('approvedRamos', JSON.stringify(Array.from(approvedRamosSet)));
+            updateApprovedCounter(); // Actualiza el contador visible
+        }
 
-        // Función para manejar el clic en un ramo (marcar aprobado y actualizar prerequisitos)
+        // Función para manejar el clic en un ramo (marcar/desmarcar como aprobado)
         function toggleAprobado(el) {
-            // Solo permitir clic si el ramo está "activo" (es decir, sus prerequisitos se cumplen o no tiene)
-            if (!el.classList.contains('activo')) {
-                // Opcional: Podrías añadir alguna retroalimentación visual si el ramo no está activo
-                // alert('No puedes aprobar este ramo aún. Completa sus prerrequisitos.');
+            // Solo permite marcar/desmarcar si el ramo está activo o ya está aprobado
+            if (!el.classList.contains('activo') && !el.classList.contains('aprobado')) {
+                // Podrías añadir un mensaje al usuario aquí, si lo deseas
                 return;
             }
-            
-            // Alternar la clase 'aprobado'
-            el.classList.toggle('aprobado');
-            
-            // Recoger todos los IDs de los ramos aprobados actualmente
-            const aprobados = Array.from(document.querySelectorAll('.ramo.aprobado')).map(r => r.dataset.id);
-            
-            // Iterar sobre todos los ramos para actualizar su estado 'activo'
-            document.querySelectorAll('.ramo').forEach(ramo => {
-                const prereqs = JSON.parse(ramo.dataset.prereq); // Obtener los prerequisitos de este ramo
-                // Verificar si TODOS los prerequisitos de este ramo están en la lista de ramos aprobados
-                const cumple = prereqs.every(p => aprobados.includes(p));
-                
-                // Si cumple los prerequisitos, añadir la clase 'activo'; de lo contrario, quitarla
-                if (cumple) {
-                    ramo.classList.add('activo');
-                } else {
-                    // Si el ramo estaba aprobado y ahora ya no cumple sus prerequisitos (porque se desaprobó un prerequisito),
-                    // también debemos quitarle la clase 'aprobado'. Esto es para evitar inconsistencias.
-                    if (ramo.classList.contains('aprobado')) {
-                         ramo.classList.remove('aprobado');
+
+            const ramoId = el.dataset.id;
+            if (el.classList.contains('aprobado')) {
+                // Si ya está aprobado, lo desmarca
+                el.classList.remove('aprobado');
+                approvedRamosSet.delete(ramoId);
+            } else {
+                // Si no está aprobado, lo marca
+                el.classList.add('aprobado');
+                approvedRamosSet.add(ramoId);
+            }
+            updateRamoStates(); // Re-evalúa el estado de todos los ramos
+        }
+
+        // Función para poblar la sección de ingreso de notas
+        function populateGradesInput() {
+            gradesInputContainer.innerHTML = ''; // Limpia entradas previas
+            ramos.forEach(ramo => {
+                if (ramo.separator) return; // Ignora el separador de licenciatura
+
+                const gradeItem = document.createElement('div');
+                gradeItem.className = 'grade-item';
+                gradeItem.innerHTML = `
+                    <span>${ramo.nombre}:</span>
+                    <input type="number" step="0.1" min="1.0" max="7.0" data-id="${ramo.id}" value="${grades[ramo.id] || ''}">
+                `;
+                gradesInputContainer.appendChild(gradeItem);
+
+                // Añade un listener para guardar la nota cuando cambia el input
+                gradeItem.querySelector('input').addEventListener('change', (event) => {
+                    const value = parseFloat(event.target.value);
+                    if (value >= 1.0 && value <= 7.0) {
+                        grades[ramo.id] = value;
+                    } else {
+                        // Opcional: limpiar el valor si está fuera de rango o mostrar un error
+                        event.target.value = '';
+                        delete grades[ramo.id]; // Eliminar si el valor no es válido
                     }
-                    ramo.classList.remove('activo');
-                }
+                    localStorage.setItem('mallaGrades', JSON.stringify(grades));
+                });
             });
         }
 
-        // Renderizar los ramos en sus respectivos semestres
-        ramos.forEach(ramo => {
-            // Ignorar el ramo "separador" del array, ya que se maneja en el bucle de semestres
-            if (ramo.separator) return; 
+        // --- Lógica de Construcción de la Malla ---
+        const totalAños = 5; // 5 años para 10 semestres
 
-            const div = document.createElement('div');
-            div.className = `ramo ${ramo.ambito}`; // Añade la clase de ámbito para el color
-            div.dataset.id = ramo.id; // Guarda el ID del ramo para el manejo de prerequisitos
-            div.dataset.prereq = JSON.stringify(ramo.prereq); // Guarda los prerequisitos como una cadena JSON
-            div.textContent = ramo.nombre; // Muestra el nombre del ramo
+        for (let año = 1; año <= totalAños; año++) {
+            const yearGroup = document.createElement('div');
+            yearGroup.className = 'year-group';
+            contenedorMalla.appendChild(yearGroup);
 
-            // Si el ramo no tiene prerequisitos, lo marca como 'activo' desde el inicio
-            if (ramo.prereq.length === 0) {
-                div.classList.add('activo');
+            // Añade el título del año
+            const anioDiv = document.createElement('div');
+            anioDiv.className = 'anio';
+            anioDiv.innerText = `${getNombreAño(año)} AÑO`;
+            yearGroup.appendChild(anioDiv);
+
+            // Contenedor para los semestres de este año
+            const semestresDelAño = document.createElement('div');
+            semestresDelAño.className = 'semestres-del-anio';
+            yearGroup.appendChild(semestresDelAño);
+
+            // Añade los dos semestres correspondientes a este año
+            const semestreInicial = (año - 1) * 2 + 1;
+            const semestreFinal = año * 2;
+
+            for (let i = semestreInicial; i <= semestreFinal; i++) {
+                const sem = document.createElement('div');
+                sem.className = 'semestre';
+                sem.id = 'sem' + i; // Asigna un ID para poder insertar los ramos
+                const h = document.createElement('h3');
+                h.textContent = `Semestre ${i}`;
+                sem.appendChild(h);
+                semestresDelAño.appendChild(sem);
             }
 
-            div.onclick = () => toggleAprobado(div); // Asigna la función de clic
+            // Inserta el separador de Licenciatura después del 4º año (Semestre 8)
+            if (año === 4) {
+                const sepLicenciatura = document.createElement('div');
+                sepLicenciatura.className = 'separator';
+                sepLicenciatura.innerText = 'LICENCIADO/A EN PSICOLOGÍA';
+                // Se añade al contenedor principal de la malla, no dentro del year-group
+                contenedorMalla.appendChild(sepLicenciatura); 
+            }
+        }
+
+        // Añade el título profesional al final de la malla principal
+        const tituloProfesional = document.createElement('div');
+        tituloProfesional.className = 'titulo-final';
+        tituloProfesional.innerText = 'TÍTULO PROFESIONAL: PSICÓLOGO/A';
+        contenedorMalla.appendChild(tituloProfesional);
+
+        // --- Renderizado de Ramos y Inicialización ---
+        ramos.forEach(ramo => {
+            if (ramo.separator) return; // No renderiza el "ramo" separador
+
+            const div = document.createElement('div');
+            div.className = `ramo ${ramo.ambito}`; // Añade clase de ámbito para el color
+            div.dataset.id = ramo.id; // Guarda el ID del ramo
+            div.dataset.prereq = JSON.stringify(ramo.prereq); // Guarda los prerrequisitos
+            div.textContent = ramo.nombre; // Muestra el nombre
+
+            div.onclick = () => toggleAprobado(div); // Asigna el manejador de clic
+
+            // Aplica la clase 'aprobado' si el ramo ya estaba marcado en localStorage
+            if (approvedRamosSet.has(ramo.id)) {
+                div.classList.add('aprobado');
+            }
 
             // Añade el ramo al semestre correspondiente
-            // Asegúrate de que el semestre exista antes de intentar añadir el ramo
             const semestreElement = document.getElementById('sem' + ramo.semestre);
             if (semestreElement) {
                 semestreElement.appendChild(div);
             } else {
-                console.warn(`No se encontró el elemento para el semestre ${ramo.semestre} para el ramo ${ramo.nombre}`);
+                console.warn(`Advertencia: No se encontró el elemento para el semestre ${ramo.semestre} para el ramo ${ramo.nombre}.`);
             }
         });
+
+        // Llama a las funciones de inicialización
+        updateRamoStates(); // Actualiza los estados 'activo' y el contador al cargar
+        populateGradesInput(); // Rellena la sección de notas
     </script>
 
 </body>
