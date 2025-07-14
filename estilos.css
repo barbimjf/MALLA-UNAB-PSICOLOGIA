@@ -6,19 +6,20 @@ body {
     background-color: #f0f2f5;
     color: #333;
     display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra el contenido horizontalmente */
-    overflow-x: auto; /* PERMITE SCROLL HORIZONTAL SI EL CONTENIDO ES MÁS ANCHO */
+    flex-direction: column; /* Apila encabezado, malla y leyenda verticalmente */
+    align-items: center; /* Centra el contenido horizontalmente en el body */
+    overflow-x: auto; /* PERMITE SCROLL HORIZONTAL en el body si el contenido interno es más ancho */
     overflow-y: auto;
     min-height: 100vh;
     box-sizing: border-box;
+    width: 100%; /* Asegura que el body ocupe todo el ancho disponible */
 }
 
 /* Encabezado */
 .header {
     text-align: center;
     margin-bottom: 25px;
-    width: 100%;
+    width: 100%; /* El encabezado ocupa todo el ancho */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -43,17 +44,17 @@ body {
 .malla-container {
     display: flex; /* CRUCIAL: Pone los bloques de año en fila */
     flex-direction: row; /* Explícitamente asegura que los años estén en horizontal */
-    justify-content: center;
+    justify-content: flex-start; /* Hace que el contenido comience desde la izquierda */
     align-items: flex-start; /* Alinea los bloques de año en la parte superior */
     gap: 20px; /* Espacio entre cada bloque de año */
     padding-bottom: 40px;
     position: relative;
 
     /* ANCHO MÍNIMO para que todos los años y el separador quepan en una línea.
-       Si la ventana es más estrecha, aparecerá una barra de scroll horizontal. */
+       Si la ventana es más estrecha que este valor, debería aparecer una barra de scroll horizontal. */
     min-width: 1650px; /* Valor calculado para 5 años * ~300px + separador + gaps */
 
-    width: auto;
+    width: auto; /* Se ajusta automáticamente si hay más espacio */
     flex-grow: 0;
     flex-shrink: 0; /* IMPEDIR QUE SE ENCOJA POR DEBAJO DE min-width */
     flex-wrap: nowrap; /* CRUCIAL: Mantiene los AÑOS en una sola línea horizontal */
@@ -138,7 +139,7 @@ body {
     word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: pre-wrap; /* Mantiene los saltos de línea explícitos (<br>) y permite que el navegador rompa líneas largas */
+    white-space: pre-wrap;
 }
 
 /* Colores de ámbito (sin cambios) */
@@ -188,18 +189,22 @@ body {
 }
 
 
-/* Contenedor de la leyenda */
+/* Contenedor de la leyenda - Debería estar siempre abajo */
 .legend-container {
-    display: flex;
+    display: flex; /* Sigue siendo flex para organizar los ítems internos */
+    flex-direction: row; /* Los ítems de la leyenda van en fila */
     justify-content: center;
-    flex-wrap: wrap; /* Permite que los ítems de la leyenda pasen a la siguiente línea */
+    flex-wrap: wrap; /* Permite que los ítems de la leyenda pasen a la siguiente línea si no caben */
     gap: 10px;
     margin-top: 30px;
     padding: 15px;
-    width: 100%;
+    width: 100%; /* Ocupa todo el ancho del body para asegurar que no se "pegue" a la malla */
     box-sizing: border-box;
-    max-width: 1400px;
+    max-width: 1400px; /* Limita el ancho máximo para que no sea excesivamente ancha */
     flex-shrink: 0;
+    /* Asegura que no se pegue al lado de la malla si el malla-container se hace muy ancho */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .legend-item {
@@ -220,9 +225,32 @@ body {
     color: #333;
 }
 
-/* MEDIA QUERIES SIMPLIFICADAS PARA EVITAR QUE SE APILE INNECESARIAMENTE */
+/* MEDIA QUERIES PARA ADAPTABILIDAD (con énfasis en la horizontalidad para pantallas grandes) */
 
-/* **SOLO EN PANTALLAS MUY PEQUEÑAS (MÓVILES)**: Permitir que los años y semestres se apilen verticalmente. */
+/* Mantener horizontalidad para pantallas > 800px */
+@media (min-width: 801px) {
+    .malla-container {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        min-width: 1650px;
+    }
+    .year-semesters-wrapper {
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+    .licenciado-separator {
+        flex-direction: column;
+    }
+    .licenciado-separator br {
+        display: block; /* Asegura el salto de línea en el separador para texto vertical */
+    }
+    .licenciado-separator::before {
+        content: none; /* No usar content en desktop */
+    }
+}
+
+
+/* **SOLO EN PANTALLAS MUY PEQUEÑAS (MÓVILES, <= 800px)**: Permitir que los años y semestres se apilen verticalmente. */
 @media (max-width: 800px) {
     body {
         padding: 10px;
@@ -266,7 +294,7 @@ body {
         text-overflow: clip;
     }
     .licenciado-separator {
-        width: 100%; /* Ocupa todo el ancho en móvil */
+        width: 100%;
         height: auto;
         margin: 20px 0;
         border: none;
@@ -284,11 +312,11 @@ body {
         display: none; /* Ocultar los <br> en móvil para que el texto sea horizontal */
     }
     .licenciado-separator::before {
-        content: "LICENCIADO EN PSICOLOGÍA"; /* Asegurar que el texto esté ahí */
+        content: "LICENCIADO EN PSICOLOGÍA"; /* Asegurar que el texto esté ahí en móvil */
         display: block;
     }
     .legend-container {
-        flex-direction: column;
+        flex-direction: column; /* La leyenda se apila en móvil */
         align-items: center;
         padding: 10px;
         gap: 10px;
