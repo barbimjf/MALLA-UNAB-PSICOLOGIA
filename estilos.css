@@ -1,83 +1,129 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif; /* Usando Inter como se sugiere */
     margin: 0;
     padding: 20px;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #e9ecef; /* Un fondo más suave */
+    color: #343a40;
+    line-height: 1.6;
 }
 
 header {
     text-align: center;
     margin-bottom: 40px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    color: #0056b3;
+    color: #007bff; /* Azul más vibrante */
+    margin-bottom: 10px;
 }
 
-.year {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-    padding: 20px;
+p {
+    color: #6c757d;
 }
 
-.year h2 {
+/* Contenedor principal para organizar los años horizontalmente */
+.malla-container {
+    display: flex;
+    overflow-x: auto; /* Permite el scroll horizontal si no caben todos los años */
+    padding-bottom: 20px; /* Espacio para la barra de scroll */
+    gap: 30px; /* Espacio entre las secciones de año */
+    justify-content: flex-start; /* Alinea los años al inicio */
+    align-items: flex-start; /* Alinea los años por arriba */
+}
+
+.year-section {
+    flex: 0 0 auto; /* No crecer, no encoger, base en auto */
+    width: 700px; /* Ancho fijo para cada sección de año para que se vea como un bloque */
+    background-color: #f8f9fa; /* Fondo ligeramente diferente para la sección anual */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border: 1px solid #dee2e6; /* Borde sutil */
+    min-height: 600px; /* Altura mínima para que los bloques de año sean consistentes */
+    display: flex;
+    flex-direction: column;
+}
+
+.year-section h2 {
     color: #0056b3;
     text-align: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ced4da;
+    padding-bottom: 15px;
+    font-size: 2.2em;
+    font-weight: bold;
 }
 
-.semesters {
+/* Grid para los dos semestres dentro de cada año */
+.semesters-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas de igual ancho */
+    gap: 20px; /* Espacio entre semestres */
+    flex-grow: 1; /* Permite que el grid ocupe el espacio restante en la columna */
+}
+
+.semester-block {
+    background-color: #ffffff;
+    border: 1px solid #adb5bd; /* Borde más definido */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s ease-in-out;
 }
 
-.semester {
-    flex: 1;
-    min-width: 300px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    background-color: #f9f9f9;
+.semester-block:hover {
+    transform: translateY(-5px); /* Efecto hover sutil */
 }
 
-.semester h3 {
+.semester-block h3 {
     color: #007bff;
     margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+    border-bottom: 1px dashed #e9ecef; /* Línea punteada */
+    padding-bottom: 10px;
+    width: 100%;
     text-align: center;
-    margin-bottom: 15px;
 }
 
 .course-list {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: column; /* Los ramos se apilan verticalmente dentro del semestre */
+    gap: 12px; /* Espacio entre ramos */
+    width: 100%;
 }
 
 .course {
-    padding: 10px 15px;
-    border-radius: 5px;
+    padding: 15px 20px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease, text-decoration 0.3s ease;
+    transition: background-color 0.3s ease, text-decoration 0.3s ease, color 0.3s ease, box-shadow 0.2s ease;
     text-align: center;
-    position: relative; /* Para el tooltip */
-    overflow: hidden; /* Para asegurar que el texto no se desborde al tachar */
+    position: relative;
+    overflow: hidden;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra sutil para cada ramo */
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .course:hover {
-    opacity: 0.9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
 }
 
 .course.approved {
     text-decoration: line-through;
     color: #888;
     background-color: #e0e0e0 !important; /* Anula el color del ámbito */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* Sombra interna para aprobado */
+    opacity: 0.8;
 }
 
 /* Colores de los ámbitos */
@@ -93,74 +139,121 @@ h1 {
 .title-label {
     writing-mode: vertical-lr; /* Texto vertical */
     text-orientation: mixed; /* Orientación de los caracteres */
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: bold;
-    color: #555;
-    background-color: #eee;
-    padding: 10px 5px;
-    border-radius: 5px;
-    margin: 10px auto; /* Centrar verticalmente */
+    color: #495057;
+    background-color: #e9ecef;
+    padding: 15px 8px;
+    border-radius: 8px;
+    margin: 20px auto; /* Centrar y dar espacio */
     text-align: center;
-    display: flex; /* Para flexbox */
-    align-items: center; /* Centrar items */
-    justify-content: center; /* Centrar items */
-    height: 150px; /* Altura para que se vea el texto vertical */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 180px; /* Altura para que se vea el texto vertical */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
 }
 
 .title-label {
-    height: 200px; /* Más alto para el texto del título */
+    height: 250px; /* Más alto para el texto del título */
+    background-color: #d1e7dd; /* Un color diferente para el título final */
+    color: #0f5132;
+    border: 2px solid #0f5132;
 }
 
 /* Tooltip para prerrequisitos */
 .course[data-prerequisites]:not(.approved):hover::after {
     content: "Prerrequisito(s): " attr(data-prerequisite-names);
     position: absolute;
-    bottom: 100%; /* Arriba del elemento */
+    bottom: calc(100% + 10px); /* Arriba del elemento, con más espacio */
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.9); /* Fondo más oscuro */
     color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 8px 12px;
+    border-radius: 6px;
     white-space: nowrap;
-    z-index: 10;
-    font-size: 0.8em;
-    margin-bottom: 5px;
+    z-index: 100; /* Asegurar que esté por encima de todo */
+    font-size: 0.85em;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease, bottom 0.3s ease;
 }
 
 .course[data-prerequisites]:not(.approved):hover::after {
     opacity: 1;
     visibility: visible;
+    bottom: calc(100% + 5px); /* Pequeño desplazamiento hacia arriba */
 }
-
 
 /* Mensaje de prerrequisitos no cumplidos */
 .course.prerequisite-not-met {
-    background-color: #ffcccc !important; /* Rojo claro para indicar que no se puede aprobar */
+    background-color: #ffdddd !important; /* Rojo claro para indicar que no se puede aprobar */
     cursor: not-allowed;
     position: relative;
+    border: 1px solid #dc3545; /* Borde rojo */
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.3); /* Sombra roja sutil */
 }
 
 .course.prerequisite-not-met::before {
-    content: '⚠️';
+    content: '⚠️'; /* Ícono de advertencia */
     position: absolute;
-    left: 5px;
+    left: 10px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 0.9em;
+    font-size: 1.2em;
+    color: #dc3545;
 }
 
 /* Responsividad */
-@media (max-width: 768px) {
-    .semesters {
-        flex-direction: column;
-        align-items: center;
+@media (max-width: 1200px) {
+    .year-section {
+        width: 600px; /* Reducir el ancho de la sección de año en pantallas medianas */
     }
-    .semester {
-        width: 90%;
+}
+
+@media (max-width: 992px) {
+    .year-section {
+        width: 500px; /* Más reducción */
+    }
+    .semesters-grid {
+        grid-template-columns: 1fr; /* Una columna para semestres en pantallas más pequeñas */
+    }
+    .license-label,
+    .title-label {
+        font-size: 1em;
+        height: auto; /* Altura automática para mejor ajuste */
+        writing-mode: horizontal-tb; /* Vuelve a horizontal en móvil */
+        text-orientation: unset;
+        padding: 10px;
+        margin: 15px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    header {
+        padding: 15px;
+        margin-bottom: 30px;
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+    .malla-container {
+        flex-direction: column; /* Los años se apilan verticalmente en pantallas muy pequeñas */
+        overflow-x: hidden; /* No hay scroll horizontal de años */
+        gap: 20px;
+    }
+    .year-section {
+        width: 95%; /* Ocupa casi todo el ancho */
+        margin: 0 auto; /* Centrar */
+        padding: 20px;
+        min-height: unset; /* Eliminar altura mínima fija */
+    }
+    .year-section h2 {
+        font-size: 1.8em;
         margin-bottom: 20px;
     }
 }
