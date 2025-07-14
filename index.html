@@ -1,105 +1,81 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Malla Interactiva Psicología - U. Andrés Bello</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f2f7fb;
-    }
-    h1 {
-      text-align: center;
-      color: #003366;
-    }
-    #malla {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-      margin-top: 20px;
-    }
-    .curso {
-      background: #ffffff;
-      border: 2px solid #003366;
-      border-radius: 8px;
-      padding: 10px;
-      cursor: pointer;
-      transition: transform 0.2s;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .curso:hover {
-      transform: scale(1.05);
-      background-color: #e6f2ff;
-    }
-    .tooltip {
-      display: none;
-      background: #003366;
-      color: white;
-      position: absolute;
-      padding: 8px;
-      border-radius: 5px;
-      z-index: 1000;
-    }
-  </style>
-</head>
-<body>
-  <h1>Malla Psicología – U. Andrés Bello</h1>
-  <div id="malla"></div>
-  <div id="tooltip" class="tooltip"></div>
-  <script>
-    const cursos = [
-      { nombre: "Historia y Fundamentos de la Psicología", semestre: 1, prerrequisitos: [] },
-      { nombre: "Tópicos de Neurobiología", semestre: 1, prerrequisitos: [], abre: ["Procesos Psicológicos y Neurociencias"] },
-      { nombre: "Psicología y Sociedad", semestre: 1, prerrequisitos: [] },
-      { nombre: "Inglés I", semestre: 1, prerrequisitos: [], abre: ["Inglés II"] },
-      { nombre: "Eje Formación Interdisciplinaria I", semestre: 1, prerrequisitos: [] },
-      { nombre: "Sistemas Psicológicos", semestre: 2, prerrequisitos: [] },
-      { nombre: "Procesos Psicológicos y Neurociencias", semestre: 2, prerrequisitos: [] },
-      { nombre: "Psicología y Epistemología", semestre: 2, prerrequisitos: [] },
-      { nombre: "Inglés II", semestre: 2, prerrequisitos: ["Inglés I"], abre: ["Inglés III"] },
-      { nombre: "Habilidades Comunicativas", semestre: 2, prerrequisitos: [], abre: ["Razonamiento Científico y TICS"] },
-      { nombre: "Psicoanálisis I", semestre: 3, prerrequisitos: [], abre: ["Psicoanálisis II", "Taller de Integración"] },
-      { nombre: "Psicología del Desarrollo I", semestre: 3, prerrequisitos: [], abre: ["Psicología del Desarrollo II"] },
-      { nombre: "Investigación I", semestre: 3, prerrequisitos: [], abre: ["Investigación II"] },
-      { nombre: "Inglés III", semestre: 3, prerrequisitos: ["Inglés II"], abre: ["Inglés IV"] },
-      { nombre: "Razonamiento Científico y TICS", semestre: 3, prerrequisitos: ["Habilidades Comunicativas"] },
-      { nombre: "Psicoanálisis II", semestre: 4, prerrequisitos: ["Psicoanálisis I"] },
-      { nombre: "Psicología del Desarrollo II", semestre: 4, prerrequisitos: ["Psicología del Desarrollo I"], abre: ["Taller de Integración"] },
-      { nombre: "Investigación II", semestre: 4, prerrequisitos: ["Investigación I"] },
-      { nombre: "Inglés IV", semestre: 4, prerrequisitos: ["Inglés III"] },
-      { nombre: "Eje Formación Interdisciplinaria II", semestre: 4, prerrequisitos: [] }
-    ];
+<h2 style="margin-top: 40px; color: #003366;">Primer Año</h2>
 
-    const malla = document.getElementById("malla");
-    const tooltip = document.getElementById("tooltip");
+<div class="año" id="año-1">
+  <div>
+    <h3 style="color: #004080;">I Semestre</h3>
+    <div class="semestre" id="semestre-1" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;"></div>
+  </div>
+  <div style="margin-top: 24px;">
+    <h3 style="color: #004080;">II Semestre</h3>
+    <div class="semestre" id="semestre-2" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;"></div>
+  </div>
+</div>
 
-    cursos.forEach(curso => {
-      const div = document.createElement("div");
-      div.className = "curso";
-      div.innerText = curso.nombre;
-      div.dataset.semestre = curso.semestre;
-      div.dataset.prerrequisitos = curso.prerrequisitos.join(", ");
-      div.dataset.abre = curso.abre ? curso.abre.join(", ") : "";
+<div id="tooltip" class="tooltip" style="
+  display: none;
+  background: #003366;
+  color: white;
+  position: absolute;
+  padding: 8px;
+  border-radius: 5px;
+  z-index: 1000;
+"></div>
 
-      div.addEventListener("mouseenter", (e) => {
-        const rect = e.target.getBoundingClientRect();
-        tooltip.innerHTML =
-          `<strong>Semestre:</strong> ${curso.semestre}<br>` +
-          `<strong>Prerrequisitos:</strong> ${curso.prerrequisitos.length ? curso.prerrequisitos.join(", ") : "Ninguno"}<br>` +
-          `<strong>Abre:</strong> ${curso.abre && curso.abre.length ? curso.abre.join(", ") : "---"}`;
-        tooltip.style.display = "block";
-        tooltip.style.left = rect.right + 10 + "px";
-        tooltip.style.top = rect.top + window.scrollY + "px";
-      });
+<script>
+  const cursosPrimerAño = [
+    { nombre: "Historia y Fundamentos de la Psicología", semestre: 1, prerrequisitos: [] },
+    { nombre: "Tópicos de Neurobiología", semestre: 1, prerrequisitos: [], abre: ["Procesos Psicológicos y Neurociencias"] },
+    { nombre: "Psicología y Sociedad", semestre: 1, prerrequisitos: [] },
+    { nombre: "Inglés I", semestre: 1, prerrequisitos: [], abre: ["Inglés II"] },
+    { nombre: "Eje Formación Interdisciplinaria I", semestre: 1, prerrequisitos: [] },
+    { nombre: "Sistemas Psicológicos", semestre: 2, prerrequisitos: [] },
+    { nombre: "Procesos Psicológicos y Neurociencias", semestre: 2, prerrequisitos: [] },
+    { nombre: "Psicología y Epistemología", semestre: 2, prerrequisitos: [] },
+    { nombre: "Inglés II", semestre: 2, prerrequisitos: ["Inglés I"], abre: ["Inglés III"] },
+    { nombre: "Habilidades Comunicativas", semestre: 2, prerrequisitos: [], abre: ["Razonamiento Científico y TICS"] }
+  ];
 
-      div.addEventListener("mouseleave", () => {
-        tooltip.style.display = "none";
-      });
+  const tooltip = document.getElementById("tooltip");
 
-      malla.appendChild(div);
+  cursosPrimerAño.forEach(curso => {
+    const div = document.createElement("div");
+    div.className = "curso";
+    div.style.border = "2px solid #003366";
+    div.style.borderRadius = "8px";
+    div.style.padding = "10px";
+    div.style.background = "#ffffff";
+    div.style.boxShadow = "0 2px 6px rgba(0,0,0,0.1)";
+    div.style.cursor = "pointer";
+    div.style.transition = "transform 0.2s";
+
+    div.innerHTML = `
+      <strong>${curso.nombre}</strong>
+      <div class="etiqueta" style="
+        margin-top: 5px;
+        display: inline-block;
+        background: #003366;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+      ">Semestre ${curso.semestre}</div>
+    `;
+
+    div.addEventListener("mouseenter", (e) => {
+      const rect = e.target.getBoundingClientRect();
+      tooltip.innerHTML =
+        `<strong>Semestre:</strong> ${curso.semestre}<br>` +
+        `<strong>Prerrequisitos:</strong> ${curso.prerrequisitos.length ? curso.prerrequisitos.join(", ") : "Ninguno"}<br>` +
+        `<strong>Abre:</strong> ${curso.abre && curso.abre.length ? curso.abre.join(", ") : "---"}`;
+      tooltip.style.display = "block";
+      tooltip.style.left = rect.right + 10 + "px";
+      tooltip.style.top = rect.top + window.scrollY + "px";
     });
-  </script>
-</body>
-</html>
+
+    div.addEventListener("mouseleave", () => {
+      tooltip.style.display = "none";
+    });
+
+    document.getElementById(`semestre-${curso.semestre}`).appendChild(div);
+  });
+</script>
