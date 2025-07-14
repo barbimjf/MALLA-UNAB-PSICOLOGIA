@@ -1,241 +1,255 @@
-/* estilos.css */
+/* Fuente y reset */
+body, h1, h2, h3, .ramo, .contador, .leyenda, .texto-licenciado {
+  font-family: 'Candara', sans-serif !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body y título */
 body {
-    font-family: 'Candara', sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden; /* Evita cualquier scroll no deseado */
+  background: #fefefe;
+  overflow-y: hidden; /* sin scroll vertical */
+  padding: 15px;
+  color: #222;
+  user-select: none;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 20px;
-    width: 100%;
+h1 {
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
-h1, h2, h3, h4 {
-    font-family: 'Candara', sans-serif;
-    margin: 0;
-    padding: 5px 0;
+/* Contador */
+.contador {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+  user-select: text;
 }
 
-.approved-counter {
-    margin-top: 10px;
-    font-size: 1.2em;
-    font-weight: bold;
+/* Contenedor malla con scroll horizontal solo si es necesario */
+.malla-container {
+  overflow-x: auto;
+  padding-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
 }
 
-.curriculum-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Alinea los años en la parte superior */
-    gap: 15px; /* Espacio entre años y el separador */
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 10px; /* Pequeño padding para asegurar que no haya scroll horizontal */
+/* Grilla años (flex fila) */
+.malla {
+  display: flex;
+  gap: 20px;
+  min-width: max-content;
+  padding: 10px;
 }
 
-.year {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    flex-shrink: 0; /* Evita que los años se encojan */
+/* Cada año (columna) */
+.anio {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 210px;
+  background: #fafafa;
 }
 
-.year-title {
-    margin-bottom: 10px;
-    color: #0056b3;
+/* Título año */
+.anio > h2 {
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12px;
+  user-select: text;
 }
 
-.semesters-row {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    justify-content: space-around;
+/* Contenedor semestres (fila) */
+.semestres {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
 
-.semester {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px dashed #e0e0e0;
-    border-radius: 5px;
-    padding: 8px;
-    flex: 1; /* Permite que los semestres se expandan equitativamente */
-    min-width: 150px; /* Mínimo ancho para los semestres */
+/* Cada semestre (columna) */
+.semestre {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  padding: 6px 8px 10px;
+  min-width: 100px;
+  background: #fff;
 }
 
-.semester h4 {
-    color: #007bff;
-    margin-bottom: 8px;
+/* Título semestre */
+.semestre > h3 {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  user-select: text;
 }
 
-.course {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 5px;
-    margin: 4px 0;
-    cursor: pointer;
-    text-align: center;
-    font-size: 0.8em; /* Ajusta el tamaño de la fuente para evitar desbordes */
-    line-height: 1.2; /* Espaciado entre líneas para texto forzado */
-    transition: background-color 0.3s ease, opacity 0.3s ease;
-    width: 120px; /* Ancho fijo para los ramos */
-    height: auto; /* Altura auto para adaptarse al contenido con <br> */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box; /* Incluye padding y border en el width/height */
-    white-space: normal; /* Permite el salto de línea */
-    word-break: break-word; /* Rompe palabras largas */
+/* Ramos (bloques verticales con texto en líneas) */
+.ramo {
+  cursor: pointer;
+  font-size: 11.5px;
+  padding: 8px 5px;
+  border-radius: 6px;
+  text-align: center;
+  line-height: 1.3;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-word;
+  white-space: normal;
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid transparent;
 }
 
-.course:hover {
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+/* Ámbitos - colores exactos */
+
+.ambito-1 {
+  background-color: #FFB6C1;
+  color: #4b004b;
 }
 
-/* Colores de ámbito */
-.ambito-I { background-color: #FFB6C1; } /* LightPink */
-.ambito-II { background-color: #C71585; } /* MediumVioletRed */
-.ambito-III { background-color: #800080; } /* Purple */
-.ambito-IV { background-color: #DB7093; } /* PaleVioletRed */
-.ambito-V { background-color: #FF1493; } /* DeepPink */
-.ambito-VI { background-color: #D8BFD8; } /* Thistle */
-
-/* Estado aprobado */
-.course.approved {
-    opacity: 0.6; /* Atenúa el color */
-    pointer-events: none; /* Deshabilita clics después de aprobado */
+.ambito-2 {
+  background-color: #C71585;
+  color: #fff;
 }
 
-.course.approved span {
-    text-decoration: line-through; /* Tachado solo en el texto */
+.ambito-3 {
+  background-color: #800080;
+  color: #fff;
 }
 
-/* Estado bloqueado */
-.course.locked {
-    background-color: #e0e0e0 !important; /* Gris para bloqueados, sobrescribe colores de ámbito */
-    cursor: not-allowed;
-    opacity: 0.4;
+.ambito-4 {
+  background-color: #DB7093;
+  color: #4b004b;
 }
 
-/* Separadores */
-.licenciado-separator,
-.titulo-separator {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Candara', sans-serif;
-    font-weight: bold;
-    font-size: 1em;
-    color: #555;
-    text-align: center;
-    writing-mode: vertical-lr; /* Escribe de arriba a abajo, luego rotado */
-    transform: rotate(180deg); /* Rota para que se lea de abajo hacia arriba */
-    padding: 0 5px;
-    border-left: 2px solid #aaa;
-    border-right: 2px solid #aaa;
-    height: auto; /* Ajusta la altura al contenido */
-    white-space: nowrap; /* Evita que el texto se rompa */
-    line-height: 1; /* Espaciado entre caracteres */
-    flex-shrink: 0; /* No permite que se encoja */
+.ambito-5 {
+  background-color: #FF1493;
+  color: #fff;
 }
 
-.titulo-separator {
-    border-left: 2px solid #0056b3;
-    border-right: 2px solid #0056b3;
-    color: #0056b3;
+.ambito-6 {
+  background-color: #D8BFD8;
+  color: #4b004b;
 }
 
-
-/* Leyenda de ámbitos */
-.legend-container {
-    margin-top: 30px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    width: 90%; /* Ajusta el ancho de la leyenda */
-    max-width: 1200px; /* Limita el ancho máximo */
-    text-align: center;
+/* Ramo aprobado - tachado lineal simple en texto */
+.ramo.aprobado {
+  text-decoration: line-through;
+  opacity: 0.85;
 }
 
-.legend-container h3 {
-    margin-bottom: 15px;
-    color: #0056b3;
+/* Ramos bloqueados */
+.ramo.bloqueado {
+  opacity: 0.35;
+  cursor: default;
+  text-decoration: none !important;
 }
 
-.legend-items {
-    display: flex;
-    flex-wrap: wrap; /* Permite que los ítems de la leyenda se envuelvan si no caben */
-    justify-content: center;
-    gap: 10px;
+/* Leyenda ámbitos */
+#leyenda {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  user-select: none;
 }
 
-.legend-item {
-    padding: 8px 12px;
-    border-radius: 5px;
-    font-size: 0.9em;
-    text-align: center;
-    min-width: 150px; /* Ancho mínimo para los bloques de la leyenda */
-    box-sizing: border-box;
-    font-family: 'Candara', sans-serif;
-    color: #333; /* Color de texto legible */
+.leyenda {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 5px;
+  min-width: 180px;
+  text-align: center;
+  box-sizing: border-box;
+  color: #222;
 }
 
-/* Media Queries para responsividad */
-@media (max-width: 1200px) {
-    .curriculum-container {
-        flex-wrap: wrap; /* Permite que los años se envuelvan en pantallas más pequeñas */
-        justify-content: center;
-    }
-
-    .year {
-        width: 48%; /* Dos años por fila */
-        margin-bottom: 15px;
-    }
-
-    .licenciado-separator,
-    .titulo-separator {
-        height: auto; /* Permite que la altura se ajuste */
-        margin: 15px 0; /* Margen para separarlos cuando se envuelven */
-        writing-mode: horizontal-tb; /* Vuelve a escritura horizontal */
-        transform: none; /* Elimina la rotación */
-        border: none;
-    }
+.leyenda-1 {
+  background-color: #FFB6C1;
+  color: #4b004b;
 }
 
-@media (max-width: 768px) {
-    .year {
-        width: 95%; /* Un año por fila en pantallas pequeñas */
-    }
+.leyenda-2 {
+  background-color: #C71585;
+  color: #fff;
+}
 
-    .semesters-row {
-        flex-direction: column; /* Semestres apilados verticalmente */
-    }
+.leyenda-3 {
+  background-color: #800080;
+  color: #fff;
+}
 
-    .semester {
-        width: 100%;
-        margin-bottom: 10px;
-    }
+.leyenda-4 {
+  background-color: #DB7093;
+  color: #4b004b;
+}
 
-    .course {
-        width: 100%; /* Ramos se expanden al 100% del semestre */
-        font-size: 0.9em;
-    }
-    .legend-item {
-        min-width: unset; /* Quita el ancho mínimo para que se ajusten mejor */
-        width: 100%; /* Un ítem por fila en la leyenda */
-    }
+.leyenda-5 {
+  background-color: #FF1493;
+  color: #fff;
+}
+
+.leyenda-6 {
+  background-color: #D8BFD8;
+  color: #4b004b;
+}
+
+/* Separador LICENCIADO: columna delgada entre 4 y 5 año */
+.separador-licenciado {
+  width: 40px;
+  min-width: 40px;
+  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-left: 20px;
+  margin-right: 20px;
+  position: relative;
+  user-select: none;
+}
+
+/* Texto vertical licenciado */
+.texto-licenciado {
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: pre-line;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 2px;
+  user-select: none;
+  text-align: center;
+}
+
+/* Evitar scroll vertical */
+html, body {
+  overflow-y: hidden;
+}
+
+/* Scroll horizontal solo para la malla */
+.malla-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
 }
