@@ -1,239 +1,124 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Malla Psicología U. Andrés Bello - Interactiva</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #fff0f6;
-    color: #4a1a36;
-    padding: 20px;
-    margin: 0;
-  }
-  h1 {
-    text-align: center;
-    margin-bottom: 40px;
-    color: #6a0f44;
-  }
-  #malla-container {
-    max-width: 1200px;
-    margin: auto;
-  }
-  .anio {
-    margin-bottom: 50px;
-  }
-  .anio-title {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-    color: #ad1457;
-    border-bottom: 2px solid #ad1457;
-    padding-bottom: 6px;
-  }
-  .semestres {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .semestre {
-    background: #ffe6f0;
-    border-radius: 8px;
-    padding: 15px;
-    flex: 1 1 220px;
-    box-shadow: 0 3px 8px rgba(174,0,70,0.3);
-  }
-  .semestre-title {
-    font-weight: 700;
-    margin-bottom: 12px;
-    text-align: center;
-    color: #880e4f;
-    border-bottom: 1px solid #880e4f;
-    padding-bottom: 5px;
-    font-size: 1.3rem;
-  }
-  .curso {
-    background-color: #fce4ec;
-    border-radius: 6px;
-    padding: 12px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    user-select: none;
-    transition: background-color 0.3s, border-color 0.3s;
-    font-size: 0.95rem;
-    color: #6a0f44;
-    text-align: center;
-    font-weight: 600;
-  }
-  /* Ámbitos: tonos rosa */
-  .ambito1 { background-color: #f8bbd0; } /* Interdisciplina */
-  .ambito2 { background-color: #f48fb1; } /* Bases Conceptuales */
-  .ambito3 { background-color: #f06292; } /* Diagnóstico */
-  .ambito4 { background-color: #ec407a; } /* Intervención */
-  .ambito5 { background-color: #e91e63; } /* Investigación */
-  .curso.bloqueado {
-    opacity: 0.5;
-    cursor: not-allowed;
-    border-color: transparent !important;
-  }
-  .curso.aprobado {
-    background-color: #880e4f !important;
-    color: white !important;
-    border-color: #4a0033 !important;
-    cursor: default;
-  }
-  #tooltip {
-    position: fixed;
-    background: #ad1457;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.15s ease;
-    max-width: 300px;
-    z-index: 1000;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Curricular Psicología - UNAB</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="container">
+        <h1>Malla Curricular Psicología - U. Andrés Bello</h1>
 
-<h1>Malla Interactiva Psicología – U. Andrés Bello</h1>
+        <div class="year">
+            <h2>PRIMER AÑO</h2>
+            <div class="semester-container">
+                <div class="semester">
+                    <h3>I SEMESTRE</h3>
+                    <div class="course ambito-1" data-id="ingles1" data-unlocks="ingles2">Inglés I</div>
+                    <div class="course ambito-2" data-id="historia-fundamentos">Historia y Fundamentos de la Psicología</div>
+                    <div class="course ambito-2" data-id="topicos-neurobiologia" data-unlocks="procesos-psicologicos">Tópicos de Neurobiología</div>
+                    <div class="course ambito-2" data-id="psicologia-sociedad">Psicología y Sociedad</div>
+                    <div class="course ambito-1" data-id="eje-interdisciplinaria1">Eje de Formación Interdisciplinaria I</div>
+                </div>
+                <div class="semester">
+                    <h3>II SEMESTRE</h3>
+                    <div class="course ambito-2" data-id="sistemas-psicologicos">Sistemas Psicológicos</div>
+                    <div class="course ambito-2" data-id="procesos-psicologicos">Procesos Psicológicos y Neurociencias</div>
+                    <div class="course ambito-5" data-id="psicologia-epistemologia">Psicología y Epistemología</div>
+                    <div class="course ambito-1" data-id="ingles2" data-requires="ingles1" data-unlocks="ingles3">Inglés II</div>
+                    <div class="course ambito-1" data-id="habilidades-comunicativas" data-unlocks="razonamiento-tics">Habilidades Comunicativas</div>
+                </div>
+            </div>
+        </div>
 
-<div id="malla-container"></div>
+        <div class="year">
+            <h2>SEGUNDO AÑO</h2>
+            <div class="semester-container">
+                <div class="semester">
+                    <h3>III SEMESTRE</h3>
+                    <div class="course ambito-2" data-id="psicoanalisis1" data-unlocks="psicoanalisis2,taller-integracion">Psicoanálisis I</div>
+                    <div class="course ambito-2" data-id="psicologia-desarrollo1" data-unlocks="psicologia-desarrollo2">Psicología del Desarrollo I</div>
+                    <div class="course ambito-5" data-id="investigacion1" data-unlocks="investigacion2">Investigación I</div>
+                    <div class="course ambito-1" data-id="ingles3" data-requires="ingles2" data-unlocks="ingles4">Inglés III</div>
+                    <div class="course ambito-1" data-id="razonamiento-tics" data-requires="habilidades-comunicativas">Razonamiento Científico y TICS</div>
+                </div>
+                <div class="semester">
+                    <h3>IV SEMESTRE</h3>
+                    <div class="course ambito-2" data-id="psicoanalisis2" data-requires="psicoanalisis1">Psicoanálisis II</div>
+                    <div class="course ambito-2" data-id="psicologia-desarrollo2" data-requires="psicologia-desarrollo1" data-unlocks="taller-integracion">Psicología del Desarrollo II</div>
+                    <div class="course ambito-5" data-id="investigacion2" data-requires="investigacion1">Investigación II</div>
+                    <div class="course ambito-1" data-id="ingles4" data-requires="ingles3">Inglés IV</div>
+                    <div class="course ambito-1" data-id="eje-interdisciplinaria2">Eje de Formación Interdisciplinaria II</div>
+                </div>
+            </div>
+        </div>
 
-<div id="tooltip"></div>
+        <div class="year">
+            <h2>TERCER AÑO</h2>
+            <div class="semester-container">
+                <div class="semester">
+                    <h3>V SEMESTRE</h3>
+                    <div class="course ambito-3" data-id="psicodiagnostico-clinico1" data-unlocks="psicodiagnostico-clinico2">Psicodiagnóstico Clínico I</div>
+                    <div class="course ambito-3" data-id="psicopatologia-psiquiatria1" data-unlocks="psicopatologia-psiquiatria2,psicopatologia-infantojuvenil">Psicopatología y Psiquiatría I</div>
+                    <div class="course ambito-6" data-id="taller-integracion" data-requires="psicoanalisis1,psicologia-desarrollo2" data-unlocks="integrador1-taller-investigacion">Taller de Integración</div>
+                    <div class="course ambito-2" data-id="psicologia-social" data-unlocks="diagnostico-intervencion-social">Psicología Social</div>
+                    <div class="course ambito-1" data-id="eje-interdisciplinaria3">Eje de Formación Interdisciplinaria III</div>
+                </div>
+                <div class="semester">
+                    <h3>VI SEMESTRE</h3>
+                    <div class="course ambito-3" data-id="psicodiagnostico-clinico2" data-requires="psicodiagnostico-clinico1" data-unlocks="electivo-formacion-profesional1">Psicodiagnóstico Clínico II</div>
+                    <div class="course ambito-3" data-id="psicopatologia-psiquiatria2" data-requires="psicopatologia-psiquiatria1" data-unlocks="electivo-formacion-profesional1">Psicopatología y Psiquiatría II</div>
+                    <div class="course ambito-3" data-id="psicologia-educacional" data-unlocks="diagnostico-intervencion-educacional">Psicología Educacional</div>
+                    <div class="course ambito-3" data-id="diagnostico-intervencion-social" data-requires="psicologia-social" data-unlocks="electivo-formacion-profesional1">Diagnóstico e Intervención Social</div>
+                    <div class="course ambito-3" data-id="psicologia-trabajo-organizaciones" data-unlocks="diagnostico-intervencion-organizacional,electivo-formacion-profesional1">Psicología del Trabajo y las Organizaciones</div>
+                </div>
+            </div>
+        </div>
 
-<script>
-  const mallaContainer = document.getElementById('malla-container');
-  const tooltip = document.getElementById('tooltip');
+        <div class="year">
+            <h2>CUARTO AÑO</h2>
+            <div class="semester-container">
+                <div class="semester">
+                    <h3>VII SEMESTRE</h3>
+                    <div class="course ambito-3" data-id="clinica-sistemica" data-unlocks="intervencion-clinica-sistemica">Clínica Sistémica</div>
+                    <div class="course ambito-3" data-id="psicopatologia-infantojuvenil" data-requires="psicopatologia-psiquiatria1" data-unlocks="clinica-infantojuvenil">Psicopatología Infantojuvenil</div>
+                    <div class="course ambito-3" data-id="diagnostico-intervencion-educacional" data-requires="psicologia-educacional" data-unlocks="electivo-formacion-profesional1">Diagnóstico e Intervención Educacional</div>
+                    <div class="course ambito-3" data-id="psicologia-juridica" data-unlocks="diagnostico-intervencion-juridica,integrador1-taller-investigacion,electivo-formacion-profesional1">Psicología Jurídica</div>
+                    <div class="course ambito-3" data-id="diagnostico-intervencion-organizacional" data-requires="psicologia-trabajo-organizaciones">Diagnóstico e Intervención Organizacional</div>
+                </div>
+                <div class="semester">
+                    <h3>VIII SEMESTRE</h3>
+                    <div class="course ambito-4" data-id="intervencion-clinica-sistemica" data-requires="clinica-sistemica" data-unlocks="taller-intervencion-clinica,psicologia-salud,taller-diagnostico-intervencion-social,electivo-formacion-profesional2">Intervención Clínica Sistémica</div>
+                    <div class="course ambito-4" data-id="clinica-infantojuvenil" data-requires="psicopatologia-infantojuvenil" data-unlocks="taller-intervencion-clinica,psicologia-salud,taller-diagnostico-intervencion-social,electivo-formacion-profesional2">Clínica Infantojuvenil</div>
+                    <div class="course ambito-6" data-id="integrador1-taller-investigacion" data-requires="taller-integracion,psicologia-juridica" data-unlocks="taller-intervencion-clinica,psicologia-salud,taller-diagnostico-intervencion-social,electivo-formacion-profesional2">Integrador I: Taller de Investigación</div>
+                    <div class="course ambito-3" data-id="diagnostico-intervencion-juridica" data-requires="psicologia-juridica" data-unlocks="taller-intervencion-clinica,psicologia-salud,taller-diagnostico-intervencion-social,electivo-formacion-profesional2">Diagnóstico e Intervención Jurídica</div>
+                    <div class="course ambito-4" data-id="clinica-psicoanalitica" data-unlocks="taller-intervencion-clinica,psicologia-salud,taller-diagnostico-intervencion-social,electivo-formacion-profesional2">Clínica Psicoanalítica</div>
+                </div>
+            </div>
+        </div>
+        <p class="licenciatura">LICENCIADO/A EN PSICOLOGÍA</p>
 
-  const cursos = [
-    // PRIMER AÑO
-    { nombre: "Historia y Fundamentos de la Psicología", ambito: 2, prerrequisitos: [], año: 1, semestre: 1 },
-    { nombre: "Tópicos de Neurobiología", ambito: 2, prerrequisitos: [], año: 1, semestre: 1 },
-    { nombre: "Psicología y Sociedad", ambito: 2, prerrequisitos: [], año: 1, semestre: 1 },
-    { nombre: "Inglés I", ambito: 1, prerrequisitos: [], año: 1, semestre: 1 },
-    { nombre: "Eje de Formación Interdisciplinaria I", ambito: 1, prerrequisitos: [], año: 1, semestre: 1 },
+        <div class="year">
+            <h2>QUINTO AÑO</h2>
+            <div class="semester-container">
+                <div class="semester">
+                    <h3>IX SEMESTRE</h3>
+                    <div class="course ambito-4" data-id="taller-intervencion-clinica" data-requires="intervencion-clinica-sistemica,clinica-infantojuvenil,integrador1-taller-investigacion,diagnostico-intervencion-juridica,clinica-psicoanalitica" data-unlocks="integrador2-practica-profesional">Taller de Intervención Clínica</div>
+                    <div class="course ambito-4" data-id="psicologia-salud" data-requires="intervencion-clinica-sistemica,clinica-infantojuvenil,integrador1-taller-investigacion,diagnostico-intervencion-juridica,clinica-psicoanalitica" data-unlocks="integrador2-practica-profesional">Psicología y Salud</div>
+                    <div class="course ambito-4" data-id="taller-diagnostico-intervencion-social" data-requires="intervencion-clinica-sistemica,clinica-infantojuvenil,integrador1-taller-investigacion,diagnostico-intervencion-juridica,clinica-psicoanalitica" data-unlocks="integrador2-practica-profesional">Taller de Diagnóstico e Intervención Social</div>
+                    <div class="course ambito-3" data-id="electivo-formacion-profesional1" data-requires="psicodiagnostico-clinico2,psicopatologia-psiquiatria2,diagnostico-intervencion-social,psicologia-trabajo-organizaciones,diagnostico-intervencion-educacional,psicologia-juridica" data-unlocks="integrador2-practica-profesional">Electivo de Formación Profesional I</div>
+                    <div class="course ambito-4" data-id="electivo-formacion-profesional2" data-requires="intervencion-clinica-sistemica,clinica-infantojuvenil,integrador1-taller-investigacion,diagnostico-intervencion-juridica,clinica-psicoanalitica" data-unlocks="integrador2-practica-profesional">Electivo de Formación Profesional II</div>
+                </div>
+                <div class="semester">
+                    <h3>X SEMESTRE</h3>
+                    <div class="course ambito-6" data-id="integrador2-practica-profesional" data-requires="taller-intervencion-clinica,psicologia-salud,taller-diagnostico-intervencion-social,electivo-formacion-profesional1,electivo-formacion-profesional2">Integrador II: Práctica Profesional</div>
+                </div>
+            </div>
+        </div>
+        <p class="titulo-profesional">TÍTULO PROFESIONAL PSICÓLOGO(A)</p>
+    </div>
 
-    { nombre: "Sistemas Psicológicos", ambito: 2, prerrequisitos: [], año: 1, semestre: 2 },
-    { nombre: "Procesos Psicológicos y Neurociencias", ambito: 2, prerrequisitos: ["Tópicos de Neurobiología"], año: 1, semestre: 2 },
-    { nombre: "Psicología y Epistemología", ambito: 5, prerrequisitos: [], año: 1, semestre: 2 },
-    { nombre: "Inglés II", ambito: 1, prerrequisitos: ["Inglés I"], año: 1, semestre: 2 },
-    { nombre: "Habilidades Comunicativas", ambito: 1, prerrequisitos: [], año: 1, semestre: 2 },
-
-    // SEGUNDO AÑO
-    { nombre: "Psicoanálisis I", ambito: 2, prerrequisitos: [], año: 2, semestre: 3 },
-    { nombre: "Psicología del Desarrollo I", ambito: 2, prerrequisitos: [], año: 2, semestre: 3 },
-    { nombre: "Investigación I", ambito: 5, prerrequisitos: [], año: 2, semestre: 3 },
-    { nombre: "Inglés III", ambito: 1, prerrequisitos: ["Inglés II"], año: 2, semestre: 3 },
-    { nombre: "Razonamiento Científico y TICS", ambito: 1, prerrequisitos: ["Habilidades Comunicativas"], año: 2, semestre: 3 },
-
-    { nombre: "Psicoanálisis II", ambito: 2, prerrequisitos: ["Psicoanálisis I"], año: 2, semestre: 4 },
-    { nombre: "Psicología del Desarrollo II", ambito: 2, prerrequisitos: ["Psicología del Desarrollo I"], año: 2, semestre: 4 },
-    { nombre: "Investigación II", ambito: 5, prerrequisitos: ["Investigación I"], año: 2, semestre: 4 },
-    { nombre: "Inglés IV", ambito: 1, prerrequisitos: ["Inglés III"], año: 2, semestre: 4 },
-    { nombre: "Eje de Formación Interdisciplinaria II", ambito: 1, prerrequisitos: [], año: 2, semestre: 4 },
-
-    // Agrega más cursos según corresponda...
-  ];
-
-  const aprobados = new Set();
-
-  function crearCursoElemento(curso) {
-    const div = document.createElement('div');
-    div.classList.add('curso', `ambito${curso.ambito}`, 'bloqueado');
-    div.textContent = curso.nombre;
-
-    // Desbloqueo inicial
-    if (curso.prerrequisitos.every(pr => aprobados.has(pr)) || curso.prerrequisitos.length === 0) {
-      div.classList.remove('bloqueado');
-    }
-
-    div.addEventListener('click', () => {
-      if (div.classList.contains('bloqueado') || div.classList.contains('aprobado')) return;
-      aprobados.add(curso.nombre);
-      div.classList.add('aprobado');
-      actualizarCursos();
-    });
-
-    div.addEventListener('mousemove', (e) => {
-      tooltip.style.opacity = 1;
-      tooltip.style.left = e.pageX + 15 + 'px';
-      tooltip.style.top = e.pageY + 15 + 'px';
-      const pre = curso.prerrequisitos.length > 0 ? curso.prerrequisitos.join(', ') : 'Ninguno';
-      tooltip.textContent = `Prerrequisitos: ${pre}`;
-    });
-
-    div.addEventListener('mouseleave', () => {
-      tooltip.style.opacity = 0;
-    });
-
-    return div;
-  }
-
-  function actualizarCursos() {
-    document.querySelectorAll('.curso').forEach(div => {
-      const nombre = div.textContent;
-      const curso = cursos.find(c => c.nombre === nombre);
-      const desbloqueado = curso.prerrequisitos.every(pr => aprobados.has(pr)) || curso.prerrequisitos.length === 0;
-
-      if (desbloqueado) {
-        div.classList.remove('bloqueado');
-      } else {
-        div.classList.add('bloqueado');
-        div.classList.remove('aprobado');
-        aprobados.delete(nombre);
-      }
-    });
-  }
-
-  function renderMalla() {
-    const años = [...new Set(cursos.map(c => c.año))].sort((a,b) => a-b);
-
-    años.forEach(año => {
-      const divAño = document.createElement('div');
-      divAño.classList.add('anio');
-
-      const tituloAño = document.createElement('h2');
-      tituloAño.classList.add('anio-title');
-      tituloAño.textContent = `Año ${año}`;
-      divAño.appendChild(tituloAño);
-
-      const semestres = [...new Set(cursos.filter(c => c.año === año).map(c => c.semestre))].sort((a,b) => a-b);
-
-      const divSemestres = document.createElement('div');
-      divSemestres.classList.add('semestres');
-
-      semestres.forEach(semestre => {
-        const divSemestre = document.createElement('div');
-        divSemestre.classList.add('semestre');
-
-        const tituloSemestre = document.createElement('h3');
-        tituloSemestre.classList.add('semestre-title');
-        tituloSemestre.textContent = `Semestre ${semestre}`;
-        divSemestre.appendChild(tituloSemestre);
-
-        cursos
-          .filter(c => c.año === año && c.semestre === semestre)
-          .forEach(curso => {
-            const divCurso = crearCursoElemento(curso);
-            divSemestre.appendChild(divCurso);
-          });
-
-        divSemestres.appendChild(divSemestre);
-      });
-
-      mallaContainer.appendChild(divAño);
-      mallaContainer.appendChild(divSemestres);
-    });
-  }
-
-  renderMalla();
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
