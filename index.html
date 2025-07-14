@@ -3,139 +3,15 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Malla Psicología - Primer Año</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background: #f9fafc;
-  }
-  h1, h2 {
-    text-align: center;
-    color: #003366;
-  }
-  .anio {
-    margin-bottom: 40px;
-  }
-  .semestres {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  .semestre {
-    border: 2px solid #003366;
-    border-radius: 8px;
-    padding: 15px;
-    background: #ffffff;
-  }
-  .semestre h3 {
-    margin-top: 0;
-    text-align: center;
-    background-color: #003366;
-    color: white;
-    padding: 10px 0;
-    border-radius: 6px;
-  }
-  .curso {
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 6px;
-    cursor: pointer;
-    color: #000;
-    transition: background-color 0.2s ease;
-  }
-  .curso.aprobado {
-    background-color: #d4f0d4;
-    border: 1px solid #228822;
-    cursor: default;
-  }
-  .curso.bloqueado {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-  .ambito1 { background-color: #FFDAB9; } /* Interdisciplina */
-  .ambito2 { background-color: #B0E0E6; } /* Bases Conceptuales */
-  .ambito3 { background-color: #98FB98; } /* Diagnóstico */
-  .ambito4 { background-color: #FFB6C1; } /* Intervención */
-  .ambito5 { background-color: #E6E6FA; } /* Investigación */
-</style>
+<title>Malla Psicología U. Andrés Bello</title>
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<h1>Malla Psicología U. Andrés Bello</h1>
+<h1>Malla Interactiva Psicología – U. Andrés Bello</h1>
 
-<div class="anio" id="primer-anio">
-  <h2>Primer Año</h2>
-  <div class="semestres">
-    <div class="semestre" id="semestre-1">
-      <h3>I Semestre</h3>
-    </div>
-    <div class="semestre" id="semestre-2">
-      <h3>II Semestre</h3>
-    </div>
-  </div>
-</div>
+<div id="malla-container"></div>
 
-<script>
-  const cursos = [
-    // Primer semestre
-    { nombre: "Historia y Fundamentos de la Psicología", ambito: 2, prerrequisitos: [], semestre: 1 },
-    { nombre: "Tópicos de Neurobiología", ambito: 2, prerrequisitos: [], semestre: 1 },
-    { nombre: "Psicología y Sociedad", ambito: 2, prerrequisitos: [], semestre: 1 },
-    { nombre: "Inglés I", ambito: 1, prerrequisitos: [], semestre: 1 },
-
-    // Segundo semestre
-    { nombre: "Sistemas Psicológicos", ambito: 2, prerrequisitos: ["Historia y Fundamentos de la Psicología"], semestre: 2 },
-    { nombre: "Procesos Psicológicos y Neurociencias", ambito: 2, prerrequisitos: ["Tópicos de Neurobiología"], semestre: 2 },
-    { nombre: "Psicología y Epistemología", ambito: 2, prerrequisitos: [], semestre: 2 },
-    { nombre: "Inglés II", ambito: 1, prerrequisitos: ["Inglés I"], semestre: 2 }
-  ];
-
-  const aprobados = new Set();
-
-  function crearCurso(curso) {
-    const div = document.createElement("div");
-    div.classList.add("curso", "bloqueado", "ambito" + curso.ambito);
-    div.textContent = curso.nombre;
-
-    // Verifica si el curso está desbloqueado
-    const desbloqueado = curso.prerrequisitos.every(pr => aprobados.has(pr)) || curso.prerrequisitos.length === 0;
-    if (desbloqueado) div.classList.remove("bloqueado");
-
-    div.addEventListener("click", () => {
-      if (div.classList.contains("bloqueado") || div.classList.contains("aprobado")) return;
-      aprobados.add(curso.nombre);
-      div.classList.add("aprobado");
-      actualizarCursos();
-    });
-
-    return div;
-  }
-
-  function actualizarCursos() {
-    document.querySelectorAll(".curso").forEach(div => {
-      const nombre = div.textContent;
-      const curso = cursos.find(c => c.nombre === nombre);
-      const desbloqueado = curso.prerrequisitos.every(pr => aprobados.has(pr)) || curso.prerrequisitos.length === 0;
-      if (desbloqueado) {
-        div.classList.remove("bloqueado");
-      } else {
-        div.classList.add("bloqueado");
-        div.classList.remove("aprobado");
-        aprobados.delete(nombre);
-      }
-    });
-  }
-
-  cursos.forEach(curso => {
-    const divCurso = crearCurso(curso);
-    if (curso.semestre === 1) {
-      document.getElementById("semestre-1").appendChild(divCurso);
-    } else if (curso.semestre === 2) {
-      document.getElementById("semestre-2").appendChild(divCurso);
-    }
-  });
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
