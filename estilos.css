@@ -1,3 +1,37 @@
+/* Reset para los spinners de input type=number */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+/* Exclusivo para la "card" de prioridad y personalizar (ajustado para contexto de malla) */
+/* Estas reglas se aplicarían si tuvieras una "card" específica, las mantengo por si las implementas */
+@media (max-width: 1199.95px) {
+    /* Por alguna razon ocurre antes */
+    #priorix { /* Si tienes un elemento con este ID */
+        width: initial;
+    }
+
+    .subjectContainer { /* Si tienes un contenedor de materias con esta clase */
+        height: initial;
+        overflow: initial;
+    }
+}
+@media (min-width: 1200px) {
+    #priorix { /* Si tienes un elemento con este ID */
+        width: 450px;
+    }
+
+    .subjectContainer { /* Si tienes un contenedor de materias con esta clase */
+        height: 360px;
+        overflow: auto;
+    }
+}
+
+/* General de la malla */
 body {
     font-family: 'Inter', sans-serif; /* Usando Inter como se sugiere */
     margin: 0;
@@ -5,6 +39,37 @@ body {
     background-color: #e9ecef; /* Un fondo más suave */
     color: #343a40;
     line-height: 1.6;
+    min-height: 100vh; /* Asegura que el cuerpo ocupe al menos toda la altura de la ventana */
+}
+
+hr {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* Estilos para elementos sticky (si los implementas) */
+.card-sticky-top {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+}
+
+.card-sticky-bottom {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+}
+
+.priorix-result {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
 }
 
 header {
@@ -14,6 +79,7 @@ header {
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 56px; /* Mantenido de tu ejemplo */
 }
 
 h1 {
@@ -33,6 +99,7 @@ p {
     gap: 30px; /* Espacio entre las secciones de año */
     justify-content: flex-start; /* Alinea los años al inicio */
     align-items: flex-start; /* Alinea los años por arriba */
+    min-height: 751px; /* Mantenido de tu ejemplo para .canvas */
 }
 
 .year-section {
@@ -205,55 +272,170 @@ p {
     color: #dc3545;
 }
 
-/* Responsividad */
-@media (max-width: 1200px) {
-    .year-section {
-        width: 600px; /* Reducir el ancho de la sección de año en pantallas medianas */
+/* Estilos para SVG (si los usas, como en tu ejemplo) */
+#forward svg, #back svg {
+    user-select: none;
+}
+
+.sem { /* Si usas esta clase para semestres en SVG */
+    transition: 0.3s;
+}
+
+.bars { /* Si usas esta clase para barras en SVG */
+    fill: grey;
+    transition: 0.3s;
+}
+
+.non-approved { /* Si usas esta clase para elementos no aprobados en SVG */
+    fill: white;
+}
+
+/* Overlay (si lo implementas) */
+.overlay {
+    position: fixed;
+    min-height: 100vh;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    -webkit-backdrop-filter: blur(50px) contrast(120%);
+    backdrop-filter: blur(50px) contrast(120%);
+    background-color: rgba(255,255,255,0.2); /* Black background with opacity */
+    transition: 0.5s;
+}
+
+.overlay-content {
+    width: 100%;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    z-index: 6;
+    transition: 0.5s;
+    overflow-y: auto;
+}
+
+.overlay-content h1, .overlay-content h5 {
+    opacity: .6;
+}
+
+.sector { /* Si usas esta clase para sectores */
+    filter: brightness(100%);
+    color: black;
+    transition: 0.2s;
+}
+
+.sector:hover {
+    filter: brightness(85%);
+    color: black;
+}
+
+sector:hover .text-white { /* Corrección: debería ser .sector:hover .text-white */
+    filter: brightness(85%);
+}
+
+/* Fallback para navegadores sin backdrop-filter */
+@supports not ((backdrop-filter: none) or (-webkit-backdrop-filter: none) ){
+    .overlay, .card-sticky-top, .card-sticky-bottom {
+        background: rgba(255, 255, 255, 0.95);
+    }
+    .overlay-content h3, .overlay-content h5 { /* Ajustado de h1, h5 a h3, h5 */
+        opacity: initial;
     }
 }
 
-@media (max-width: 992px) {
-    .year-section {
-        width: 500px; /* Más reducción */
-    }
-    .semesters-grid {
-        grid-template-columns: 1fr; /* Una columna para semestres en pantallas más pequeñas */
-    }
-    .license-label,
-    .title-label {
-        font-size: 1em;
-        height: auto; /* Altura automática para mejor ajuste */
-        writing-mode: horizontal-tb; /* Vuelve a horizontal en móvil */
-        text-orientation: unset;
-        padding: 10px;
-        margin: 15px auto;
-    }
-}
-
-@media (max-width: 768px) {
+/* Dark Mode */
+@media(prefers-color-scheme: dark) {
     body {
-        padding: 15px;
+        background-color: #212529; /* Fondo más oscuro para el modo oscuro */
+        color: #f8f9fa;
     }
     header {
-        padding: 15px;
-        margin-bottom: 30px;
+        background-color: #343a40;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
     h1 {
-        font-size: 1.8em;
+        color: #6daffc;
     }
-    .malla-container {
-        flex-direction: column; /* Los años se apilan verticalmente en pantallas muy pequeñas */
-        overflow-x: hidden; /* No hay scroll horizontal de años */
-        gap: 20px;
+    p {
+        color: #ced4da;
     }
     .year-section {
-        width: 95%; /* Ocupa casi todo el ancho */
-        margin: 0 auto; /* Centrar */
-        padding: 20px;
-        min-height: unset; /* Eliminar altura mínima fija */
+        background-color: #2c3034;
+        border: 1px solid #495057;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
     .year-section h2 {
-        font-size: 1.8em;
-        margin-bottom: 20px;
+        color: #8ab4f8;
+        border-bottom-color: #495057;
+    }
+    .semester-block {
+        background-color: #343a40;
+        border: 1px solid #495057;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .semester-block h3 {
+        color: #8ab4f8;
+        border-bottom-color: #495057;
+    }
+    .course {
+        background-color: #495057;
+        color: #f8f9fa;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .course.approved {
+        background-color: #6c757d !important;
+        color: #ced4da;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+    .course.prerequisite-not-met {
+        background-color: #8b0000 !important; /* Rojo más oscuro para modo oscuro */
+        border: 1px solid #dc3545;
+        box-shadow: 0 0 5px rgba(220, 53, 69, 0.5);
+        color: #f8f9fa;
+    }
+    .course.prerequisite-not-met::before {
+        color: #ffc107; /* Advertencia amarilla */
+    }
+
+    /* Estilos de tu ejemplo para Dark Mode */
+    rect.sem, g.sem rect {
+        fill: #777777;
+    }
+    g.sem text {
+        fill: white;
+    }
+    @media(hover: hover) {
+        g.sem rect:hover {
+            fill: #a3a3a3;
+        }
+        g.year:hover rect.bars {
+            fill: #6f6f6f;
+        }
+        .subject:hover .non-approved {
+            opacity: 30%;
+            fill: #2A9FD6;
+        }
+    }
+    .non-approved {
+        fill: #000;
+    }
+    .bars {
+        fill: #404040;
+    }
+    .overlay {
+        background: #000000aa;
+        -webkit-backdrop-filter: blur(50px) contrast(120%);
+        backdrop-filter: blur(50px) contrast(120%);
+    }
+    .overlay-content h3, .overlay-content h5 {
+        opacity: .4;
+    }
+    @supports not ((backdrop-filter: none) or (-webkit-backdrop-filter: none) ) {
+        .overlay, .card-sticky-top, .card-sticky-bottom {
+            background: rgba(14, 14, 14, 0.95);
+        }
+        .overlay-content h3, .overlay-content h5 {
+            opacity: initial;
+        }
     }
 }
