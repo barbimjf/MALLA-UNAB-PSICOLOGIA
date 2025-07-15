@@ -396,6 +396,7 @@
 
             ramos.forEach(ramo => {
                 // Solo considera ramos que no son separadores y que tienen una nota válida
+                // isNaN(grades[ramo.id]) verifica si el valor no es un número
                 if (!ramo.separator && grades[ramo.id] !== undefined && grades[ramo.id] !== null && !isNaN(grades[ramo.id])) {
                     totalPuntos += grades[ramo.id] * ramo.creditos;
                     totalCreditos += ramo.creditos;
