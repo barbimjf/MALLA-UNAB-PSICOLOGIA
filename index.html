@@ -217,6 +217,12 @@
             margin: 0;
         }
 
+        /* Estilo para inputs deshabilitados */
+        .grade-item input[type="number"]:disabled {
+            background-color: #f0f0f0; /* Fondo gris para indicar deshabilitado */
+            cursor: not-allowed;
+        }
+
         /* Leyenda de Ámbitos (nueva posición) */
         .leyenda {
             margin-top: 40px; /* Espacio superior */
@@ -279,7 +285,7 @@
 <body>
 
     <h1>Malla Psicología – UNAB</h1>
-    <p class="author-info">por Barbi Jerez Figueroa</p>
+    <p class="author-info">Por Barbi Jerez Figueroa</p>
 
     <div class="info-container">
         <div class="info-box">
@@ -377,11 +383,10 @@
         // Referencias a elementos del DOM
         const contenedorMalla = document.getElementById('malla');
         const ramosAprobadosCountElement = document.getElementById('ramosAprobadosCount');
-        const ppaValueElement = document.getElementById('ppaValue'); // Nuevo elemento para el PPA
+        const ppaValueElement = document.getElementById('ppaValue');
         const gradesInputContainer = document.getElementById('gradesInputContainer');
 
         // Cargar datos persistentes de localStorage
-        // Usamos Set para los ramos aprobados para búsquedas eficientes
         const approvedRamosSet = new Set(JSON.parse(localStorage.getItem('approvedRamos')) || []);
         const grades = JSON.parse(localStorage.getItem('mallaGrades')) || {};
 
@@ -403,9 +408,9 @@
 
             ramos.forEach(ramo => {
                 // Solo considera ramos que no son separadores y que tienen una nota válida
-                // isNaN(grades[ramo.id]) verifica si el valor no es un número
-                if (!ramo.separator && grades[ramo.id] !== undefined && grades[ramo.id] !== null && !isNaN(grades[ramo.id])) {
-                    totalPuntos += grades[ramo.id] * ramo.creditos;
+                const grade = grades[ramo.id];
+                if (!ramo.separator && grade !== undefined && grade !== null && !isNaN(grade) && grade >= 1.0 && grade <= 7.0) {
+                    totalPuntos += grade * ramo.creditos;
                     totalCreditos += ramo.creditos;
                 }
             });
@@ -423,7 +428,6 @@
         function updateRamoStates() {
             document.querySelectorAll('.ramo').forEach(ramoEl => {
                 const prereqs = JSON.parse(ramoEl.dataset.prereq);
-                // Comprueba si TODOS los prerrequisitos están en el conjunto de ramos aprobados
                 const cumplePrereqs = prereqs.every(p => approvedRamosSet.has(p));
 
                 if (cumplePrereqs) {
@@ -437,30 +441,50 @@
                     }
                 }
             });
-            // Guarda el estado actualizado de los ramos aprobados en localStorage
             localStorage.setItem('approvedRamos', JSON.stringify(Array.from(approvedRamosSet)));
-            updateApprovedCounter(); // Actualiza el contador visible
+            updateApprovedCounter();
+            updateGradeInputStates(); // Llama a esta función para actualizar el estado de los inputs
+            calculatePPA(); // Recalcular PPA después de actualizar estados
         }
+
+        // Función para actualizar el estado (habilitado/deshabilitado) de todos los inputs de notas
+        function updateGradeInputStates() {
+            document.querySelectorAll('#gradesInputContainer input[type="number"]').forEach(inputEl => {
+                const ramoId = inputEl.dataset.id;
+                if (approvedRamosSet.has(ramoId)) {
+                    inputEl.disabled = false; // Habilitar si el ramo está aprobado
+                } else {
+                    inputEl.disabled = true; // Deshabilitar si el ramo no está aprobado
+                    inputEl.value = ''; // Borrar la nota
+                    delete grades[ramoId]; // Eliminar la nota del objeto de notas
+                    localStorage.setItem('mallaGrades', JSON.stringify(grades)); // Guardar cambios
+                }
+            });
+            calculatePPA(); // Recalcular PPA después de posibles borrados de notas
+        }
+
 
         // Función para manejar el clic en un ramo (marcar/desmarcar como aprobado)
         function toggleAprobado(el) {
-            // Solo permite marcar/desmarcar si el ramo está activo o ya está aprobado
-            if (!el.classList.contains('activo') && !el.classList.contains('aprobado')) {
-                // Podrías añadir un mensaje al usuario aquí, si lo deseas
+            const ramoId = el.dataset.id;
+            const wasApproved = el.classList.contains('aprobado');
+
+            // Si el ramo no está activo y no estaba aprobado, no permitir el clic
+            if (!el.classList.contains('activo') && !wasApproved) {
                 return;
             }
 
-            const ramoId = el.dataset.id;
-            if (el.classList.contains('aprobado')) {
-                // Si ya está aprobado, lo desmarca
+            if (wasApproved) {
+                // Si estaba aprobado, ahora se desmarca
                 el.classList.remove('aprobado');
                 approvedRamosSet.delete(ramoId);
             } else {
-                // Si no está aprobado, lo marca
+                // Si no estaba aprobado, ahora se marca
                 el.classList.add('aprobado');
                 approvedRamosSet.add(ramoId);
             }
-            updateRamoStates(); // Re-evalúa el estado de todos los ramos
+            
+            updateRamoStates(); // Esto recalculará los estados y llamará a updateGradeInputStates() y calculatePPA()
         }
 
         // Función para poblar la sección de ingreso de notas
@@ -471,9 +495,13 @@
 
                 const gradeItem = document.createElement('div');
                 gradeItem.className = 'grade-item';
+                
+                const inputDisabled = !approvedRamosSet.has(ramo.id) ? 'disabled' : ''; // Determina si el input debe estar deshabilitado inicialmente
+                const inputValue = grades[ramo.id] || ''; // Obtiene la nota guardada o vacía
+
                 gradeItem.innerHTML = `
                     <span>${ramo.nombre} (${ramo.creditos} Créditos):</span>
-                    <input type="number" step="0.1" min="1.0" max="7.0" data-id="${ramo.id}" value="${grades[ramo.id] || ''}">
+                    <input type="number" step="0.1" min="1.0" max="7.0" data-id="${ramo.id}" value="${inputValue}" ${inputDisabled}>
                 `;
                 gradesInputContainer.appendChild(gradeItem);
 
